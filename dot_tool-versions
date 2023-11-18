@@ -1,6 +1,4 @@
 golang 1.21.4
-kubectl 1.28.4
-k9s 0.28.1
 helm 3.9.4
 nodejs 16.13.2
 terraform 1.6.4
@@ -10,8 +8,3 @@ rust 1.74.0
 bat 0.24.0
 starship 1.16.0
 fzf latest
-golangci-lint latest
-jq latest
-yq latest
-kubectx latest
-popeye latest

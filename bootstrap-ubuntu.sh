@@ -36,6 +36,13 @@ arkade_tools=(
 	lazygit
 	packer
 	gh
+	k9s
+	kubectl
+	kubetx
+	popeye
+	yq
+	jq
+	golanci-lint
 )
 _pre() {
 	sudo apt update
