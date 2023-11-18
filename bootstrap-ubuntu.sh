@@ -23,7 +23,7 @@ fi
 $HOME/.local/share/rtx/installs/chezmoi/latest/bin/chezmoi "${chezmoi_args[@]}"
 
 if ! command -v zsh &>/dev/null; then
-	sudo apt install zsh
+	sudo apt install zsh -y
 	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 	chsh -s zsh
 fi
