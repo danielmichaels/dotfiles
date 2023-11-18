@@ -9,7 +9,6 @@ plugins=(
   zsh-syntax-highlighting
   history
   z
-  thefuck
   zsh-autosuggestions
   poetry
   colored-man-pages
