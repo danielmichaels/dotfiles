@@ -25,6 +25,18 @@ extras=(
 	fd-find
 )
 
+arkade_tools=(
+	faas-cli
+	crane
+	croc
+	dagger
+	flux
+	flyctl
+	lazygit
+	packer
+	gh
+)
+
 install_zsh() {
 	if ! command -v zsh &>/dev/null; then
 		sudo apt-get install zsh -y
@@ -33,9 +45,23 @@ install_zsh() {
 	fi
 }
 
-setup() {
-	echo "Installing ubuntu base packages"
+k8s-tooling() {
+	if ! command -v arkade &>/dev/null; then
+		curl -sLS https://get.arkade.dev | sudo sh
+	fi
+	for app in "${apps[@]}"; do
+		arkade get "${app}"
+	done
+}
+
+rtx-install() {
+	rtx install --yes
+}
+
+run() {
 	sudo apt-get install "${packages[@]}"
 	install_zsh
 	sudo apt-get install "${extras[@]}"
+	k8s-tooling
+	rtx-install
 }

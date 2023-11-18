@@ -10,3 +10,9 @@ rust 1.74.0
 ag 2.2.0
 bat 0.24.0
 starship 1.16.0
+fzf latest
+golangci-lint latst
+jq latst
+yq latest
+kubectx latest
+popeye latest
