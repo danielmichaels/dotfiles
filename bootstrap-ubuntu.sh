@@ -50,6 +50,7 @@ k8s-tooling() {
 		curl -sLS https://get.arkade.dev | sudo sh
 	fi
 	for app in "${apps[@]}"; do
+		echo "installing $app"
 		arkade get "${app}"
 	done
 }
