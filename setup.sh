@@ -16,6 +16,7 @@ chezmoi_args=(
 	--keep-going
 )
 
+# set CHEZMOI_PURGE=1 to remove source/config files after init and apply
 if [[ ${CHEZMOI_PURGE:-0} == 1 ]]; then
 	chezmoi_args+=(--purge)
 fi
