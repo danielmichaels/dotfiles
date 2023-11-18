@@ -5,7 +5,7 @@ if ! command -v rtx &>/dev/null; then
 	curl https://rtx.pub/install.sh | sh
 fi
 
-rtx install chezmoi && rtx use chezmoi
+$HOME/.local/share/rtx/bin/rtx install chezmoi && $HOME/.local/share/rtx/bin/rtx use chezmoi
 
 chezmoi_args=(
 	init
