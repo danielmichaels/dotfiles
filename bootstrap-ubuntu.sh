@@ -7,6 +7,8 @@ fi
 
 $HOME/.local/share/rtx/bin/rtx install chezmoi && $HOME/.local/share/rtx/bin/rtx use chezmoi
 
+eval "$(/home/ubuntu/.local/share/rtx/bin/rtx activate bash)"
+
 chezmoi_args=(
 	init
 	danielmichaels
