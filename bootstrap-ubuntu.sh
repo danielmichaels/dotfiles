@@ -38,7 +38,7 @@ arkade_tools=(
 	gh
 	k9s
 	kubectl
-	kubetx
+	kubectx
 	popeye
 	yq
 	jq
