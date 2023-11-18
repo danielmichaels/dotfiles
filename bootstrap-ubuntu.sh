@@ -51,10 +51,10 @@ k8s-tooling() {
 	if ! command -v arkade &>/dev/null; then
 		curl -sLS https://get.arkade.dev | sudo sh
 	fi
-	for app in "${arkade_tools[@]}"; do
-		echo "installing $app"
-		arkade get "${app}"
-	done
+	#for app in "${arkade_tools[@]}"; do
+	#echo "installing $app"
+	arkade get "${arkade_tools[@]}"
+	#done
 }
 
 rtx-install() {
