@@ -5,6 +5,8 @@ packages=(
 	vim
 	curl
 	automake
+	autoconf
+	make
 	gcc
 	pkg-config
 	libpcre3-dev
@@ -24,30 +26,15 @@ extras=(
 	entr
 	fd-find
 	silversearcher-ag
+	nmap
+	python-is-python3
+	shfmt
 )
 
-arkade_tools=(
-	faas-cli
-	crane
-	croc
-	dagger
-	flux
-	flyctl
-	lazygit
-	packer
-	gh
-	k9s
-	kubectl
-	kubectx
-	popeye
-	yq
-	jq
-	golangci-lint
-	atuin
-)
 _pre() {
 	sudo apt update
 }
+
 install_zsh() {
 	if ! command -v zsh &>/dev/null; then
 		sudo apt-get install zsh -y
@@ -56,24 +43,11 @@ install_zsh() {
 	fi
 }
 
-k8s-tooling() {
-	if ! command -v arkade &>/dev/null; then
-		curl -sLS https://get.arkade.dev | sudo sh
-	fi
-	arkade get "${arkade_tools[@]}"
-}
-
-rtx-install() {
-	rtx install --yes
-}
-
 run() {
 	_pre
 	sudo apt-get install -y "${packages[@]}"
 	install_zsh
 	sudo apt-get install -y "${extras[@]}"
-	k8s-tooling
-	rtx-install
 }
 
 run

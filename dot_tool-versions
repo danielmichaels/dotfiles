@@ -1,4 +1,5 @@
 golang 1.21.4
+python 3.12.0
 helm 3.9.4
 nodejs 16.13.2
 terraform 1.6.4
@@ -9,3 +10,4 @@ bat 0.24.0
 starship 1.16.0
 fzf latest
 gum latest
+exa latest
