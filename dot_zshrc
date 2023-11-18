@@ -85,6 +85,7 @@ export GOPRIVATE="github.com/$GITUSER/*,gitlab.com/$GITUSER/*"
 #                  General Alias                      #
 #######################################################
 alias chez="chezmoi"
+alias setup="cd $HOME/.local/share/chezmoi/setup"
 alias faas="faas-cli"
 alias env="ds s env-check"
 alias zs="chezmoi edit ~/.zshrc"

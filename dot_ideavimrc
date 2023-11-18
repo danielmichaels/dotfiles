@@ -5,3 +5,41 @@ set ideastatusicon=gray
 
 Plug 'preservim/nerdtree'
 set clipboard^=ideaput
+
+map <leader>V <Action>(SplitVertically)
+map <leader>H <Action>(SplitHorizontally)
+map <leader>U <Action>(Unsplit)
+map <leader>UU <Action>(UnsplitAll)
+
+
+nmap <leader>e :e ~/.ideavimrc<CR>
+
+map <leader>b <Action>(ToggleLineBreakpoint)
+map <leader>n <Action>(GotoNextError)
+map <leader>o <Action>(SelectInProjectView)
+map <leader>a <Action>(Annotate)
+
+map <leader>d <Action>(Debug)
+map <leader>r <Action>(RenameElement)
+map <leader>c <Action>(Stop)
+map <leader>z <Action>(TogglePresentationMode)
+
+map <leader>h <Action>(HighlightUsagesInFile)
+map <leader>rr <Action>(Refactorings.QuickListPopupAction)
+map <leader>s <Action>(ShowUsages)
+map <leader>u <Action>(FindUsages)
+
+map <leader>t <Action>(ActivateTerminalToolWindow)
+map <leader>ai <Action>(ActivateAIAssistantToolWindow)
+
+map <leader>g <Action>(Vcs.ShowHistoryForRevision)
+
+" Use system pasteboard
+set clipboard=unnamed
+
+" window navigation
+map <C-j> <C-w>j<CR>
+map <C-k> <C-w>k<CR>
+map <C-h> <C-w>h<CR>
+map <C-l> <C-w>l<CR>
+
