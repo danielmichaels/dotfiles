@@ -1,0 +1,7 @@
+source ~/.vimrc
+""" Idea specific settings ------------------
+set ideajoin
+set ideastatusicon=gray
+
+Plug 'preservim/nerdtree'
+set clipboard^=ideaput
