@@ -5,9 +5,7 @@ if ! command -v rtx &>/dev/null; then
 	curl https://rtx.pub/install.sh | sh
 fi
 
-$HOME/.local/share/rtx/bin/rtx install chezmoi && $HOME/.local/share/rtx/bin/rtx use chezmoi
-
-eval "$(/home/ubuntu/.local/share/rtx/bin/rtx activate bash)"
+$HOME/.local/share/rtx/bin/rtx install chezmoi --yes && $HOME/.local/share/rtx/bin/rtx use chezmoi --yes
 
 chezmoi_args=(
 	init
@@ -22,7 +20,7 @@ if [[ ${CHEZMOI_PURGE:-0} == 1 ]]; then
 	chezmoi_args+=(--purge)
 fi
 
-chezmoi "${chezmoi_args[@]}"
+$HOME/.local/share/rtx/installs/chezmoi/latest/bin/chezmoi "${chezmoi_args[@]}"
 
 if ! command -v zsh &>/dev/null; then
 	sudo apt install zsh
