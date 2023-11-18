@@ -6,4 +6,4 @@ nodejs 16.13.2
 terraform 1.5.7
 flux2 0.39.0
 chezmoi 2.41.0
-
+rust 1.74.0
