@@ -65,3 +65,5 @@ run() {
 	k8s-tooling
 	rtx-install
 }
+
+run
