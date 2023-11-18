@@ -36,7 +36,9 @@ arkade_tools=(
 	packer
 	gh
 )
-
+_pre() {
+	sudo apt update
+}
 install_zsh() {
 	if ! command -v zsh &>/dev/null; then
 		sudo apt-get install zsh -y
@@ -60,6 +62,7 @@ rtx-install() {
 }
 
 run() {
+	_pre
 	sudo apt-get install "${packages[@]}"
 	install_zsh
 	sudo apt-get install "${extras[@]}"

@@ -3,7 +3,7 @@ kubectl 1.28.4
 k9s 0.28.1
 helm 3.9.4
 nodejs 16.13.2
-terraform 1.5.7
+terraform 1.6.4
 flux2 0.39.0
 chezmoi 2.41.0
 rust 1.74.0
