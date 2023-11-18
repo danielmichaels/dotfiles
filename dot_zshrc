@@ -85,10 +85,11 @@ export GOPRIVATE="github.com/$GITUSER/*,gitlab.com/$GITUSER/*"
 #######################################################
 #                  General Alias                      #
 #######################################################
+alias chez="chezmoi"
 alias faas="faas-cli"
 alias env="ds s env-check"
-alias zs="chezmoi edit ~/.zshrc && chezmoi apply"
-alias vimrc="chezmoi edit ~/.vimrc && chezmoi apply"
+alias zs="chezmoi edit ~/.zshrc"
+alias vimrc="chezmoi edit ~/.vimrc"
 alias inet="ip -br a"
 if command -v exa >/dev/null 2>&1; then
   alias ls="exa"
