@@ -1,29 +1,41 @@
-#!/usr/bin/env bash
-set -euox pipefail
+#!/bin/bash
 
-if ! command -v rtx &>/dev/null; then
-	curl https://rtx.pub/install.sh | sh
-fi
-
-$HOME/.local/share/rtx/bin/rtx install chezmoi --yes && $HOME/.local/share/rtx/bin/rtx use chezmoi --yes
-
-chezmoi_args=(
-	init
-	danielmichaels
-	--apply
-	--depth 1
-	--force
-	--keep-going
+packages=(
+	git
+	vim
+	curl
+	automake
+	gcc
+	pkg-config
+	libpcre3-dev
+	zlib1g-dev
+	liblzma-dev
+	sqlite3
+	rsync
+	ubuntu-restricted-extras
+	build-essential
+	libc-dev
+	openssh-server
 )
 
-if [[ ${CHEZMOI_PURGE:-0} == 1 ]]; then
-	chezmoi_args+=(--purge)
-fi
+extras=(
+	syncthing
+	tldr
+	entr
+	fd-find
+)
 
-$HOME/.local/share/rtx/installs/chezmoi/latest/bin/chezmoi "${chezmoi_args[@]}"
+install_zsh() {
+	if ! command -v zsh &>/dev/null; then
+		sudo apt-get install zsh -y
+		sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+		chsh -s /usr/bin/zsh
+	fi
+}
 
-if ! command -v zsh &>/dev/null; then
-	sudo apt-get install zsh -y
-	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-	chsh -s /usr/bin/zsh
-fi
+setup() {
+	echo "Installing ubuntu base packages"
+	sudo apt-get install "${packages[@]}"
+	install_zsh
+	sudo apt-get install "${extras[@]}"
+}
