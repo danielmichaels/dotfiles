@@ -7,7 +7,6 @@ terraform 1.6.4
 flux2 0.39.0
 chezmoi 2.41.0
 rust 1.74.0
-ag latest
 bat 0.24.0
 starship 1.16.0
 fzf latest

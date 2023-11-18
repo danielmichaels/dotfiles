@@ -23,6 +23,7 @@ extras=(
 	tldr
 	entr
 	fd-find
+	silversearcher-ag
 )
 
 arkade_tools=(
