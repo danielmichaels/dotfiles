@@ -63,9 +63,9 @@ rtx-install() {
 
 run() {
 	_pre
-	sudo apt-get install "${packages[@]}"
+	sudo apt-get install -y "${packages[@]}"
 	install_zsh
-	sudo apt-get install "${extras[@]}"
+	sudo apt-get install -y "${extras[@]}"
 	k8s-tooling
 	rtx-install
 }
