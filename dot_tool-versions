@@ -8,3 +8,4 @@ rust 1.74.0
 bat 0.24.0
 starship 1.16.0
 fzf latest
+gum latest
