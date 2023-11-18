@@ -42,7 +42,7 @@ arkade_tools=(
 	popeye
 	yq
 	jq
-	golanci-lint
+	golangci-lint
 )
 _pre() {
 	sudo apt update
