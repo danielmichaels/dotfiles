@@ -11,7 +11,7 @@ scripts=(
 
 execute-scripts() {
 	for script in "${scripts[@]}"; do
-		./"${script}"
+		"./${HOME}/.local/share/chezmoi/setup/${script}"
 	done
 }
 

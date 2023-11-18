@@ -13,4 +13,4 @@ This will install `rtx` and then drop `chezmoi` onto the machine.
 From there you'll need to run the base installer which will setup the minimum packages required
 for ubuntu.
 
-`bash /home/danielmichaels/.local/share/chezmoi/setup/bootstrap-ubuntu.sh`
+`bash $HOME/.local/share/chezmoi/setup/bootstrap-ubuntu.sh`
