@@ -34,6 +34,7 @@ Plug 'scrooloose/nerdtree'
 "Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 "Plug 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+Plug 'wakatime/vim-wakatime'
 Plug 'jistr/vim-nerdtree-tabs'
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 Plug 'airblade/vim-gitgutter'
