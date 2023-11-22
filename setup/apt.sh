@@ -7,6 +7,7 @@ packages=(
 	automake
 	autoconf
 	make
+	cmake
 	gcc
 	pkg-config
 	libpcre3-dev
@@ -24,11 +25,12 @@ extras=(
 	syncthing
 	tldr
 	entr
-	fd-find
 	silversearcher-ag
 	nmap
 	python-is-python3
 	shfmt
+	picocom
+	minicom
 )
 
 _pre() {

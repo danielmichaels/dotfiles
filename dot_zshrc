@@ -49,6 +49,7 @@ pathprepend \
   "$HOME/.npm-global/bin" \
   "$HOME/.arkade/bin" \
   "$HOME/.ds/bin" \
+  "$HOME/.platformio/penv/bin" \
   "/var/lib/flatpak/exports/share"
 
 pathappend \

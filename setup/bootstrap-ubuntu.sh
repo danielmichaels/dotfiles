@@ -7,6 +7,7 @@ scripts=(
 	ngrok.sh
 	docker.sh
 	docker-compose.sh
+	snaps.sh
 )
 
 execute-scripts() {
