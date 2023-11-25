@@ -54,17 +54,19 @@ pathprepend \
 
 pathappend \
   /usr/local/bin \
-  /usr/local/go/bin \
   /usr/local/sbin \
   /usr/sbin \
   /usr/bin \
   /snap/bin \
   /sbin \
   /bin
+  #/usr/local/go/bin \
 #######################################################
 #                  Exports                            #
 #######################################################
 #
+export RTX_GO_SET_GOPATH=true
+export RTX_GO_SET_GOROOT=true
 export USER="${USER:-$(whoami)}"
 export GITUSER=danielmichaels
 export EDITOR=vim
