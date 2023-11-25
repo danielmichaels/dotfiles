@@ -32,6 +32,7 @@ extras=(
 	picocom
 	minicom
 	thonny
+	steam-installer
 )
 
 _pre() {
