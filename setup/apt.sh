@@ -31,6 +31,7 @@ extras=(
 	shfmt
 	picocom
 	minicom
+	thonny
 )
 
 _pre() {
