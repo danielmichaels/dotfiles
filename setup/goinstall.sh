@@ -11,6 +11,13 @@ apps=(
 	sqlc-dev/sqlc/cmd/sqlc@latest
 	azimjohn/jprq/cli@latest
 	rs/curlie@latest
+	grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway@latest
+	grpc-ecosystem/grpc-gateway/protoc-gen-swagger@latest
+	grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2@latest
+	golang/protobuf/protoc-gen-go@latest
+	fullstorydev/grpcurl/cmd/grpcurl@latest
+	fullstorydev/grpcui/cmd/grpcui@latest
+	deepmap/oapi-codegen/v2/cmd/oapi-codegen@latest
 )
 
 for i in "${apps[@]}"; do
