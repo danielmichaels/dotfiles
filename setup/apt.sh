@@ -33,6 +33,7 @@ extras=(
 	minicom
 	thonny
 	steam-installer
+	protobuf-compiler
 )
 
 _pre() {

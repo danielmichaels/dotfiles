@@ -20,7 +20,17 @@ apps=(
 	deepmap/oapi-codegen/v2/cmd/oapi-codegen@latest
 )
 
+custom=(
+	goa.design/goa/v3/cmd/goa@v3
+	google.golang.org/protobuf/cmd/protoc-gen-go@latest
+	google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+)
 for i in "${apps[@]}"; do
 	printf "Installing: %s\n" "${i}"
 	go install "github.com/${i}"
+done
+
+for i in "${custom[@]}"; do
+	printf "Installing: %s\n" "${i}"
+	go install "${i}"
 done
