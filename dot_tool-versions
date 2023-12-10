@@ -1,7 +1,8 @@
 golang latest
 buf latest
 helm 3.9.4
-nodejs 16.13.2
+nodejs lts
+pnpm latest
 terraform 1.6.4
 flux2 0.39.0
 chezmoi 2.41.0
@@ -12,3 +13,4 @@ fzf latest
 gum latest
 exa latest
 fd latest
+lazygit latest
