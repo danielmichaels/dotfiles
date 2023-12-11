@@ -34,6 +34,7 @@ extras=(
 	thonny
 	steam-installer
 	protobuf-compiler
+	gnome-boxes
 )
 
 _pre() {
