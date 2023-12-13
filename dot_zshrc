@@ -95,6 +95,10 @@ alias env="ds s env-check"
 alias zs="chezmoi edit ~/.zshrc"
 alias vimrc="chezmoi edit ~/.vimrc"
 alias inet="ip -br a"
+alias kurl="/usr/bin/curl"
+if command -v curlie >/dev/null 2>&1; then
+  alias curl="curlie"
+fi
 if command -v exa >/dev/null 2>&1; then
   alias ls="exa"
   alias el="exa --oneline"

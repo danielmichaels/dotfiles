@@ -16,6 +16,7 @@ snaps=(
 	vlc
 	zulip
 	sqlitebrowser
+	insomnia
 )
 
 for snap in "${snaps[@]}"; do

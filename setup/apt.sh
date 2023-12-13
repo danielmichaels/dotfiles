@@ -35,6 +35,11 @@ extras=(
 	steam-installer
 	protobuf-compiler
 	gnome-boxes
+	virt-manager
+	qemu-kvm
+	libvirt-daemon-system
+	libvirt-clients
+	bridge-utils
 )
 
 _pre() {
