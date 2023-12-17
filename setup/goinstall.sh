@@ -18,6 +18,7 @@ apps=(
 	fullstorydev/grpcurl/cmd/grpcurl@latest
 	fullstorydev/grpcui/cmd/grpcui@latest
 	deepmap/oapi-codegen/v2/cmd/oapi-codegen@latest
+	jesseduffield/lazydocker@latest
 )
 
 custom=(

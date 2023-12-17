@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+git diff | mods --format text --raw "you are a senior programmer. write a commit message for this git diff"
