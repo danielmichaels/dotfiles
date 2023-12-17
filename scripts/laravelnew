@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+project="${1:-default-project}"
+
+gum confirm "create new laravel project called ${project}?" || exit
+
+curl -s https://laravel.build/$project

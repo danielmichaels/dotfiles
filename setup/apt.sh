@@ -19,11 +19,6 @@ packages=(
 	build-essential
 	libc-dev
 	openssh-server
-	php
-	php-cli
-	libapache2-mod-php
-	php-pgsql
-	bison
 )
 
 extras=(

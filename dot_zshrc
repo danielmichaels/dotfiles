@@ -110,6 +110,7 @@ alias doc='docker compose'
 alias k="kubectl"
 alias mk="minikube"
 alias chmox="chmod +x "
+alias sail="[ -f sail ] && sh sail || sh vendor/bin/sail"
 #
 #######################################################
 #                  Git Alias                          #
