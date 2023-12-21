@@ -1,7 +1,11 @@
-#!/usr/bin/env bash
+#!/usr/bin/bash
+
+set -x
 
 project="${1:-default-project}"
 
 gum confirm "create new laravel project called ${project}?" || exit
 
-curl -s https://laravel.build/$project | bash
+# ref: https://github.com/laravel/installer/issues/297#issuecomment-1865050114
+# laravel installer broken for php 8.3
+curl -s https://laravel.build/$project?php=82 | bash
