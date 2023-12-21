@@ -28,7 +28,6 @@ extras=(
 	silversearcher-ag
 	nmap
 	python-is-python3
-	shfmt
 	picocom
 	minicom
 	thonny
