@@ -19,6 +19,7 @@ packages=(
 	build-essential
 	libc-dev
 	openssh-server
+	chromium-browser
 )
 
 extras=(

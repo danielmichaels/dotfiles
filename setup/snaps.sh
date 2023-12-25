@@ -1,7 +1,6 @@
 #!/bin/bash
 
 snaps=(
-	alacritty
 	amz-workspaces
 	chromium-ffmpeg
 	code
@@ -19,6 +18,14 @@ snaps=(
 	insomnia
 )
 
+classic=(
+	alacritty
+)
+
 for snap in "${snaps[@]}"; do
 	sudo snap install "${snap}"
+done
+
+for snap in "${classic[@]}"; do
+	sudo snap install "${snap}" --classic
 done
