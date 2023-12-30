@@ -21,6 +21,7 @@ apps=(
 	jesseduffield/lazydocker@latest
 	a-h/templ/cmd/templ@latest
 	iawia002/lux@latest
+	dkorunic/betteralign/cmd/betteralign@latest
 )
 
 custom=(

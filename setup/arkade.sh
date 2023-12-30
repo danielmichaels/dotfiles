@@ -15,12 +15,12 @@ arkade_tools=(
 	k9s
 	kubectl
 	kubectx
-	popeye
 	yq
 	jq
 	golangci-lint
 	atuin
 	task
+	popeye
 )
 
 if ! command -v arkade &>/dev/null; then

@@ -8,6 +8,7 @@ scripts=(
 	docker.sh
 	docker-compose.sh
 	snaps.sh
+	nvim.sh
 )
 
 execute-scripts() {

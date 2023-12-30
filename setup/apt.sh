@@ -40,6 +40,8 @@ extras=(
 	libvirt-daemon-system
 	libvirt-clients
 	bridge-utils
+	ripgrep
+	neovim
 )
 
 _pre() {
