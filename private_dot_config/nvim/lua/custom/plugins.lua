@@ -37,8 +37,6 @@ local plugins = {
     "nvim-tree/nvim-tree.lua",
     opts = overrides.nvimtree,
   },
-
-  -- Install a plugin
   {
     "max397574/better-escape.nvim",
     event = "InsertEnter",
@@ -46,6 +44,20 @@ local plugins = {
       require("better_escape").setup()
     end,
   },
+  {
+  "ray-x/go.nvim",
+  dependencies = {  -- optional packages
+    "ray-x/guihua.lua",
+    "neovim/nvim-lspconfig",
+    "nvim-treesitter/nvim-treesitter",
+  },
+  config = function()
+    require("go").setup()
+  end,
+  event = {"CmdlineEnter"},
+  ft = {"go", 'gomod'},
+  build = ':lua require("go.install").update_all_sync()' -- if you need to install/update all binaries
+}
 
   -- To make a plugin not be loaded
   -- {

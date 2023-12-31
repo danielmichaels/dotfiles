@@ -22,6 +22,9 @@ apps=(
 	a-h/templ/cmd/templ@latest
 	iawia002/lux@latest
 	dkorunic/betteralign/cmd/betteralign@latest
+	incu6us/goimports-reviser/v3@latest
+	segmentio/golines@latest
+	go-delve/delve/cmd/dlv@latest
 )
 
 custom=(
