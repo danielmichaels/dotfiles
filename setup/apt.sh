@@ -20,6 +20,7 @@ packages=(
 	libc-dev
 	openssh-server
 	chromium-browser
+  tree
 )
 
 extras=(
