@@ -87,6 +87,7 @@ export GOPRIVATE="github.com/$GITUSER/*,gitlab.com/$GITUSER/*"
 #######################################################
 #                  General Alias                      #
 #######################################################
+alias ark="arkade"
 alias pm="pnpm"
 alias chez="chezmoi"
 alias setup="cd $HOME/.local/share/chezmoi/setup"
