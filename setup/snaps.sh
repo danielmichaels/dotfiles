@@ -20,6 +20,7 @@ snaps=(
 
 classic=(
 	alacritty
+	gitkraken
 )
 
 for snap in "${snaps[@]}"; do
