@@ -25,6 +25,9 @@ apps=(
 	incu6us/goimports-reviser/v3@latest
 	segmentio/golines@latest
 	go-delve/delve/cmd/dlv@latest
+  boyter/scc@master
+  boyter/dcd@latest
+  boyter/cs@latest
 )
 
 custom=(

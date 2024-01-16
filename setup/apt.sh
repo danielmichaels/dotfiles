@@ -22,6 +22,7 @@ packages=(
 	chromium-browser
 	podman
 	buildah
+  tree
 )
 
 extras=(
