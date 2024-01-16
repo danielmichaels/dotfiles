@@ -20,6 +20,8 @@ packages=(
 	libc-dev
 	openssh-server
 	chromium-browser
+	podman
+	buildah
 )
 
 extras=(
