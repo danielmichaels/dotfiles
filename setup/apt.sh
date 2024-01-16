@@ -44,6 +44,8 @@ extras=(
 	bridge-utils
 	ripgrep
 	neovim
+	p7zip-full
+	p7zip-rar
 )
 
 _pre() {
