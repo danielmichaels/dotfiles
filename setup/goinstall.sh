@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 apps=(
+	mr-karan/doggo/cmd/doggo@latest
 	danielmichaels/gpt/cmd/gpt@latest
 	danielmichaels/ds/cmd/ds@latest
 	danielmichaels/zet-cmd/cmd/zet@latest
@@ -25,9 +26,9 @@ apps=(
 	incu6us/goimports-reviser/v3@latest
 	segmentio/golines@latest
 	go-delve/delve/cmd/dlv@latest
-  boyter/scc@master
-  boyter/dcd@latest
-  boyter/cs@latest
+	boyter/scc@master
+	boyter/dcd@latest
+	boyter/cs@latest
 )
 
 custom=(
