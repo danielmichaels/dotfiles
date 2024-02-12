@@ -22,7 +22,7 @@ packages=(
 	chromium-browser
 	podman
 	buildah
-  tree
+	tree
 )
 
 extras=(
@@ -47,6 +47,7 @@ extras=(
 	neovim
 	p7zip-full
 	p7zip-rar
+	zathura
 )
 
 _pre() {
