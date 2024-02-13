@@ -17,12 +17,12 @@ execute-scripts() {
 	done
 }
 
-rtx-install() {
-	rtx install --yes
+mise-install() {
+	mise install --yes
 }
 
 run() {
-	rtx-install
+	mise-install
 	execute-scripts
 }
 

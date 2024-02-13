@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 set -euox pipefail
 
-if ! command -v rtx &>/dev/null; then
-	curl https://rtx.pub/install.sh | sh
+if ! command -v mise &>/dev/null; then
+	curl https://mise.run | sh
 fi
 
-$HOME/.local/share/rtx/bin/rtx install chezmoi --yes && $HOME/.local/share/rtx/bin/rtx use chezmoi --yes
+$HOME/.local/share/mise/bin/mise install chezmoi --yes && $HOME/.local/share/mise/bin/mise use chezmoi --yes
 
 chezmoi_args=(
 	init
@@ -21,7 +21,7 @@ if [[ ${CHEZMOI_PURGE:-0} == 1 ]]; then
 	chezmoi_args+=(--purge)
 fi
 
-$HOME/.local/share/rtx/installs/chezmoi/latest/bin/chezmoi "${chezmoi_args[@]}"
+$HOME/.local/share/mise/installs/chezmoi/latest/bin/chezmoi "${chezmoi_args[@]}"
 
 if ! command -v zsh &>/dev/null; then
 	sudo apt-get install zsh -y

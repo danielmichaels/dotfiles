@@ -65,8 +65,7 @@ pathappend \
 #                  Exports                            #
 #######################################################
 #
-export RTX_GO_SET_GOPATH=true
-export RTX_GO_SET_GOROOT=true
+export MISE_GO_SET_GOBIN=true
 export USER="${USER:-$(whoami)}"
 export GITUSER=danielmichaels
 export EDITOR=vim
@@ -175,4 +174,4 @@ eval "$(starship init zsh)"
 eval "$(atuin init zsh --disable-up-arrow)"
 
 export OPENAI_API_KEY="$(head -1 "$HOME/.config/gpt/token")"
-eval "$($HOME/.local/share/rtx/bin/rtx activate zsh)"
+eval "$($HOME/.local/bin/mise activate zsh)"
