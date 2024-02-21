@@ -48,6 +48,7 @@ extras=(
 	p7zip-full
 	p7zip-rar
 	zathura
+	peek
 )
 
 _pre() {
