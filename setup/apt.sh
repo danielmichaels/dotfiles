@@ -49,6 +49,7 @@ extras=(
 	p7zip-rar
 	zathura
 	peek
+	shellcheck
 )
 
 _pre() {
