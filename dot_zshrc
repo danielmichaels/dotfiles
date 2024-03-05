@@ -83,6 +83,8 @@ export SCRIPTS="${HOME}/.local/share/chezmoi/scripts"
 #######################################################
 # Setup private repos by defining the user, in this case, me.
 export GOPRIVATE="github.com/$GITUSER/*,gitlab.com/$GITUSER/*"
+#export GOPROXY=https://proxy.golang.org,direct
+export GOPROXY=direct
 #######################################################
 #                  General Alias                      #
 #######################################################
@@ -99,6 +101,9 @@ alias inet="ip -br a"
 alias kurl="/usr/bin/curl"
 if command -v curlie >/dev/null 2>&1; then
   alias curl="curlie"
+fi
+if command -v flyctl >/dev/null 2>&1; then
+  alias fly="flyctl"
 fi
 if command -v exa >/dev/null 2>&1; then
   alias ls="exa"
