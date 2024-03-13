@@ -50,6 +50,7 @@ extras=(
 	zathura
 	peek
 	shellcheck
+	mpv
 )
 
 _pre() {
