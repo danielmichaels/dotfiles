@@ -51,6 +51,7 @@ extras=(
 	peek
 	shellcheck
 	mpv
+	yamllint
 )
 
 _pre() {

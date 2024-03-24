@@ -22,6 +22,7 @@ arkade_tools=(
 	task
 	popeye
 	k3sup
+	argocd
 )
 
 if ! command -v arkade &>/dev/null; then
