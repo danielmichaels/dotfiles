@@ -21,6 +21,7 @@ arkade_tools=(
 	atuin
 	task
 	popeye
+	k3sup
 )
 
 if ! command -v arkade &>/dev/null; then
