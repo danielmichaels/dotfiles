@@ -23,6 +23,8 @@ packages=(
 	podman
 	buildah
 	tree
+	gparted
+	ansible
 )
 
 extras=(
