@@ -23,6 +23,7 @@ arkade_tools=(
 	popeye
 	k3sup
 	argocd
+	goreleaser
 )
 
 if ! command -v arkade &>/dev/null; then

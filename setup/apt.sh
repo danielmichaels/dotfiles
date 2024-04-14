@@ -9,6 +9,7 @@ packages=(
 	make
 	cmake
 	gcc
+	htop
 	pkg-config
 	libpcre3-dev
 	zlib1g-dev
