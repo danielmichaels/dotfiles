@@ -38,6 +38,10 @@ M.mason = {
     -- c/cpp stuff
     "clangd",
     "clang-format",
+
+    -- python
+    "ruff-lsp",
+    "mypy",
   },
 }
 
