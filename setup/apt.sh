@@ -9,6 +9,7 @@ packages=(
 	make
 	cmake
 	gcc
+	htop
 	pkg-config
 	libpcre3-dev
 	zlib1g-dev
@@ -23,6 +24,8 @@ packages=(
 	podman
 	buildah
 	tree
+	gparted
+	ansible
 )
 
 extras=(
@@ -51,6 +54,7 @@ extras=(
 	peek
 	shellcheck
 	mpv
+	yamllint
 )
 
 _pre() {

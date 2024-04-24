@@ -29,6 +29,7 @@ apps=(
 	boyter/scc@master
 	boyter/dcd@latest
 	boyter/cs@latest
+	google/yamlfmt/cmd/yamlfmt@latest
 )
 
 custom=(
