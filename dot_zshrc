@@ -68,8 +68,8 @@ pathappend \
 export MISE_GO_SET_GOBIN=true
 export USER="${USER:-$(whoami)}"
 export GITUSER=danielmichaels
-export EDITOR=vim
-export VISUAL=vim
+export EDITOR=nvim
+export VISUAL=nvim
 export REPOS="$HOME/Code"
 export GHREPOS="$REPOS/github"
 export ZETDIR="$GHREPOS/zet"
@@ -88,6 +88,8 @@ export GOPROXY=direct
 #######################################################
 #                  General Alias                      #
 #######################################################
+alias vi="/usr/bin/vim"
+alias vim="nvim"
 alias lg="lazygit"
 alias ark="arkade"
 alias pm="pnpm"
@@ -177,6 +179,7 @@ autoload -U compinit && compinit -i
 eval $(thefuck --alias)
 eval "$(starship init zsh)"
 eval "$(atuin init zsh --disable-up-arrow)"
+source "$HOME/.rye/env"
 
 export OPENAI_API_KEY="$(head -1 "$HOME/.config/gpt/token")"
 eval "$($HOME/.local/bin/mise activate zsh)"
