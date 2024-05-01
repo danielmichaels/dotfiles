@@ -10,7 +10,6 @@ plugins=(
   history
   z
   zsh-autosuggestions
-  poetry
   colored-man-pages
   dotenv
 )
