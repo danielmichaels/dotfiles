@@ -30,6 +30,7 @@ apps=(
 	boyter/dcd@latest
 	boyter/cs@latest
 	google/yamlfmt/cmd/yamlfmt@latest
+  projectdiscovery/pdtm/cmd/pdtm@latest
 )
 
 custom=(
