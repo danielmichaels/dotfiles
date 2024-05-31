@@ -55,6 +55,7 @@ extras=(
 	shellcheck
 	mpv
 	yamllint
+  libpcap-dev
 )
 
 _pre() {

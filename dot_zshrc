@@ -176,7 +176,7 @@ autoload -U compinit && compinit -i
 #######################################################
 #                 START UP                            #
 #######################################################
-eval $(thefuck --alias)
+command -v thefuck >/dev/null 2>&1 && eval $(thefuck --alias)
 eval "$(starship init zsh)"
 eval "$(atuin init zsh --disable-up-arrow)"
 source "$HOME/.rye/env"
