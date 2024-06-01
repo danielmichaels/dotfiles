@@ -56,6 +56,7 @@ extras=(
 	mpv
 	yamllint
   libpcap-dev
+  pipx
 )
 
 _pre() {
