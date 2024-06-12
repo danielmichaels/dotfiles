@@ -57,6 +57,7 @@ extras=(
 	yamllint
   libpcap-dev
   pipx
+  fonts-powerline
 )
 
 _pre() {
