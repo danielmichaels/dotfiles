@@ -18,3 +18,4 @@ neovim latest
 cloudflared latest
 fx latest
 pre-commit latest
+zellij latest

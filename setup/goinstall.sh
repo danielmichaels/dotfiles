@@ -31,6 +31,7 @@ apps=(
 	boyter/cs@latest
 	google/yamlfmt/cmd/yamlfmt@latest
   projectdiscovery/pdtm/cmd/pdtm@latest
+  nats-io/natscli/nats@latest
 )
 
 custom=(
