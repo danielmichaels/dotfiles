@@ -58,6 +58,7 @@ extras=(
   libpcap-dev
   pipx
   fonts-powerline
+  libpq-dev
 )
 
 _pre() {

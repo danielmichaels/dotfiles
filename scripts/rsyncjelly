@@ -1,0 +1,49 @@
+#!/usr/bin/python3
+
+import subprocess
+import argparse
+
+def generate_rsync_command(source: str, server:str, destination: str, user: str = "root"):
+    cmd = ["rsync", "-zavhP", source, f"{user}@{server}:/mnt/portablessd/Media/{destination}"]
+    print(cmd)
+    if yesno():
+        result = subprocess.run(cmd)
+        print(result)
+
+def yesno():
+    prompt = 'Continue? (y/n): '
+    ans = input(prompt).strip().lower()
+    if ans not in ['y', 'n']:
+        print(f'{ans} is invalid, please try again...')
+        exit(1)
+    if ans == 'y':
+        return True
+    return False
+
+
+def ssh_cmd(user, server, destination):
+    cmd = ["rsync", f"{user}@{server}:/mnt/portablessd/Media/{destination}/*"]
+    print(" ".join(cmd))
+    result = subprocess.run(cmd)
+    print(result)
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--list-first', action="store_true", help="List destination folder first (sanity check)?")
+    parser.add_argument('-s', '--source', required=True, help="Item to rsync to server")
+    parser.add_argument('-d', '--destination', required=True, help="Destination to send file to")
+    parser.add_argument('-u', '--user', default="root", help="SSH username")
+    parser.add_argument('--server',default="192.168.20.100", help="Server address")
+    args = parser.parse_args()
+
+    print(args)
+    if args.list_first:
+        ssh_cmd(args.user, args.server, args.destination)
+
+        if not yesno():
+            exit(2)
+
+    generate_rsync_command(source=args.source, server=args.server, destination=args.destination, user=args.user)
+
+if __name__ == '__main__':
+    main()
