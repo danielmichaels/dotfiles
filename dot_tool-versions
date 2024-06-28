@@ -10,7 +10,6 @@ rust latest
 bat latest
 starship latest
 fzf latest
-gum latest
 exa latest
 fd latest
 lazygit latest
