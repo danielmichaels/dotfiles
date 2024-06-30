@@ -8,7 +8,6 @@ arkade_tools=(
 	croc
 	dagger
 	flux
-	flyctl
 	lazygit
 	packer
 	gh
@@ -24,6 +23,7 @@ arkade_tools=(
 	k3sup
 	argocd
 	goreleaser
+	#flyctl
 )
 
 arkade update

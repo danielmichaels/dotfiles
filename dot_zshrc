@@ -12,6 +12,7 @@ plugins=(
   zsh-autosuggestions
   colored-man-pages
   dotenv
+  kubectl
 )
 
 source $ZSH/oh-my-zsh.sh
