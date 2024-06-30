@@ -23,7 +23,7 @@ arkade_tools=(
 	k3sup
 	argocd
 	goreleaser
-	#flyctl
+	flyctl
 )
 
 arkade update
