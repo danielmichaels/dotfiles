@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+if [[ -z "${1}" ]]; then                                                  
+  echo -e "Must provide data\nExample:\n\tsendlink http://google.com"     
+  exit 1                                                                  
+fi                                                                        
+
+topic=${2:-links}                                                         
+
+# fetch user credentials and URL                                          
+creds=$(head -n1 "$HOME/.config/me/links")                                
+url=$(head -n1 "$HOME/.config/me/linksurl")                               
+
+# error messages                                                          
+creds_help="ntfy.sh credentials not set, use $HOME/.config/me/links with basic auth credentials as a single string"                                  
+links_help="no ntfy.sh URL set, use $HOME/.config/me/linksurl to set the URL with a single string"                                                   
+
+# exit script if creds or URL are unset or empty                          
+if [[ -z "${creds}" ]]; then                                              
+  echo -e "\nexit due to misconfiguration. see below for fixes\n"         
+  echo $creds_help                                                        
+  exit 1                                                                  
+fi                                                                        
+
+if [[ -z "${url}" ]]; then                                                
+  echo -e "\nexit due to misconfiguration. see below for fixes\n"         
+  echo $links_help                                                        
+  exit 1                                                                  
+fi  
+
+curl -u "${creds}" -L -d "${1}" "https://${url}/${topic}"                 
