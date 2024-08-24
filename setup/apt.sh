@@ -26,6 +26,7 @@ packages=(
 	tree
 	gparted
 	ansible
+  xclip
 )
 
 extras=(
@@ -59,6 +60,7 @@ extras=(
   pipx
   fonts-powerline
   libpq-dev
+  xdot
 )
 
 _pre() {

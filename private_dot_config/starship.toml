@@ -11,3 +11,7 @@ style = "cyan bold"
 
 [kubernetes]
 disabled = false
+
+[nats]
+disabled = false
+style = "bold purple"

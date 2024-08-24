@@ -18,7 +18,7 @@ apps=(
 	golang/protobuf/protoc-gen-go@latest
 	fullstorydev/grpcurl/cmd/grpcurl@latest
 	fullstorydev/grpcui/cmd/grpcui@latest
-	deepmap/oapi-codegen/v2/cmd/oapi-codegen@latest
+  oapi-codegen/oapi-codegen/v2/cmd/oapi-codegen@latest
 	jesseduffield/lazydocker@latest
 	a-h/templ/cmd/templ@latest
 	iawia002/lux@latest
@@ -32,6 +32,9 @@ apps=(
 	google/yamlfmt/cmd/yamlfmt@latest
   projectdiscovery/pdtm/cmd/pdtm@latest
   nats-io/natscli/nats@latest
+  riverqueue/river/cmd/river@latest
+  danielmiessler/yt@latest
+  danielmiessler/fabric@latest
 )
 
 custom=(

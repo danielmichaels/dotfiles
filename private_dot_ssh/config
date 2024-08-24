@@ -1,0 +1,19 @@
+Host 127.0.0.1
+  StrictHostKeyChecking no
+  UserKnownHostsFile=/dev/null
+  
+Host localhost
+  StrictHostKeyChecking no
+  UserKnownHostsFile=/dev/null
+  
+Host kindle
+  HostName 192.168.15.244
+  User root
+  StrictHostKeyChecking no
+
+Host proxmox
+  Hostname 192.168.20.100
+  User root
+  StrictHostKeyChecking no
+
+  

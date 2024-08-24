@@ -1,7 +1,6 @@
 #!/bin/bash
 
 snaps=(
-	amz-workspaces
 	chromium-ffmpeg
 	code
 	discord
@@ -16,6 +15,7 @@ snaps=(
 	zulip
 	sqlitebrowser
 	insomnia
+  btop
 )
 
 classic=(

@@ -1,4 +1,4 @@
-golang latest
+golang 1.22.5
 deno latest
 buf latest
 helm latest
@@ -18,3 +18,5 @@ cloudflared latest
 fx latest
 pre-commit latest
 zellij latest
+uv latest
+delta latest
