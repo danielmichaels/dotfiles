@@ -1,30 +1,48 @@
-#!/usr/bin/env bash
-if [[ -z "${1}" ]]; then                                                  
-  echo -e "Must provide data\nExample:\n\tsendlink http://google.com"     
-  exit 1                                                                  
-fi                                                                        
+#!/usr/bin/env python3
 
-topic=${2:-links}                                                         
+import argparse
+import json
+import requests
+from os import path
 
-# fetch user credentials and URL                                          
-creds=$(head -n1 "$HOME/.config/me/links")                                
-url=$(head -n1 "$HOME/.config/me/linksurl")                               
+def send_link(args):
+    url = args.url
+    title = args.title
+    description = args.description
 
-# error messages                                                          
-creds_help="ntfy.sh credentials not set, use $HOME/.config/me/links with basic auth credentials as a single string"                                  
-links_help="no ntfy.sh URL set, use $HOME/.config/me/linksurl to set the URL with a single string"                                                   
+    if not url or not title:
+        print("Both title and url must be provided")
+        return
 
-# exit script if creds or URL are unset or empty                          
-if [[ -z "${creds}" ]]; then                                              
-  echo -e "\nexit due to misconfiguration. see below for fixes\n"         
-  echo $creds_help                                                        
-  exit 1                                                                  
-fi                                                                        
+    key_file_path = path.expanduser('~/.config/me/transporter/key')
+    with open(key_file_path, 'r') as file:
+        key = file.readline().strip()
 
-if [[ -z "${url}" ]]; then                                                
-  echo -e "\nexit due to misconfiguration. see below for fixes\n"         
-  echo $links_help                                                        
-  exit 1                                                                  
-fi  
+    payload = {
+        "description": description,
+        "title": title,
+        "tag_names": ["sendlink"],
+        "url": url,
+    }
 
-curl -u "${creds}" -L -d "${1}" "https://${url}/${topic}"                 
+    headers = {
+        'X-API-KEY': key,
+        'Content-Type': 'application/json'
+    }
+
+    response = requests.post('https://transporter.infra.ptco.rocks/link',
+headers=headers, data=json.dumps(payload))
+
+    print(json.dumps(response.json(), indent=4))
+
+def main():
+    parser = argparse.ArgumentParser(description='Send a link.')
+    parser.add_argument('url', help='The URL to send.')
+    parser.add_argument('title', help='The title of the link.')
+    parser.add_argument('--description', default="no description", help='The description of the link.')
+    args = parser.parse_args()
+
+    send_link(args)
+
+if __name__ == "__main__":
+    main()
