@@ -14,4 +14,4 @@ disabled = false
 
 [nats]
 disabled = false
-style = "bold purple"
+style = "bold red"

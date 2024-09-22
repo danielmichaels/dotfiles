@@ -39,7 +39,7 @@ def main():
     parser = argparse.ArgumentParser(description='Send a link.')
     parser.add_argument('url', help='The URL to send.')
     parser.add_argument('title', help='The title of the link.')
-    parser.add_argument('--description', default="no description", help='The description of the link.')
+    parser.add_argument('-d', '--description', default="no description", help='The description of the link.')
     args = parser.parse_args()
 
     send_link(args)
