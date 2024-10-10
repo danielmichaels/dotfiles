@@ -1,4 +1,4 @@
-golang 1.22.5
+golang 1.23.2
 deno latest
 buf latest
 helm latest
@@ -9,7 +9,7 @@ chezmoi latest
 rust latest
 bat latest
 starship latest
-fzf latest
+#fzf latest
 exa latest
 fd latest
 lazygit latest

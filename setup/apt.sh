@@ -27,6 +27,7 @@ packages=(
 	gparted
 	ansible
   xclip
+  ruby-full
 )
 
 extras=(

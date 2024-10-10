@@ -50,8 +50,9 @@ pathprepend \
   "$HOME/.arkade/bin" \
   "$HOME/.ds/bin" \
   "$HOME/.pdtm/go/bin" \
-  "$HOME/.platformio/penv/bin" \
-  "/var/lib/flatpak/exports/share"
+  "$HOME/.gem/bin"
+  # "$HOME/.platformio/penv/bin" \
+  # "/var/lib/flatpak/exports/share" \
 
 pathappend \
   /usr/local/bin \
@@ -66,7 +67,7 @@ pathappend \
 #                  Exports                            #
 #######################################################
 #
-export MISE_GO_SET_GOBIN=true
+#export MISE_GO_SET_GOBIN=true
 export USER="${USER:-$(whoami)}"
 export GITUSER=danielmichaels
 export EDITOR=nvim
