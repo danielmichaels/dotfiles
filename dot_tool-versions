@@ -20,3 +20,5 @@ pre-commit latest
 zellij latest
 uv latest
 delta latest
+starship latest
+shfmt latest

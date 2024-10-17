@@ -5,7 +5,6 @@ HIST_STAMPS="dd.mm.yyyy"
 
 plugins=(
   git
-  tmux
   zsh-syntax-highlighting
   history
   z
@@ -18,7 +17,8 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 
 # remap CAPS_LOCK to CTRL
-/usr/bin/setxkbmap -option "ctrl:nocaps,caps:ctrl_modifier"
+# doesn't work on wayland
+#/usr/bin/setxkbmap -option "ctrl:nocaps,caps:ctrl_modifier"
 
 pathappend() {
   declare arg
@@ -160,9 +160,10 @@ bindkey '^ ' autosuggest-accept
 #                 VIRTUAL ENVIRONMENTS                #
 #######################################################
 #
-VIRTUALENVWRAPPER_PYTHON='/usr/bin/python3'
-source $HOME/.local/bin/virtualenvwrapper.sh  #work around --user install
-export WORKON_HOME=$HOME/.virtualenvs
+# move to uv
+# VIRTUALENVWRAPPER_PYTHON='/usr/bin/python3'
+# source $HOME/.local/bin/virtualenvwrapper.sh  #work around --user install
+# export WORKON_HOME=$HOME/.virtualenvs
 #######################################################
 #                 COMPLETIONS                         #
 #######################################################
@@ -170,7 +171,7 @@ command -v gh >/dev/null 2>&1 && source <(gh completion --shell zsh) || echo "gi
 command -v faas-cli >/dev/null 2>&1 && source <(faas-cli completion --shell zsh)
 command -v arkade >/dev/null 2>&1 && source <(arkade completion zsh)
 command -v flux >/dev/null 2>&1 && source <(flux completion zsh)
-command -v shfmt >/dev/null 2>&1 || echo "shell format not installed. run 'go install mvdan.cc/sh/v3/cmd/shfmt@latest'"
+#command -v shfmt >/dev/null 2>&1 || echo "shell format not installed. run 'go install mvdan.cc/sh/v3/cmd/shfmt@latest'"
 command -v multipass >/dev/null 2>&1 && alias mp="multipass"
 command -v kubectl >/dev/null 2>&1 && alias k="kubectl"
 complete -C ds ds
@@ -179,9 +180,15 @@ autoload -U compinit && compinit -i
 #                 START UP                            #
 #######################################################
 command -v thefuck >/dev/null 2>&1 && eval $(thefuck --alias)
+if command -v starship >/dev/null 2>&1; then 
 eval "$(starship init zsh)"
-eval "$(atuin init zsh --disable-up-arrow)"
-source "$HOME/.rye/env"
+fi
+if command -v atuin >/dev/null 2>&1; then 
+  eval "$(atuin init zsh --disable-up-arrow)"
+fi
 
 export OPENAI_API_KEY="$(head -1 "$HOME/.config/gpt/token")"
-eval "$($HOME/.local/bin/mise activate zsh)"
+
+ if command -v mise >/dev/null 2>&1; then
+   eval "$(mise activate zsh)"
+ fi
