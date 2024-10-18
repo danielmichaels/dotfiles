@@ -25,9 +25,16 @@ packages=(
 	buildah
 	tree
 	gparted
-	ansible
   xclip
-  ruby-full
+  libfuse2
+  libxi6
+  libxrender1
+  libxtst6
+  mesa-utils
+  libfontconfig
+  libgtk-3-bin
+  tar
+  dbus-user-session
 )
 
 extras=(
@@ -40,7 +47,6 @@ extras=(
 	picocom
 	minicom
 	thonny
-	steam-installer
 	protobuf-compiler
 	gnome-boxes
 	virt-manager
@@ -49,7 +55,6 @@ extras=(
 	libvirt-clients
 	bridge-utils
 	ripgrep
-	neovim
 	p7zip-full
 	p7zip-rar
 	zathura
@@ -58,7 +63,6 @@ extras=(
 	mpv
 	yamllint
   libpcap-dev
-  pipx
   fonts-powerline
   libpq-dev
   xdot

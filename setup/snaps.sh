@@ -2,24 +2,19 @@
 
 snaps=(
 	chromium-ffmpeg
-	code
 	discord
-	firefox
 	gtk-common-themes
 	multipass
 	opera
 	postman
-	restfox
 	slack
 	vlc
 	zulip
 	sqlitebrowser
 	insomnia
-  btop
 )
 
 classic=(
-	alacritty
 	gitkraken
 )
 
