@@ -177,5 +177,3 @@ _have gh && . <(gh completion -s bash)
 
 # ------------------------------ pretty shell -----------------------------
 command -v starship >/dev/null 2>&1 && eval "$(starship init bash)"
-
-# ------------------------------ nvm -----------------------------
