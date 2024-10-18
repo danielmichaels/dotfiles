@@ -16,4 +16,7 @@ Host proxmox
   User root
   StrictHostKeyChecking no
 
-  
+Host unicorn
+ Hostname 192.168.100.222
+ User danielmichaels
+ StrictHostKeyChecking no
