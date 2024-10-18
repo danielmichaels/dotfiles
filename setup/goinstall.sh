@@ -19,7 +19,6 @@ apps=(
 	fullstorydev/grpcurl/cmd/grpcurl@latest
 	fullstorydev/grpcui/cmd/grpcui@latest
   oapi-codegen/oapi-codegen/v2/cmd/oapi-codegen@latest
-	jesseduffield/lazydocker@latest
 	a-h/templ/cmd/templ@latest
 	iawia002/lux@latest
 	dkorunic/betteralign/cmd/betteralign@latest

@@ -54,7 +54,6 @@ extras=(
 	libvirt-daemon-system
 	libvirt-clients
 	bridge-utils
-	ripgrep
 	p7zip-full
 	p7zip-rar
 	zathura

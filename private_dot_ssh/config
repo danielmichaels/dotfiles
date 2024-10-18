@@ -16,7 +16,12 @@ Host proxmox
   User root
   StrictHostKeyChecking no
 
-Host unicorn
+Host otto
  Hostname 192.168.100.222
+ User danielmichaels
+ StrictHostKeyChecking no
+
+Host turkey
+ Hostname 192.168.10.222
  User danielmichaels
  StrictHostKeyChecking no
