@@ -46,4 +46,7 @@ def main():
     generate_rsync_command(source=args.source, server=args.server, destination=args.destination, user=args.user)
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        exit()
