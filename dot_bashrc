@@ -27,6 +27,49 @@ shopt -s checkwinsize
 # match all files and zero or more directories and subdirectories.
 #shopt -s globstar
 
+pathappend() {
+  declare arg
+  for arg in "$@"; do
+    test -d "$arg" || continue
+    PATH=${PATH//":$arg:"/:}
+    PATH=${PATH/#"$arg:"/}
+    PATH=${PATH/%":$arg"/}
+    export PATH="${PATH:+"$PATH:"}$arg"
+  done
+} && export pathappend
+
+pathprepend() {
+  for arg in "$@"; do
+    test -d "$arg" || continue
+    PATH=${PATH//:"$arg:"/:}
+    PATH=${PATH/#"$arg:"/}
+    PATH=${PATH/%":$arg"/}
+    export PATH="$arg${PATH:+":${PATH}"}"
+  done
+} && export pathprepend
+
+# remember last arg will be first in path
+pathprepend \
+  /usr/local/bin \
+  "$HOME/.local/bin" \
+  "$SCRIPTS" \
+  "$HOME/.npm-global/bin" \
+  "$HOME/.arkade/bin" \
+  "$HOME/.ds/bin" \
+  "$HOME/.pdtm/go/bin" \
+  "$HOME/.gem/bin" \
+  "$HOME/.local/share/omakub/bin"
+
+pathappend \
+  /usr/local/bin \
+  /usr/local/sbin \
+  /usr/sbin \
+  /usr/bin \
+  /snap/bin \
+  /sbin \
+  /bin
+
+
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
@@ -122,11 +165,12 @@ fi
 _have() { type "$1" &>/dev/null; }
 _source_if() { [[ -r "$1" ]] && source "$1"; }
 
+export OMAKUB_PATH="$HOME/.local/share/omakub"
 export USER="${USER:-$(whoami)}"
 export GITUSER=danielmichaels
 export EDITOR=vim
 export VISUAL=vim
-export REPOS="$HOME/Code"
+export REPOS="$HOME/code"
 export GHREPOS="$REPOS/github"
 export ZETDIR="$GHREPOS/zet"
 export PATH=$PATH:~/.local/bin
