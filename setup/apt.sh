@@ -35,6 +35,8 @@ packages=(
   libgtk-3-bin
   tar
   dbus-user-session
+  gnome-keyring
+  libsecret-tools
 )
 
 extras=(
