@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+test ! -n "${1}" && echo "must provide sha" && exit 1
+
+sha=${1:-}
+
+git log "${sha}"..HEAD | mods "Write a concise pull request for these changes"
