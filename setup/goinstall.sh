@@ -12,6 +12,7 @@ apps=(
 	sqlc-dev/sqlc/cmd/sqlc@latest
 	azimjohn/jprq/cli@latest
 	rs/curlie@latest
+  pressly/goose/v3/cmd/goose@latest
 	grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway@latest
 	grpc-ecosystem/grpc-gateway/protoc-gen-swagger@latest
 	grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2@latest
