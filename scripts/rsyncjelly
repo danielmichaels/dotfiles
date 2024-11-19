@@ -33,7 +33,7 @@ def main():
     parser.add_argument('-s', '--source', required=True, help="Item to rsync to server")
     parser.add_argument('-d', '--destination', required=True, help="Destination to send file to")
     parser.add_argument('-u', '--user', default="root", help="SSH username")
-    parser.add_argument('--server',default="192.168.20.100", help="Server address")
+    parser.add_argument('--server',default="192.168.100.250", help="Server address")
     args = parser.parse_args()
 
     print(args)
