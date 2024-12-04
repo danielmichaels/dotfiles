@@ -154,7 +154,10 @@ bindkey -v
 bindkey -M viins 'jk' vi-cmd-mode
 bindkey '^R' history-incremental-search-backward
 bindkey '^ ' autosuggest-accept
-#
+# ESC v; opens $EDITOR with CLI input
+autoload -U edit-command-line
+zle -N edit-command-line
+bindkey vicmd v edit-command-line
 #######################################################
 #                 VIRTUAL ENVIRONMENTS                #
 #######################################################
