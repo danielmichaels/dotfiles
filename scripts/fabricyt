@@ -11,13 +11,15 @@ def main():
     args = parser.parse_args()
 
     # Construct the full command using user provided arguments
-    command = f"yt --transcript {args.url} | fabric -sp {args.pattern}"
+    command = f"fabric -sp {args.pattern} --youtube={args.url}"
 
     # Execute the command and handle errors if needed
     try:
         subprocess.run(command, shell=True)
     except FileNotFoundError:
         print("Error: The 'fabric' or 'yt' commands were not found.")
+        sys.exit(1)
+    except KeyboardInterrupt:
         sys.exit(1)
 
 if __name__ == "__main__":
