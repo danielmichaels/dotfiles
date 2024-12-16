@@ -157,7 +157,7 @@ bindkey '^ ' autosuggest-accept
 # ESC v; opens $EDITOR with CLI input
 autoload -U edit-command-line
 zle -N edit-command-line
-bindkey vicmd v edit-command-line
+bindkey -M vicmd v edit-command-line
 #######################################################
 #                 VIRTUAL ENVIRONMENTS                #
 #######################################################
@@ -190,6 +190,7 @@ if command -v atuin >/dev/null 2>&1; then
 fi
 
 export OPENAI_API_KEY="$(head -1 "$HOME/.config/gpt/token")"
+export ANTHROPIC_API_KEY="$(head -1 "$HOME/.config/gpt/claude")"
 
  if command -v mise >/dev/null 2>&1; then
    eval "$(mise activate zsh)"
