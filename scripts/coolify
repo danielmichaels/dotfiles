@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+secret=$(head -n 1 ~/.config/me/coolify-otp)
+
+if ! command -v oathtool &> /dev/null
+then
+  echo "oathtool could not be found, please install it first."
+  exit 1
+fi
+
+
+# generate the totp using the provided secret
+token=$(oathtool --totp -b "${secret}")
+
+# print the generated totp token
+echo "Generated OTP token: $token"

@@ -42,6 +42,7 @@ custom=(
 	google.golang.org/protobuf/cmd/protoc-gen-go@latest
 	google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 	mvdan.cc/sh/v3/cmd/shfmt@latest
+  mvdan.cc/gofumpt@latest
 )
 for i in "${apps[@]}"; do
 	printf "Installing: %s\n" "${i}"

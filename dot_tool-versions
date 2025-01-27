@@ -1,4 +1,4 @@
-golang 1.23.2
+golang 1.23.5
 deno latest
 buf latest
 helm latest

@@ -67,6 +67,7 @@ extras=(
   fonts-powerline
   libpq-dev
   xdot
+  oathtool
 )
 
 _pre() {
