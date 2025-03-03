@@ -103,7 +103,10 @@ alias vimrc="chezmoi edit ~/.vimrc"
 alias inet="ip -br a"
 alias kurl="/usr/bin/curl"
 if command -v curlie >/dev/null 2>&1; then
-  alias curl="curlie"
+  alias curl="noglob curlie"
+fi
+if command -v restish >/dev/null 2>&1; then
+  alias restish="noglob restish"
 fi
 if command -v flyctl >/dev/null 2>&1; then
   alias fly="flyctl"

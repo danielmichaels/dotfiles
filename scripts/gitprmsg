@@ -5,4 +5,4 @@ test ! -n "${1}" && echo "must provide sha" && exit 1
 sha=${1:-}
 model=${2:-gpt-4o}
 
-git log "${sha}"..HEAD | mods -m "${model}" "Write a concise pull request for these changes. Use markdown formatting. You are an very senior developer."
+git log "${sha}"..HEAD | mods -m "${model}" "Write a concise pull request for these changes. Only remark on the code thats been done - don't talk about future intent. Be liberal with bulletpoints. Use markdown formatting. You are an very senior developer."

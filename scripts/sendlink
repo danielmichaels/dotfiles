@@ -30,7 +30,7 @@ def send_link(args):
         'Content-Type': 'application/json'
     }
 
-    response = requests.post('https://transporter.infra.ptco.rocks/link',
+    response = requests.post('https://transporter.danielms.site/link',
 headers=headers, data=json.dumps(payload))
 
     print(json.dumps(response.json(), indent=4))
