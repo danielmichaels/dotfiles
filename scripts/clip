@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+if [ $# -gt 0 ]; then
+  # read a file and pipe to xclip
+  cat "$1" | xclip -sel clipboard
+else 
+  # read from stdin; "text" | clip 
+  xclip -sel clipboard 
+fi
+echo "copied to clipboard!"
