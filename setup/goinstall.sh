@@ -3,7 +3,6 @@
 apps=(
 	mr-karan/doggo/cmd/doggo@latest
 	danielmichaels/gpt/cmd/gpt@latest
-	danielmichaels/ds/cmd/ds@latest
 	danielmichaels/zet-cmd/cmd/zet@latest
 	aandrew-me/tgpt@latest
 	charmbracelet/mods@latest
