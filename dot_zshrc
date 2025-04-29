@@ -48,7 +48,7 @@ pathprepend \
   "$SCRIPTS" \
   "$HOME/.npm-global/bin" \
   "$HOME/.arkade/bin" \
-  "$HOME/.ds/bin" \
+  "$HOME/go/bin" \
   "$HOME/.pdtm/go/bin" \
   "$HOME/.gem/bin" \
   "$HOME/.local/share/omakub/bin"
@@ -66,14 +66,13 @@ pathappend \
 #                  Exports                            #
 #######################################################
 #
-export OMAKUB_PATH="$HOME/.local/share/omakub"
 export USER="${USER:-$(whoami)}"
 export GITUSER=danielmichaels
 export EDITOR=nvim
 export VISUAL=nvim
 export REPOS="$HOME/code"
 export GHREPOS="$REPOS/github"
-export ZETDIR="$GHREPOS/zet"
+export ZETDIR="$GHREPOS/personal/zet"
 export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/ssh-agent.socket"
 export BLOG_DIRECTORY=$HOME/$REPOS/danielms/content/blog
 export BLOG_PATH=$REPOS/danielms
@@ -192,8 +191,8 @@ if command -v atuin >/dev/null 2>&1; then
   eval "$(atuin init zsh --disable-up-arrow)"
 fi
 
-export OPENAI_API_KEY="$(head -1 "$HOME/.config/gpt/token")"
-export ANTHROPIC_API_KEY="$(head -1 "$HOME/.config/gpt/claude")"
+# export OPENAI_API_KEY="$(head -1 "$HOME/.config/gpt/token")"
+# export ANTHROPIC_API_KEY="$(head -1 "$HOME/.config/gpt/claude")"
 
  if command -v mise >/dev/null 2>&1; then
    eval "$(mise activate zsh)"

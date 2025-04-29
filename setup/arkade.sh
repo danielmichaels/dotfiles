@@ -3,9 +3,7 @@
 set -xeou
 
 arkade_tools=(
-	faas-cli
 	crane
-	croc
 	dagger
 	flux
 	lazygit
