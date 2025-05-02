@@ -1,16 +1,50 @@
-slack
-neovim
-zed
-vlc
-kap
-orbstack
-fd
-sshs
-arkade
-alt-tab
-firefox@developer-edition
-font-jetbrains-mono-nerd-font
-hiddenbar
-itsycal
-kap
-rectangle 
+#!/bin/bash
+
+set -euo
+
+tools=(
+  obs
+  slack
+  bat
+  fd 
+  rg 
+  eza
+  htop
+  neovim
+  fastfetch
+  zoxide
+  fzf
+  zed
+  vlc
+  kap
+  orbstack
+  fd
+  sshs
+  arkade
+  alt-tab
+  # firefox
+  brave-browser
+  font-jetbrains-mono-nerd-font
+  hiddenbar
+  itsycal
+  kap
+  rectangle 
+  wezterm
+  tailscale
+  )
+
+langs=(
+  go
+  node
+  uv
+  )
+
+for i in "${tools[@]}"; do 
+  printf "Installing %s\n" "${i}"
+  brew install "${i}"
+done
+
+for i in "${langs[@]}"; do 
+  printf "Installing %s\n" "${i}"
+  brew install "${i}"
+done

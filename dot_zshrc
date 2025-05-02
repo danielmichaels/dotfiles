@@ -7,7 +7,7 @@ plugins=(
   git
   zsh-syntax-highlighting
   history
-  z
+  # z
   zsh-autosuggestions
   colored-man-pages
   dotenv
@@ -49,9 +49,8 @@ pathprepend \
   "$HOME/.npm-global/bin" \
   "$HOME/.arkade/bin" \
   "$HOME/go/bin" \
-  "$HOME/.pdtm/go/bin" \
-  "$HOME/.gem/bin" \
-  "$HOME/.local/share/omakub/bin"
+  "$HOME/.cargo/bin" \
+  "$HOME/.gem/bin"
 
 pathappend \
   /usr/local/bin \
@@ -61,7 +60,6 @@ pathappend \
   /snap/bin \
   /sbin \
   /bin
-  #/usr/local/go/bin \
 #######################################################
 #                  Exports                            #
 #######################################################
@@ -88,6 +86,7 @@ export GOPROXY=direct
 #######################################################
 #                  General Alias                      #
 #######################################################
+alias ze="zellij"
 alias vi="/usr/bin/vim"
 alias vim="nvim"
 alias lg="lazygit"
@@ -96,7 +95,6 @@ alias pm="pnpm"
 alias chez="chezmoi"
 alias setup="cd $HOME/.local/share/chezmoi/setup"
 alias faas="faas-cli"
-alias env="ds s env-check"
 alias zs="chezmoi edit ~/.zshrc"
 alias vimrc="chezmoi edit ~/.vimrc"
 alias inet="ip -br a"
@@ -110,18 +108,17 @@ fi
 if command -v flyctl >/dev/null 2>&1; then
   alias fly="flyctl"
 fi
-if command -v exa >/dev/null 2>&1; then
-  alias ls="exa"
-  alias el="exa --oneline"
-  alias ee="exa --header --long"
-  alias la="exa --header --long --all"
+if command -v eza >/dev/null 2>&1; then
+  alias ls="eza"
+  alias el="eza --oneline"
+  alias ee="eza --header --long"
+  alias la="eza --header --long --all"
 fi
 alias ssh="ssh -v"
 alias doc='docker compose'
 alias k="kubectl"
 alias mk="minikube"
 alias chmox="chmod +x "
-alias sail="[ -f sail ] && sh sail || sh vendor/bin/sail"
 #
 #######################################################
 #                  Git Alias                          #
@@ -133,8 +130,6 @@ alias gl="git log --graph --oneline --decorate --all"
 alias gc="git commit"
 alias gac="git add . && git commit" # drop into EDITOR to confirm 'git add .'
 alias gp="git push -v"
-alias blog="cd $HOME/Code/github/danielms && code ."
-alias gitignore="gi linux,python,visualstudiocode,node,react,vuejs,python,rust,jetbrains,go"
 alias checkout="git checkout"
 #
 ######################################################
@@ -196,4 +191,7 @@ fi
 
  if command -v mise >/dev/null 2>&1; then
    eval "$(mise activate zsh)"
+ fi
+ if command -v zoxide >/dev/null 2>&1; then
+   eval "$(zoxide init zsh)"
  fi
