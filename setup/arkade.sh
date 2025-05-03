@@ -3,10 +3,12 @@
 set -xeou
 
 arkade_tools=(
+  kind
 	crane
 	dagger
 	flux
 	lazygit
+  lazydocker
 	packer
 	gh
 	k9s
@@ -20,8 +22,6 @@ arkade_tools=(
 	popeye
 	k3sup
 	argocd
-	goreleaser
-	flyctl
 )
 
 arkade update
