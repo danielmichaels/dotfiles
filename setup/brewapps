@@ -3,6 +3,8 @@
 set -euo
 
 tools=(
+  gnupg
+  pinentry-mac
   obs
   slack
   bat
@@ -17,7 +19,8 @@ tools=(
   zed
   vlc
   kap
-  orbstack
+  podman
+  podman-desktop
   fd
   sshs
   arkade
@@ -32,11 +35,14 @@ tools=(
   wezterm
   tailscale
   yazi
+  atlas
+  git-lfs
   )
 
 langs=(
   go
   node
+  pnpm
   uv
   )
 

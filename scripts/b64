@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+if [ "$#" -ne 1 ]; then 
+  echo "Useage: $0 <base64_string>"
+  exit 1
+fi
+
+decoded_string=$(echo "$1" | base64 --decode)
+
+printf "%s" "$decoded_string"

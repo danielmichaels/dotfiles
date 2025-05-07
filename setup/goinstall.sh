@@ -1,15 +1,14 @@
 #!/usr/bin/env bash
 
 apps=(
-	danielmichaels/gpt/cmd/gpt@latest
+	# danielmichaels/gpt/cmd/gpt@latest
+	# aandrew-me/tgpt@latest
 	mr-karan/doggo/cmd/doggo@latest
 	danielmichaels/zet-cmd/cmd/zet@latest
-	aandrew-me/tgpt@latest
 	charmbracelet/mods@latest
 	charmbracelet/glow@latest
 	air-verse/air@latest
 	sqlc-dev/sqlc/cmd/sqlc@latest
-	azimjohn/jprq/cli@latest
 	rs/curlie@latest
   pressly/goose/v3/cmd/goose@latest
 	grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway@latest
@@ -28,6 +27,9 @@ apps=(
   nats-io/natscli/nats@latest
   danielmiessler/yt@latest
   danielmiessler/fabric@latest
+  # synadia
+  volatiletech/sqlboiler/v4@v4.16.2
+  volatiletech/sqlboiler/v4/drivers/sqlboiler-psql@v4.16.2
 )
 
 custom=(
@@ -35,6 +37,8 @@ custom=(
 	google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 	mvdan.cc/sh/v3/cmd/shfmt@latest
   mvdan.cc/gofumpt@latest
+  # synadia
+  cuelang.org/go/cmd/cue@latest
 )
 for i in "${apps[@]}"; do
 	printf "Installing: %s\n" "${i}"

@@ -50,6 +50,7 @@ pathprepend \
   "$HOME/.arkade/bin" \
   "$HOME/go/bin" \
   "$HOME/.cargo/bin" \
+  "/Applications/Postgres.app/Contents/Versions/latest/bin" \
   "$HOME/.gem/bin"
 
 pathappend \
@@ -72,8 +73,6 @@ export REPOS="$HOME/code"
 export GHREPOS="$REPOS/github"
 export ZETDIR="$GHREPOS/personal/zet"
 export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/ssh-agent.socket"
-export BLOG_DIRECTORY=$HOME/$REPOS/danielms/content/blog
-export BLOG_PATH=$REPOS/danielms
 export GPG_TTY=$(tty)
 export SCRIPTS="${HOME}/.local/share/chezmoi/scripts"
 #######################################################
@@ -152,9 +151,9 @@ bindkey -M viins 'jk' vi-cmd-mode
 bindkey '^R' history-incremental-search-backward
 bindkey '^ ' autosuggest-accept
 # ESC v; opens $EDITOR with CLI input
-autoload -U edit-command-line
-zle -N edit-command-line
-bindkey -M vicmd v edit-command-line
+# autoload -U edit-command-line
+# zle -N edit-command-line
+# bindkey -M vicmd v edit-command-line
 #######################################################
 #                 VIRTUAL ENVIRONMENTS                #
 #######################################################
@@ -170,10 +169,6 @@ command -v gh >/dev/null 2>&1 && source <(gh completion --shell zsh) || echo "gi
 command -v faas-cli >/dev/null 2>&1 && source <(faas-cli completion --shell zsh)
 command -v arkade >/dev/null 2>&1 && source <(arkade completion zsh)
 command -v flux >/dev/null 2>&1 && source <(flux completion zsh)
-#command -v shfmt >/dev/null 2>&1 || echo "shell format not installed. run 'go install mvdan.cc/sh/v3/cmd/shfmt@latest'"
-command -v multipass >/dev/null 2>&1 && alias mp="multipass"
-command -v kubectl >/dev/null 2>&1 && alias k="kubectl"
-complete -C ds ds
 autoload -U compinit && compinit -i
 #######################################################
 #                 START UP                            #
@@ -186,8 +181,8 @@ if command -v atuin >/dev/null 2>&1; then
   eval "$(atuin init zsh --disable-up-arrow)"
 fi
 
-# export OPENAI_API_KEY="$(head -1 "$HOME/.config/gpt/token")"
-# export ANTHROPIC_API_KEY="$(head -1 "$HOME/.config/gpt/claude")"
+export OPENAI_API_KEY="$(head -1 "$HOME/.config/gpt/token")"
+export ANTHROPIC_API_KEY="$(head -1 "$HOME/.config/gpt/claude")"
 
  if command -v mise >/dev/null 2>&1; then
    eval "$(mise activate zsh)"

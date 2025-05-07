@@ -4,6 +4,7 @@ set -xeou
 
 arkade_tools=(
   kind
+  k3d
 	crane
 	dagger
 	flux
