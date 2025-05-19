@@ -1,0 +1,30 @@
+layout {
+  default_tab_template {
+      // the default zellij tab-bar and status bar plugins
+      pane size=1 borderless=true {
+          plugin location="zellij:tab-bar"
+      }
+      children
+      pane size=1 borderless=true {
+          plugin location="zellij:status-bar"
+      }
+  }
+  tab name="scratch" {
+    pane split_direction="vertical" {
+      pane 
+      pane 
+    }
+  }
+  tab name="go" {
+    pane split_direction="vertical" {
+      pane cwd="~/code/github/synadia/control-plane/go/cp-server" { }
+      pane cwd="~/code/github/synadia/control-plane/go/synadia-server" { }
+    }
+  }
+  tab name="ts" {
+    pane split_direction="vertical" {
+      pane cwd="~/code/github/synadia/control-plane/ts/cp-ui" { }
+      pane cwd="~/code/github/synadia/control-plane/ts/synadia-server" { }
+    }
+  }
+}

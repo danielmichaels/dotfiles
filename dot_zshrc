@@ -85,7 +85,7 @@ export GOPROXY=direct
 #######################################################
 #                  General Alias                      #
 #######################################################
-alias ze="zellij"
+alias ze="zellij -l ~/setup/synadia.kdl"
 alias vi="/usr/bin/vim"
 alias vim="nvim"
 alias lg="lazygit"

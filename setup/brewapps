@@ -3,12 +3,13 @@
 set -euo
 
 tools=(
-  fx
+  fx 
   gnupg
   pinentry-mac
   obs
   slack
   bat
+  tlrc
   fd 
   rg 
   eza
@@ -18,6 +19,8 @@ tools=(
   zoxide
   fzf
   zed
+  visual-studio-code
+  stripe-cli
   vlc
   kap
   podman

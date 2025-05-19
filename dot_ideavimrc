@@ -43,3 +43,4 @@ map <C-k> <C-w>k<CR>
 map <C-h> <C-w>h<CR>
 map <C-l> <C-w>l<CR>
 
+set clipboard^=ideaput
