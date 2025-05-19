@@ -113,8 +113,13 @@ if command -v eza >/dev/null 2>&1; then
   alias ee="eza --header --long"
   alias la="eza --header --long --all"
 fi
+if command -v podman >/dev/null 2>&1; then
+  alias docker="podman"
+  alias doc="podman compose"
+else
+  alias doc='docker compose'
+fi
 alias ssh="ssh -v"
-alias doc='docker compose'
 alias k="kubectl"
 alias mk="minikube"
 alias chmox="chmod +x "

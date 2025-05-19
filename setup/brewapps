@@ -3,6 +3,7 @@
 set -euo
 
 tools=(
+  fx
   gnupg
   pinentry-mac
   obs
@@ -22,6 +23,7 @@ tools=(
   podman
   podman-desktop
   fd
+  gum
   sshs
   arkade
   alt-tab
