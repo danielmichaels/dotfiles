@@ -18,13 +18,13 @@ layout {
   tab name="go" {
     pane split_direction="vertical" {
       pane cwd="~/code/github/synadia/control-plane/go/cp-server" { }
-      pane cwd="~/code/github/synadia/control-plane/go/synadia-server" { }
+      pane cwd="~/code/github/synadia/control-plane/go/synadia-cloud" { }
     }
   }
   tab name="ts" {
     pane split_direction="vertical" {
       pane cwd="~/code/github/synadia/control-plane/ts/cp-ui" { }
-      pane cwd="~/code/github/synadia/control-plane/ts/synadia-server" { }
+      pane cwd="~/code/github/synadia/control-plane/ts/synadia-cloud" { }
     }
   }
 }
