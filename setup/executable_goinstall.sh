@@ -28,6 +28,7 @@ apps=(
   danielmiessler/yt@latest
   danielmiessler/fabric@latest
   # synadia
+  atombender/go-jsonschema@latest
   volatiletech/sqlboiler/v4@v4.16.2
   volatiletech/sqlboiler/v4/drivers/sqlboiler-psql@v4.16.2
 )
