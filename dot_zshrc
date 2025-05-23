@@ -187,8 +187,15 @@ if command -v atuin >/dev/null 2>&1; then
   eval "$(atuin init zsh --disable-up-arrow)"
 fi
 
-export OPENAI_API_KEY="$(head -1 "$HOME/.config/gpt/token")"
-export ANTHROPIC_API_KEY="$(head -1 "$HOME/.config/gpt/claude")"
+if [ -f "$HOME/.config/gpt/token" ]; then
+  export OPENAI_API_KEY="$(head -1 "$HOME/.config/gpt/token")"
+fi
+if [ -f "$HOME/.config/gpt/claude" ]; then
+  export ANTHROPIC_API_KEY="$(head -1 "$HOME/.config/gpt/claude")"
+fi
+if [ -f "$HOME/.config/synadia/dockertoken" ]; then
+  export SYNADIA_DOCKER_TOKEN=$(head -1 "$HOME/.config/synadia/dockertoken")
+fi
 
  if command -v mise >/dev/null 2>&1; then
    eval "$(mise activate zsh)"

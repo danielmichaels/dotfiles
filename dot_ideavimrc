@@ -1,30 +1,38 @@
 source ~/.vimrc
 """ Idea specific settings ------------------
+set scrolloff=10
 set ideajoin
+
+" <leader><leader>w -- will start easy motion
+set easymotion
+" AceJump entire editor view
+map <leader><leader>j <Action>(AceAction)
+" notimeout gives enough time to jump around with easymotion
+set notimeout
+set which-key
+
+set hlsearch
 set ideastatusicon=gray
 
 Plug 'preservim/nerdtree'
-set clipboard^=ideaput
 
-map <leader>V <Action>(SplitVertically)
-map <leader>H <Action>(SplitHorizontally)
-map <leader>U <Action>(Unsplit)
-map <leader>UU <Action>(UnsplitAll)
-
-
-nmap <leader>e :e ~/.ideavimrc<CR>
-
+nmap <leader>rc :e ~/.ideavimrc<CR>
+map <leader>e :NERDTreeToggle<CR>
 map <leader>b <Action>(ToggleLineBreakpoint)
 map <leader>n <Action>(GotoNextError)
 map <leader>o <Action>(SelectInProjectView)
 map <leader>a <Action>(Annotate)
+map <leader>se <Action>(SearchEverywhere)
 
-map <leader>d <Action>(Debug)
-map <leader>r <Action>(RenameElement)
-map <leader>c <Action>(Stop)
-map <leader>z <Action>(TogglePresentationMode)
+map <leader>ad <Action>(Debug)
+map <leader>ar <Action>(Run)
+map <leader>as <Action>(Stop)
+map <leader>zd <Action>(TogglePresentationMode)
+map <leader>zz <Action>(ToggleZenMode)
+map <leader>zf <Action>(ToggleFullScreen)
 
 map <leader>h <Action>(HighlightUsagesInFile)
+map <leader>rn <Action>(RenameElement)
 map <leader>rr <Action>(Refactorings.QuickListPopupAction)
 map <leader>s <Action>(ShowUsages)
 map <leader>u <Action>(FindUsages)
@@ -34,13 +42,22 @@ map <leader>ai <Action>(ActivateAIAssistantToolWindow)
 
 map <leader>g <Action>(Vcs.ShowHistoryForRevision)
 
-" Use system pasteboard
-set clipboard=unnamed
+" tiling/panes
+map <leader>V <Action>(SplitVertically)
+map <leader>H <Action>(SplitHorizontally)
+map <leader>U <Action>(Unsplit)
+map <leader>UU <Action>(UnsplitAll)
+map <leader>; <Action>(HideAllWindows)
+map <leader>q <Action>(CloseContent)
 
 " window navigation
 map <C-j> <C-w>j<CR>
 map <C-k> <C-w>k<CR>
 map <C-h> <C-w>h<CR>
 map <C-l> <C-w>l<CR>
+map <leader>wm <Action>(MoveEditorToOppositeTabGroup)
+map <leader>wv <Action>(SplitVertically)
+map <leader>ws <Action>(SplitHorizontally)
+map <leader>wu <Action>(Unsplit)
 
 set clipboard^=ideaput
