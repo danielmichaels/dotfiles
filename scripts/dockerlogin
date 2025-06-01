@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+echo $SYNADIA_DOCKER_TOKEN | podman login registry.synadia.io -u synadia --password-stdin
+echo $SYNADIA_DOCKER_TOKEN | crane auth login registry.synadia.io -u synadia --password-stdin

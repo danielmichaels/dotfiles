@@ -79,7 +79,7 @@ export SCRIPTS="${HOME}/.local/share/chezmoi/scripts"
 #                  GO Settings                      #
 #######################################################
 # Setup private repos by defining the user, in this case, me.
-export GOPRIVATE="github.com/$GITUSER/*,gitlab.com/$GITUSER/*"
+export GOPRIVATE="github.com/$GITUSER/*,gitlab.com/$GITUSER/*,github.com/ConnectEverything/*,github.com/synadia-labs/*"
 #export GOPROXY=https://proxy.golang.org,direct
 export GOPROXY=direct
 #######################################################
@@ -196,6 +196,9 @@ fi
 if [ -f "$HOME/.config/synadia/dockertoken" ]; then
   export SYNADIA_DOCKER_TOKEN=$(head -1 "$HOME/.config/synadia/dockertoken")
 fi
+if [ -f "$HOME/.config/synadia/uat-token" ]; then
+  export SYNADIA_UAT_TOKEN=$(head -1 "$HOME/.config/synadia/uat-token")
+fi
 
  if command -v mise >/dev/null 2>&1; then
    eval "$(mise activate zsh)"
@@ -203,3 +206,8 @@ fi
  if command -v zoxide >/dev/null 2>&1; then
    eval "$(zoxide init zsh)"
  fi
+
+
+# Generated for pdtm. Do not edit.
+export PATH=$PATH:/Users/danielmichaels/.pdtm/go/bin
+

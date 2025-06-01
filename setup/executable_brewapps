@@ -3,6 +3,8 @@
 set -euo
 
 tools=(
+  jo
+  nats-server
   fx 
   gnupg
   pinentry-mac
