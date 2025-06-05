@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+cp="${GHREPOS}/synadia/control-plane"
+
+cd "${cp}/go/synadia-cloud"
+task generate
+cd -
+cd "${cp}/go/cp-server"
+task generate
+cd -
+
+cd "${cp}/ts"
+task cp:generate:client:common
+task scp:generate:client
+

@@ -1,48 +1,61 @@
-#!/usr/bin/env python3
+#!/bin/bash
+send_link() {
+  local url="$1"
+  local title="$2"
+  local description="${3:-no description}"
 
-import argparse
-import json
-import requests
-from os import path
+  if [[ -z "$url" || -z "$title" ]]; then
+      echo "Both title and url must be provided"
+      exit 1
+  fi
 
-def send_link(args):
-    url = args.url
-    title = args.title
-    description = args.description
+  local key_file_path="$HOME/.config/me/transporter/key"
+  if [[ ! -f "$key_file_path" ]]; then
+      echo "API Key file not found at $key_file_path"
+      exit 1
+  fi
 
-    if not url or not title:
-        print("Both title and url must be provided")
-        return
+  local key
+  key=$(head -n 1 "$key_file_path" | tr -d '\n')
 
-    key_file_path = path.expanduser('~/.config/me/transporter/key')
-    with open(key_file_path, 'r') as file:
-        key = file.readline().strip()
+  local payload
+  payload=$(jq -n --arg url "$url" --arg title "$title" --arg description "$description" \
+      '{description: $description, title: $title, tag_names: ["sendlink"], url: $url}')
 
-    payload = {
-        "description": description,
-        "title": title,
-        "tag_names": ["sendlink"],
-        "url": url,
-    }
+  local response
+  response=$(curl -s -X POST 'https://transporter.danielms.site/link' \
+      -H "X-API-KEY: $key" \
+      -H "Content-Type: application/json" \
+      -d "$payload")
+      # Print formatted JSON response
+          echo "$response" | jq .
+}
 
-    headers = {
-        'X-API-KEY': key,
-        'Content-Type': 'application/json'
-    }
+  main() {
+      if [[ $# -lt 2 ]]; then
+          echo "Usage: $0 <url> <title> [-d <description>]"
+          exit 1
+  fi
 
-    response = requests.post('https://transporter.danielms.site/link',
-headers=headers, data=json.dumps(payload))
+      local url="$1"
+      shift
+      local title="$1"
+      shift
+      local description="no description"
 
-    print(json.dumps(response.json(), indent=4))
+      while getopts "d:" opt; do
+          case $opt in
+              d)
+                  description="$OPTARG"
+                  ;;
+              *)
+                  echo "Invalid option: -$opt"
+                  exit 1
+                  ;;
+    esac
+  done
 
-def main():
-    parser = argparse.ArgumentParser(description='Send a link.')
-    parser.add_argument('url', help='The URL to send.')
-    parser.add_argument('title', help='The title of the link.')
-    parser.add_argument('-d', '--description', default="no description", help='The description of the link.')
-    args = parser.parse_args()
+      send_link "$url" "$title" "$description"
+}
 
-    send_link(args)
-
-if __name__ == "__main__":
-    main()
+main "$@"
