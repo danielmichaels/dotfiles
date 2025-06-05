@@ -75,13 +75,14 @@ export ZETDIR="$GHREPOS/personal/zet"
 export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/ssh-agent.socket"
 export GPG_TTY=$(tty)
 export SCRIPTS="${HOME}/.local/share/chezmoi/scripts"
+# export PODMAN_COMPOSE_WARNING_LOGS=0
 #######################################################
 #                  GO Settings                      #
 #######################################################
 # Setup private repos by defining the user, in this case, me.
 export GOPRIVATE="github.com/$GITUSER/*,gitlab.com/$GITUSER/*,github.com/ConnectEverything/*,github.com/synadia-labs/*"
-#export GOPROXY=https://proxy.golang.org,direct
-export GOPROXY=direct
+export GOPROXY=https://proxy.golang.org,direct
+# export GOPROXY=direct
 #######################################################
 #                  General Alias                      #
 #######################################################
