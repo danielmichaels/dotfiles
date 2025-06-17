@@ -1,7 +1,8 @@
 add_newline = false 
 
 [hostname]
-ssh_only = false
+disabled = true
+ssh_only = true
 
 [shell]
 disabled = false

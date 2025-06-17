@@ -3,17 +3,18 @@
 set -euo
 
 tools=(
+  act
   jo
   nats-server
-  fx 
+  fx
   gnupg
   pinentry-mac
   obs
   slack
   bat
   tlrc
-  fd 
-  rg 
+  fd
+  rg
   eza
   htop
   neovim
@@ -38,27 +39,27 @@ tools=(
   hiddenbar
   itsycal
   kap
-  rectangle 
+  rectangle
   wezterm
   tailscale
   yazi
   atlas
   git-lfs
-  )
+)
 
 langs=(
   go
   node
   pnpm
   uv
-  )
+)
 
-for i in "${tools[@]}"; do 
+for i in "${tools[@]}"; do
   printf "Installing %s\n" "${i}"
   brew install "${i}"
 done
 
-for i in "${langs[@]}"; do 
+for i in "${langs[@]}"; do
   printf "Installing %s\n" "${i}"
   brew install "${i}"
 done
