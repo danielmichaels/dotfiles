@@ -51,6 +51,8 @@ pathprepend \
   "$HOME/go/bin" \
   "$HOME/.cargo/bin" \
   "/Applications/Postgres.app/Contents/Versions/latest/bin" \
+  "/opt/homebrew/opt/openjdk/bin" \
+  "$HOME/.rd/bin" \
   "$HOME/.gem/bin"
 
 pathappend \
@@ -80,7 +82,7 @@ export SCRIPTS="${HOME}/.local/share/chezmoi/scripts"
 #                  GO Settings                      #
 #######################################################
 # Setup private repos by defining the user, in this case, me.
-export GOPRIVATE="github.com/$GITUSER/*,gitlab.com/$GITUSER/*,github.com/ConnectEverything/*,github.com/synadia-labs/*"
+export GOPRIVATE="github.com/$GITUSER/*,gitlab.com/$GITUSER/*,github.com/ConnectEverything/*,github.com/synadia-labs/*,github.com/synadia-io/*"
 export GOPROXY=https://proxy.golang.org,direct
 # export GOPROXY=direct
 #######################################################
@@ -100,22 +102,22 @@ alias zs="chezmoi edit ~/.zshrc"
 alias vimrc="chezmoi edit ~/.vimrc"
 alias inet="ip -br a"
 alias kurl="/usr/bin/curl"
-if command -v curlie >/dev/null 2>&1; then
+if command -v curlie > /dev/null 2>&1; then
   alias curl="noglob curlie"
 fi
-if command -v restish >/dev/null 2>&1; then
+if command -v restish > /dev/null 2>&1; then
   alias restish="noglob restish"
 fi
-if command -v flyctl >/dev/null 2>&1; then
+if command -v flyctl > /dev/null 2>&1; then
   alias fly="flyctl"
 fi
-if command -v eza >/dev/null 2>&1; then
+if command -v eza > /dev/null 2>&1; then
   alias ls="eza"
   alias el="eza --oneline"
   alias ee="eza --header --long"
   alias la="eza --header --long --all"
 fi
-if command -v podman >/dev/null 2>&1; then
+if command -v podman > /dev/null 2>&1; then
   alias docker="podman"
   alias doc="podman compose"
 else
@@ -142,11 +144,11 @@ alias checkout="git checkout"
 #                Custom Functions                    #
 ######################################################
 #
-gi() { curl -sLw n https://www.gitignore.io/api/$@ ;}
+gi() { curl -sLw n https://www.gitignore.io/api/$@; }
 #
 # cd and ls automatically
 function cd {
-  builtin cd "$@" && ls -F; 
+  builtin cd "$@" && ls -F
 }
 #######################################################
 #                 VIM bindings                        #
@@ -172,19 +174,19 @@ bindkey '^ ' autosuggest-accept
 #######################################################
 #                 COMPLETIONS                         #
 #######################################################
-command -v gh >/dev/null 2>&1 && source <(gh completion --shell zsh) || echo "github-cli not installed, cannot source completions"
-command -v faas-cli >/dev/null 2>&1 && source <(faas-cli completion --shell zsh)
-command -v arkade >/dev/null 2>&1 && source <(arkade completion zsh)
-command -v flux >/dev/null 2>&1 && source <(flux completion zsh)
+command -v gh > /dev/null 2>&1 && source <(gh completion --shell zsh) || echo "github-cli not installed, cannot source completions"
+command -v faas-cli > /dev/null 2>&1 && source <(faas-cli completion --shell zsh)
+command -v arkade > /dev/null 2>&1 && source <(arkade completion zsh)
+command -v flux > /dev/null 2>&1 && source <(flux completion zsh)
 autoload -U compinit && compinit -i
 #######################################################
 #                 START UP                            #
 #######################################################
-command -v thefuck >/dev/null 2>&1 && eval $(thefuck --alias)
-if command -v starship >/dev/null 2>&1; then 
-eval "$(starship init zsh)"
+command -v thefuck > /dev/null 2>&1 && eval $(thefuck --alias)
+if command -v starship > /dev/null 2>&1; then
+  eval "$(starship init zsh)"
 fi
-if command -v atuin >/dev/null 2>&1; then 
+if command -v atuin > /dev/null 2>&1; then
   eval "$(atuin init zsh --disable-up-arrow)"
 fi
 
@@ -201,14 +203,12 @@ if [ -f "$HOME/.config/synadia/uat-token" ]; then
   export SYNADIA_UAT_TOKEN=$(head -1 "$HOME/.config/synadia/uat-token")
 fi
 
- if command -v mise >/dev/null 2>&1; then
+ if command -v mise > /dev/null 2>&1; then
    eval "$(mise activate zsh)"
- fi
- if command -v zoxide >/dev/null 2>&1; then
+fi
+ if command -v zoxide > /dev/null 2>&1; then
    eval "$(zoxide init zsh)"
- fi
-
+fi
 
 # Generated for pdtm. Do not edit.
 export PATH=$PATH:/Users/danielmichaels/.pdtm/go/bin
-
