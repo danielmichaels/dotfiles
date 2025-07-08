@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+# Check if at least one port number has been supplied
+if [ -z "$1" ]; then
+  echo "Error: No port number supplied."
+  echo "Usage: $0 <port_number> [port_number2] [port_number3] ..."
+  exit 1
+fi
+
+# Process each port argument
+for port in "$@"; do
+  echo "Processing port $port..."
+  
+  # Get all processes listening on the specified port
+  processes=$(lsof -t -c ^dbeaver -i :"$port")
+  
+  # Check if any processes were found
+  if [ -z "$processes" ]; then
+    echo "No processes found listening on port $port (excluding dbeaver)."
+    continue
+  fi
+  
+  # Kill each process
+  for pid in $processes; do
+    if kill "$pid"; then
+      echo "Successfully killed process with PID $pid on port $port."
+    else
+      echo "Failed to kill process with PID $pid on port $port."
+    fi
+  done
+done

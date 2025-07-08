@@ -6,11 +6,6 @@ Host localhost
   StrictHostKeyChecking no
   UserKnownHostsFile=/dev/null
   
-Host kindle
-  HostName 192.168.15.244
-  User root
-  StrictHostKeyChecking no
-
 Host proxmox
   Hostname 192.168.100.250
   User root
@@ -31,14 +26,9 @@ Host turkey
   User danielmichaels
   StrictHostKeyChecking no
 
-Host kamal-prod
-  Hostname 178.156.141.86
-  User root 
+Host adsb
+  Hostname 192.168.10.12
+  User pi 
   StrictHostKeyChecking no
   IdentityFile ~/.ssh/id_rsa
 
-Host kamal-preview
-  Hostname 188.245.61.223
-  User root 
-  StrictHostKeyChecking no
-  IdentityFile ~/.ssh/id_rsa

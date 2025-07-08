@@ -3,6 +3,8 @@
 set -euo
 
 tools=(
+  yt-dlp
+  skopeo
   act
   jo
   nats-server
