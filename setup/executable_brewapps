@@ -3,6 +3,7 @@
 set -euo
 
 tools=(
+  coreutils
   yt-dlp
   skopeo
   act

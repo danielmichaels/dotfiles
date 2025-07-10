@@ -7,6 +7,7 @@ plugins=(
   git
   zsh-syntax-highlighting
   history
+  chezmoi
   # z
   zsh-autosuggestions
   colored-man-pages
@@ -124,6 +125,12 @@ if command -v podman > /dev/null 2>&1; then
 else
   alias doc='docker compose'
 fi
+if command -v uvx > /dev/null 2>&1; then
+  alias ipython="uvx ipython"
+  alias cookiecutter="uvx cookiecutter"
+else
+  echo "uvx not installed"
+fi
 alias ssh="ssh -v"
 alias k="kubectl"
 alias mk="minikube"
@@ -189,6 +196,9 @@ if command -v starship > /dev/null 2>&1; then
 fi
 if command -v atuin > /dev/null 2>&1; then
   eval "$(atuin init zsh --disable-up-arrow)"
+fi
+if command -v task > /dev/null 2>&1; then
+  eval "$(task --completion zsh)"
 fi
 
 if [ -f "$HOME/.config/gpt/token" ]; then

@@ -39,7 +39,6 @@ custom=(
   mvdan.cc/sh/v3/cmd/shfmt@latest
   mvdan.cc/gofumpt@latest
   # synadia
-  cuelang.org/go/cmd/cue@v.0.11.2
 )
 for i in "${apps[@]}"; do
   printf "Installing: %s\n" "${i}"
