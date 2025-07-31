@@ -3,6 +3,9 @@
 set -euo
 
 tools=(
+  awscli
+  lima
+  eksctl
   coreutils
   yt-dlp
   skopeo

@@ -1,0 +1,17 @@
+#   /Users/danielmichaels/Library/Application Support/com.mitchellh.ghostty/config
+
+keybind = global:f12=toggle_quick_terminal
+font-size = 14
+font-family = JetBrains Mono
+background-opacity = 0.9
+background-blur-radius = 20
+#theme = catppuccin-mocha
+
+# quick terminal
+quick-terminal-autohide = false
+quick-terminal-screen = mouse
+
+# zellij with ghostty
+macos-option-as-alt = left
+keybind = alt+left=unbind
+keybind = alt+right=unbind

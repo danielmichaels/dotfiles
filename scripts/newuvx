@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+
+set -e
+
+test ! -n "${SCRIPTS}" && echo "SCRIPTS not set" && exit 1
+test ! -n "${1}" && echo "usage: newuvx <name>" && exit 1
+
+path="${SCRIPTS}/${1}"
+
+if [ -e "${path}" ]; then
+	if
+		command -v gum >/dev/null 2>&1
+	then
+		gum confirm "${1} already exists. Edit?"
+		exec $EDITOR "${path}"
+	else
+		read -p "${1} already exists. Edit? " yes
+		case "${yes}" in
+		y | yes | yep | yeppers | yeah | ok | okay) exec $EDITOR "${path}" ;;
+		esac
+	fi
+	exit 0
+fi
+
+cat >"${path}" <<'EOF'
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.10"
+# dependencies = [
+#     "httpx",
+#     "rich",
+# ]
+# ///
+"""
+UV Script Template
+
+This is a uv script that demonstrates how to:
+1. Declare Python version requirements
+2. Specify dependencies inline
+3. Make HTTP requests with httpx
+4. Use rich for pretty output
+
+To run: ./script_name (after chmod +x)
+To run with specific Python: uv run --script --python 3.11 script_name
+
+Documentation:
+- https://docs.astral.sh/uv/guides/scripts/
+- https://simonwillison.net/2024/Dec/19/one-shot-python-tools/
+"""
+
+import httpx
+from rich.console import Console
+from rich.json import JSON
+
+console = Console()
+
+def main():
+    """Example function that fetches and displays JSON data."""
+    try:
+        # Example API call - replace with your own logic
+        response = httpx.get("https://httpbin.org/json")
+        response.raise_for_status()
+        
+        console.print("✅ [bold green]Success![/bold green]")
+        console.print(JSON(response.text))
+        
+    except httpx.RequestError as e:
+        console.print(f"❌ [bold red]Request failed:[/bold red] {e}")
+    except httpx.HTTPStatusError as e:
+        console.print(f"❌ [bold red]HTTP error {e.response.status_code}:[/bold red] {e}")
+
+if __name__ == "__main__":
+    main()
+EOF
+
+chmod +x "${path}"
+exec $EDITOR +34 "${path}"

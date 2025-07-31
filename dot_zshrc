@@ -207,6 +207,9 @@ fi
 if [ -f "$HOME/.config/gpt/claude" ]; then
   export ANTHROPIC_API_KEY="$(head -1 "$HOME/.config/gpt/claude")"
 fi
+if [ -f "$HOME/.config/gpt/gemini" ]; then
+  export GEMINI_API_KEY="$(head -1 "$HOME/.config/gpt/gemini")"
+fi
 if [ -f "$HOME/.config/synadia/dockertoken" ]; then
   export SYNADIA_DOCKER_TOKEN=$(head -1 "$HOME/.config/synadia/dockertoken")
 fi

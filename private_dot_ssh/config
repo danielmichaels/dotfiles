@@ -12,7 +12,7 @@ Host proxmox
   StrictHostKeyChecking no
 
 Host otto
-  Hostname 192.168.100.222
+  Hostname 192.168.100.225
   User danielmichaels
   StrictHostKeyChecking no
 
@@ -32,3 +32,7 @@ Host adsb
   StrictHostKeyChecking no
   IdentityFile ~/.ssh/id_rsa
 
+Host k3s-pve-1
+  Hostname 192.168.100.150
+  User root 
+  ProxyJump otto
