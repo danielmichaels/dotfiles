@@ -119,12 +119,17 @@ if command -v eza > /dev/null 2>&1; then
   alias ee="eza --header --long"
   alias la="eza --header --long --all"
 fi
-if command -v podman > /dev/null 2>&1; then
+
+if [ -x "$HOME/.rd/bin/docker" ]; then
+  alias docker="$HOME/.rd/bin/docker"
+  alias doc='docker compose'
+elif command -v podman > /dev/null 2>&1; then
   alias docker="podman"
   alias doc="podman compose"
 else
   alias doc='docker compose'
 fi
+
 if command -v uvx > /dev/null 2>&1; then
   alias ipython="uvx ipython"
   alias cookiecutter="uvx cookiecutter"

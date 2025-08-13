@@ -1,0 +1,469 @@
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.10"
+# dependencies = [
+#     "httpx",
+#     "rich",
+# ]
+# ///
+"""
+UV Script Template
+
+This is a uv script that demonstrates how to:
+1. Declare Python version requirements
+2. Specify dependencies inline
+3. Make HTTP requests with httpx
+4. Use rich for pretty output
+
+To run: ./script_name (after chmod +x)
+To run with specific Python: uv run --script --python 3.11 script_name
+
+Documentation:
+- https://docs.astral.sh/uv/guides/scripts/
+- https://simonwillison.net/2024/Dec/19/one-shot-python-tools/
+"""
+
+"""
+Aviary PDF Upload CLI Tool
+
+A command-line interface for uploading PDF files to an Aviary instance.
+Supports authentication, job monitoring, and all Aviary upload parameters.
+"""
+
+import argparse
+import base64
+import json
+import mimetypes
+import os
+import sys
+import time
+from pathlib import Path
+from typing import Optional, Dict, Any
+from urllib.parse import urljoin, urlparse
+
+import httpx
+
+
+class AviaryUploader:
+    """Handles PDF uploads to an Aviary instance."""
+    
+    def __init__(self, server_url: str, api_key: Optional[str] = None, username: Optional[str] = None, password: Optional[str] = None):
+        """Initialize the uploader with server URL and authentication credentials."""
+        self.server_url = server_url.rstrip('/')
+        self.api_key = api_key
+        self.username = username
+        self.password = password
+        self.session = httpx.Client()
+        
+        # Set up authentication headers
+        headers = {'User-Agent': 'Aviary-Upload-CLI/1.0'}
+        
+        if api_key:
+            # API Key authentication
+            headers.update({
+                'Authorization': f'Bearer {api_key}',
+                'X-API-Key': api_key
+            })
+        elif username and password:
+            # Basic authentication
+            self.session.auth = (username, password)
+        # No authentication headers for unauthenticated mode
+        
+        self.session.headers.update(headers)
+    
+    def download_pdf_from_url(self, pdf_url: str) -> bytes:
+        """Download PDF content from a URL."""
+        try:
+            response = self.session.get(pdf_url, stream=True)
+            response.raise_for_status()
+            
+            # Check content type
+            content_type = response.headers.get('content-type', '').lower()
+            if 'application/pdf' not in content_type and not pdf_url.lower().endswith('.pdf'):
+                print(f"Warning: URL may not be a PDF file (content-type: {content_type})")
+            
+            # Download content
+            pdf_content = b''
+            for chunk in response.iter_content(chunk_size=8192):
+                pdf_content += chunk
+            
+            if not pdf_content:
+                raise httpx.RequestError("Downloaded file is empty")
+                
+            return pdf_content
+            
+        except httpx.RequestError as e:
+            raise httpx.RequestError(f"Failed to download PDF from URL: {e}")
+    
+    def upload_pdf(self, pdf_path: Optional[str] = None, pdf_url: Optional[str] = None, **kwargs) -> Dict[str, Any]:
+        """Upload a PDF file to the Aviary instance from either file path or URL."""
+        if pdf_path and pdf_url:
+            raise ValueError("Cannot specify both pdf_path and pdf_url")
+        if not pdf_path and not pdf_url:
+            raise ValueError("Must specify either pdf_path or pdf_url")
+        
+        if pdf_url:
+            # URL upload - send URL directly to server
+            data = {
+                'Body': pdf_url
+            }
+        else:
+            # File upload - read and encode content
+            if not os.path.isfile(pdf_path):
+                raise FileNotFoundError(f"PDF file not found: {pdf_path}")
+            
+            try:
+                with open(pdf_path, 'rb') as f:
+                    pdf_content = f.read()
+            except IOError as e:
+                raise IOError(f"Failed to read PDF file: {e}")
+            
+            filename = os.path.basename(pdf_path)
+            
+            # Encode content as base64
+            encoded_content = base64.b64encode(pdf_content).decode('utf-8')
+            
+            # Prepare form data for content upload
+            data = {
+                'body': encoded_content,
+                'isContent': 'true',
+                'contentType': 'application/pdf',
+                'filename': filename
+            }
+        
+        # Add optional parameters (map from CLI args to API params)
+        for key, value in kwargs.items():
+            if value is not None:
+                if isinstance(value, bool):
+                    data[key] = 'true' if value else 'false'
+                else:
+                    data[key] = str(value)
+        
+        # Make the upload request
+        upload_url = urljoin(self.server_url, '/api/webhook')
+        
+        
+        try:
+            response = self.session.post(
+                upload_url,
+                data=data
+            )
+            response.raise_for_status()
+            
+            if response.status_code == 202:
+                return response.json()
+            else:
+                raise httpx.RequestError(f"Unexpected status code: {response.status_code}")
+                
+        except httpx.RequestError as e:
+            if hasattr(e, 'response') and e.response is not None:
+                try:
+                    error_data = e.response.json()
+                    raise httpx.RequestError(f"Upload failed: {error_data.get('error', 'Unknown error')}")
+                except json.JSONDecodeError:
+                    raise httpx.RequestError(f"Upload failed: Invalid JSON format. Server response: {e.response.text[:200]}")
+            else:
+                raise httpx.RequestError(f"Upload failed: {e}")
+    
+    def check_job_status(self, job_id: str) -> Dict[str, Any]:
+        """Check the status of an upload job."""
+        status_url = urljoin(self.server_url, f'/api/status/{job_id}')
+        
+        try:
+            response = self.session.get(status_url)
+            response.raise_for_status()
+            return response.json()
+        except httpx.RequestError as e:
+            raise httpx.RequestError(f"Failed to check job status: {e}")
+    
+    def watch_job(self, job_id: str, poll_interval: int = 2) -> Dict[str, Any]:
+        """Monitor a job until completion."""
+        print(f"Monitoring job {job_id}...")
+        
+        while True:
+            try:
+                status = self.check_job_status(job_id)
+                
+                if 'progress' in status:
+                    progress = status.get('progress', 0)
+                    print(f"Progress: {progress}%")
+                
+                if status.get('status') == 'completed':
+                    print("Job completed successfully!")
+                    return status
+                elif status.get('status') == 'failed':
+                    error_msg = status.get('error', 'Unknown error')
+                    raise RuntimeError(f"Job failed: {error_msg}")
+                
+                time.sleep(poll_interval)
+                
+            except KeyboardInterrupt:
+                print("\nJob monitoring cancelled. Job may still be running on server.")
+                return {'status': 'monitoring_cancelled', 'jobId': job_id}
+
+
+def validate_url(url: str) -> str:
+    """Validate and normalise a URL."""
+    if not url:
+        raise argparse.ArgumentTypeError("URL cannot be empty")
+    
+    # Add scheme if missing
+    if not url.startswith(('http://', 'https://')):
+        url = f'http://{url}'
+    
+    # Validate URL format
+    parsed = urlparse(url)
+    if not parsed.netloc:
+        raise argparse.ArgumentTypeError(f"Invalid URL format: {url}")
+    
+    return url
+
+
+def validate_pdf_url(url: str) -> str:
+    """Validate a PDF URL."""
+    if not url:
+        raise argparse.ArgumentTypeError("PDF URL cannot be empty")
+    
+    # Add scheme if missing
+    if not url.startswith(('http://', 'https://')):
+        url = f'https://{url}'
+    
+    # Validate URL format
+    parsed = urlparse(url)
+    if not parsed.netloc:
+        raise argparse.ArgumentTypeError(f"Invalid PDF URL format: {url}")
+    
+    return url
+
+
+def validate_file(file_path: str) -> str:
+    """Validate that a file exists and is readable."""
+    path = Path(file_path)
+    if not path.exists():
+        raise argparse.ArgumentTypeError(f"File does not exist: {file_path}")
+    if not path.is_file():
+        raise argparse.ArgumentTypeError(f"Path is not a file: {file_path}")
+    if not os.access(file_path, os.R_OK):
+        raise argparse.ArgumentTypeError(f"File is not readable: {file_path}")
+    
+    return str(path.absolute())
+
+
+def create_parser() -> argparse.ArgumentParser:
+    """Create and configure the argument parser."""
+    parser = argparse.ArgumentParser(
+        description='Upload PDF files to an Aviary instance for reMarkable sync.',
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  # Basic unauthenticated upload
+  %(prog)s --server-url http://localhost:8000 --pdf-file document.pdf
+
+  # Upload with API key authentication
+  %(prog)s --server-url https://aviary.example.com --api-key YOUR_KEY --pdf-file document.pdf
+
+  # Upload with basic authentication
+  %(prog)s --server-url https://aviary.example.com --username admin --password secret --pdf-file document.pdf
+
+  # Upload to specific reMarkable directory (using environment variables for auth)
+  AVIARY_API_KEY=your_key %(prog)s --server-url https://aviary.example.com \\
+           --pdf-file report.pdf --rmdir "Work/Reports"
+
+  # Upload from URL with compression and monitoring
+  %(prog)s --server-url http://localhost:8000 --api-key YOUR_KEY \\
+           --pdf-url https://example.com/document.pdf --compress --watch
+
+  # Upload with advanced options
+  %(prog)s --server-url http://localhost:8000 --username admin --password secret \\
+           --pdf-file manual.pdf --rmdir "Manuals" --prefix "2024_" \\
+           --manage --retention-days 30 --conflict-resolution overwrite
+        """
+    )
+    
+    # Required arguments
+    required = parser.add_argument_group('required arguments')
+    required.add_argument(
+        '--server-url',
+        type=validate_url,
+        required=True,
+        help='Aviary server URL (e.g., http://localhost:8000)'
+    )
+    
+    # Authentication arguments (optional)
+    auth_group = parser.add_argument_group('authentication arguments')
+    auth_group.add_argument(
+        '--api-key',
+        help='API key for authentication (can also use AVIARY_API_KEY env var)'
+    )
+    auth_group.add_argument(
+        '--username',
+        help='Username for basic auth (can also use AVIARY_USERNAME env var)'
+    )
+    auth_group.add_argument(
+        '--password',
+        help='Password for basic auth (can also use AVIARY_PASSWORD env var)'
+    )
+    # PDF source - either file or URL (mutually exclusive)
+    pdf_source = parser.add_mutually_exclusive_group(required=True)
+    pdf_source.add_argument(
+        '--pdf-file',
+        type=validate_file,
+        help='Path to the PDF file to upload'
+    )
+    pdf_source.add_argument(
+        '--pdf-url',
+        type=validate_pdf_url,
+        help='URL to download PDF from'
+    )
+    
+    # Optional arguments
+    parser.add_argument(
+        '--rmdir',
+        help='reMarkable directory to upload to (overrides default)'
+    )
+    parser.add_argument(
+        '--prefix',
+        help='Folder and file-name prefix'
+    )
+    parser.add_argument(
+        '--compress',
+        action='store_true',
+        help='Run Ghostscript compression on the PDF'
+    )
+    parser.add_argument(
+        '--manage',
+        action='store_true',
+        help='Enable managed handling with automatic cleanup'
+    )
+    parser.add_argument(
+        '--archive',
+        action='store_true',
+        help='Download to PDF_DIR instead of /tmp'
+    )
+    parser.add_argument(
+        '--retention-days',
+        type=int,
+        default=7,
+        help='Cleanup period if manage=true (default: 7)'
+    )
+    parser.add_argument(
+        '--conflict-resolution',
+        choices=['abort', 'overwrite', 'content_only'],
+        help='How to handle file conflicts'
+    )
+    parser.add_argument(
+        '--content-only',
+        action='store_true',
+        help='Replace content only when file exists (shortcut for --conflict-resolution content_only)'
+    )
+    parser.add_argument(
+        '--coverpage',
+        choices=['current', 'first'],
+        help='Cover page setting'
+    )
+    parser.add_argument(
+        '--watch',
+        action='store_true',
+        help='Monitor job progress until completion'
+    )
+    parser.add_argument(
+        '--poll-interval',
+        type=int,
+        default=2,
+        help='Polling interval in seconds when watching job (default: 2)'
+    )
+    
+    return parser
+
+
+def main():
+    """Main entry point."""
+    parser = create_parser()
+    args = parser.parse_args()
+    
+    try:
+        # Get authentication credentials from args or environment
+        api_key = args.api_key or os.getenv('AVIARY_API_KEY')
+        username = args.username or os.getenv('AVIARY_USERNAME')
+        password = args.password or os.getenv('AVIARY_PASSWORD')
+        
+        # Create uploader instance
+        uploader = AviaryUploader(args.server_url, api_key=api_key, username=username, password=password)
+        
+        # Prepare upload parameters
+        upload_params = {}
+        
+        # Handle --content-only shortcut
+        if args.content_only:
+            if args.conflict_resolution and args.conflict_resolution != 'content_only':
+                print("Warning: --content-only conflicts with --conflict-resolution, using content_only")
+            upload_params['conflict_resolution'] = 'content_only'
+        elif args.conflict_resolution:
+            upload_params['conflict_resolution'] = args.conflict_resolution
+        
+        # Map CLI arguments to API parameters
+        param_mapping = {
+            'rmdir': 'rm_dir',
+            'prefix': 'prefix',
+            'compress': 'compress',
+            'manage': 'manage',
+            'archive': 'archive',
+            'retention_days': 'retention_days',
+            'coverpage': 'coverpage'
+        }
+        
+        for cli_arg, api_param in param_mapping.items():
+            value = getattr(args, cli_arg)
+            if value is not None:
+                upload_params[api_param] = value
+        
+        # Perform upload
+        if args.pdf_file:
+            print(f"Uploading {os.path.basename(args.pdf_file)} to {args.server_url}...")
+            result = uploader.upload_pdf(pdf_path=args.pdf_file, **upload_params)
+        else:
+            print(f"Uploading PDF from {args.pdf_url} to {args.server_url}...")
+            result = uploader.upload_pdf(pdf_url=args.pdf_url, **upload_params)
+        
+        job_id = result.get('jobId')
+        if job_id:
+            print(f"Upload initiated successfully. Job ID: {job_id}")
+            
+            if args.watch:
+                final_status = uploader.watch_job(job_id, args.poll_interval)
+                if final_status.get('status') == 'completed':
+                    upload_path = final_status.get('uploadPath', 'Unknown')
+                    print(f"File uploaded successfully to: {upload_path}")
+                    return 0
+                else:
+                    return 1
+            else:
+                # Show appropriate curl command based on auth method
+                if api_key:
+                    print(f"Use this command to check status: curl -H 'Authorization: Bearer {api_key}' {args.server_url}/api/status/{job_id}")
+                elif username and password:
+                    print(f"Use this command to check status: curl -u '{username}:{password}' {args.server_url}/api/status/{job_id}")
+                else:
+                    print(f"Use this command to check status: curl {args.server_url}/api/status/{job_id}")
+                return 0
+        else:
+            print("Upload completed, but no job ID received.")
+            return 0
+            
+    except FileNotFoundError as e:
+        print(f"Error: {e}", file=sys.stderr)
+        return 1
+    except IOError as e:
+        print(f"File error: {e}", file=sys.stderr)
+        return 1
+    except httpx.RequestError as e:
+        print(f"Network error: {e}", file=sys.stderr)
+        return 1
+    except Exception as e:
+        print(f"Unexpected error: {e}", file=sys.stderr)
+        return 1
+
+
+if __name__ == '__main__':
+    sys.exit(main())
+

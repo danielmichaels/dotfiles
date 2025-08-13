@@ -23,26 +23,83 @@ Documentation:
 - https://simonwillison.net/2024/Dec/19/one-shot-python-tools/
 """
 
+import time
 import httpx
 from rich.console import Console
 from rich.json import JSON
+from rich.progress import Progress, SpinnerColumn, TextColumn, BarColumn, TaskProgressColumn
+from rich.panel import Panel
+from rich.table import Table
 
 console = Console()
 
 def main():
-    """Example function that fetches and displays JSON data."""
+    """Example function that demonstrates progress bar and formatted output."""
     try:
-        # Example API call - replace with your own logic
-        response = httpx.get("https://httpbin.org/json")
-        response.raise_for_status()
+        # Simulate upload process with progress bar
+        with Progress(
+            SpinnerColumn(),
+            TextColumn("[progress.description]{task.description}"),
+            BarColumn(),
+            TaskProgressColumn(),
+            console=console
+        ) as progress:
+            
+            # Add upload task
+            upload_task = progress.add_task("Uploading dummy file...", total=100)
+            
+            # Simulate upload progress
+            for i in range(100):
+                time.sleep(0.02)  # Simulate work
+                progress.update(upload_task, advance=1)
+            
+            # Add processing task
+            process_task = progress.add_task("Processing on server...", total=50)
+            for i in range(50):
+                time.sleep(0.03)  # Simulate processing
+                progress.update(process_task, advance=1)
         
-        console.print("✅ [bold green]Success![/bold green]")
-        console.print(JSON(response.text))
+        # Create completion results
+        result_data = {
+            "status": "completed",
+            "upload_path": "/Documents/dummy-upload.pdf",
+            "file_size": "2.4 MB",
+            "processing_time": "3.2 seconds",
+            "remarkable_sync": True,
+            "job_id": "abc123-def456-ghi789"
+        }
         
-    except httpx.RequestError as e:
-        console.print(f"❌ [bold red]Request failed:[/bold red] {e}")
-    except httpx.HTTPStatusError as e:
-        console.print(f"❌ [bold red]HTTP error {e.response.status_code}:[/bold red] {e}")
+        # Display completion message in a panel
+        console.print()
+        console.print(Panel.fit(
+            "✅ [bold green]Upload Completed Successfully![/bold green]",
+            border_style="green"
+        ))
+        
+        # Create a formatted table for results
+        table = Table(title="Upload Results", show_header=True, header_style="bold cyan")
+        table.add_column("Property", style="dim", width=20)
+        table.add_column("Value", style="bright_blue")
+        
+        table.add_row("Status", "[green]✅ Completed[/green]")
+        table.add_row("Upload Path", result_data["upload_path"])
+        table.add_row("File Size", result_data["file_size"])
+        table.add_row("Processing Time", result_data["processing_time"])
+        table.add_row("reMarkable Sync", "✅ Success" if result_data["remarkable_sync"] else "❌ Failed")
+        table.add_row("Job ID", f"[dim]{result_data['job_id']}[/dim]")
+        
+        console.print(table)
+        console.print()
+        
+        # Also show raw JSON for reference
+        console.print(Panel(
+            JSON.from_data(result_data),
+            title="Raw Response Data",
+            border_style="blue"
+        ))
+        
+    except Exception as e:
+        console.print(f"❌ [bold red]Error:[/bold red] {e}")
 
 if __name__ == "__main__":
     main()

@@ -32,7 +32,8 @@ Host adsb
   StrictHostKeyChecking no
   IdentityFile ~/.ssh/id_rsa
 
-Host k3s-pve-1
-  Hostname 192.168.100.150
+Host remarkable
+  Hostname 192.168.10.99
   User root 
-  ProxyJump otto
+
+
