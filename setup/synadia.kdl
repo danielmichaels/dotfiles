@@ -1,12 +1,8 @@
 layout {
   default_tab_template {
-      // the default zellij tab-bar and status bar plugins
-      pane size=1 borderless=true {
-          plugin location="zellij:tab-bar"
-      }
       children
       pane size=1 borderless=true {
-          plugin location="zellij:status-bar"
+          plugin location="compact-bar"
       }
   }
   tab name="scratch" {
@@ -28,3 +24,23 @@ layout {
     }
   }
 }
+ui {
+  pane_frames {
+    rounded_corners false
+    hide_session_name true
+  }
+}
+plugins {
+  compact-bar location="zellij:compact-bar" {
+    // hides tooltip unless we toggle it on with F1
+    tooltip "F1"
+  }
+}
+load_plugins {}
+
+default_layout "compact-bar"
+copy_command "pbcopy"
+copy_clipboard "system"
+styled_underlines true
+default_mode "normal"
+theme "kanagawa"

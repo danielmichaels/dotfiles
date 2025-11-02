@@ -3,6 +3,7 @@
 set -euo
 
 tools=(
+  fabric-ai
   awscli
   lima
   eksctl

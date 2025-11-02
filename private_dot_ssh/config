@@ -33,7 +33,8 @@ Host adsb
   IdentityFile ~/.ssh/id_rsa
 
 Host remarkable
-  Hostname 192.168.10.99
+  StrictHostKeyChecking no
+  Hostname 192.168.10.205
   User root 
 
 

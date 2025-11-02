@@ -10,6 +10,8 @@ background-blur-radius = 20
 # quick terminal
 quick-terminal-autohide = false
 quick-terminal-screen = mouse
+quick-terminal-size = 75%
+window-save-state = always
 
 # zellij with ghostty
 macos-option-as-alt = left

@@ -23,7 +23,6 @@ apps=(
   go-delve/delve/cmd/dlv@latest
   boyter/cs@latest
   nats-io/natscli/nats@latest
-  danielmiessler/fabric@latest
   jorgerojas26/lazysql@latest
   # synadia
   segmentio/ksuid/cmd/ksuid@latest
@@ -31,6 +30,7 @@ apps=(
   volatiletech/sqlboiler/v4@v4.16.2
   volatiletech/sqlboiler/v4/drivers/sqlboiler-psql@v4.16.2
   nats-io/nkeys/nk@latest
+  ConnectEverything/nct@latest
 )
 
 custom=(
