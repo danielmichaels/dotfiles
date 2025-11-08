@@ -9,7 +9,42 @@
   {
     "context": "Workspace",
     "bindings": {
-      "shift shift": "file_finder::Toggle"
+      "shift shift": "file_finder::Toggle",
+      "cmd-p": [
+        "task::Spawn",
+        { "task_name": "grep_file", "reveal_target": "center" }
+      ],
+      "cmd-f": [
+        "task::Spawn",
+        { "task_name": "grep_text", "reveal_target": "center" }
+      ],
+      "shift f w": [
+        "task::Spawn",
+        { "task_name": "grep_text", "reveal_target": "center" }
+      ],
+      "shift f f": [
+        "task::Spawn",
+        { "task_name": "grep_file", "reveal_target": "center" }
+      ]
+    }
+  },
+  {
+    "context": "Editor",
+    "bindings": {
+      "cmd-f": [
+        "task::Spawn",
+        { "task_name": "grep_text", "reveal_target": "center" }
+      ],
+      "shift f w": [
+        "task::Spawn",
+        { "task_name": "grep_text", "reveal_target": "center" }
+      ],
+      "shift f f": [
+        "task::Spawn",
+        { "task_name": "grep_file", "reveal_target": "center" }
+      ],
+      "shift r r": ["task::Spawn", { "task_name": "zig_run" }],
+      "shift r d": ["task::Spawn", { "task_name": "zig_build" }]
     }
   },
   {

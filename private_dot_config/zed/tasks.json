@@ -1,0 +1,31 @@
+[
+  // testing television as a fzf replacement 24/10/25
+  {
+    "label": "grep_file",
+    "command": "zed \"$(tv files)\"",
+    "hide": "always",
+    "allow_concurrent_runs": true,
+    "use_new_terminal": true
+  },
+  {
+    "label": "grep_text",
+    "command": "zed \"$(tv text)\"",
+    "hide": "always",
+    "allow_concurrent_runs": true,
+    "use_new_terminal": true
+  },
+  {
+    "label": "zig_run",
+    "command": "zig run \"${ZED_FILE}\"",
+    "reveal": "always",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false
+  },
+  {
+    "label": "zig_build",
+    "command": "zig build-exe \"${ZED_FILE}\"",
+    "reveal": "always",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false
+  }
+]
