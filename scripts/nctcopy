@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+printf "%s\n" "Operator JWT"
+cat default-operator.jwt
+printf "\n%s\n\n" "Operator Signing Key"
+cat default-operator-sig-0.nk
+echo ""
+printf "\n%s\n\n" "Sys JWT"
+cat default-sys.jwt
+printf "\n%s\n\n" "Sys Signing Key"
+cat default-sys-sig-0.nk
+echo ""

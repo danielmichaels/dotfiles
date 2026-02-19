@@ -96,6 +96,7 @@ export GOPROXY=https://proxy.golang.org,direct
 #######################################################
 #                  General Alias                      #
 #######################################################
+alias ccc="claude"
 alias fabric="fabric-ai"
 alias synadia="cd ~/code/github/synadia/"
 alias ze="zellij -l ~/setup/synadia.kdl"
@@ -143,7 +144,6 @@ if command -v uvx > /dev/null 2>&1; then
 else
   echo "uvx not installed"
 fi
-alias ssh="ssh -v"
 alias k="kubectl"
 alias mk="minikube"
 alias chmox="chmod +x "
@@ -245,3 +245,6 @@ fi
 
 # Generated for pdtm. Do not edit.
 export PATH=$PATH:/Users/danielmichaels/.pdtm/go/bin
+
+# Added by Antigravity
+export PATH="/Users/danielmichaels/.antigravity/antigravity/bin:$PATH"

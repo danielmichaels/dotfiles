@@ -182,3 +182,15 @@ vim.api.nvim_create_autocmd("FileType", {
     end, { desc = "Format shell script and save", buffer = true })
   end,
 })
+
+-- Obsidian keymaps
+map("n", "<leader>on", "<cmd>ObsidianNew<cr>", { desc = "Obsidian new note" })
+map("n", "<leader>od", "<cmd>ObsidianToday<cr>", { desc = "Obsidian daily note" })
+map("n", "<leader>oo", "<cmd>ObsidianOpen<cr>", { desc = "Obsidian open in app" })
+map("n", "<leader>ob", "<cmd>ObsidianBacklinks<cr>", { desc = "Obsidian backlinks" })
+map("n", "<leader>ot", "<cmd>ObsidianTags<cr>", { desc = "Obsidian tags" })
+map("n", "<leader>ol", "<cmd>ObsidianLinks<cr>", { desc = "Obsidian links in note" })
+-- Obsidian find/search
+map("n", "<leader>off", "<cmd>ObsidianQuickSwitch<cr>", { desc = "Obsidian find file" })
+map("n", "<leader>ofw", "<cmd>ObsidianSearch<cr>", { desc = "Obsidian find word (grep)" })
+map("n", "<leader>ofl", "<cmd>ObsidianFollowLink<cr>", { desc = "Obsidian follow link" })

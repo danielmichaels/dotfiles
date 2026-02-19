@@ -1,0 +1,27 @@
+#!/bin/sh
+
+set -eu
+
+pdir="$HOME/.claude/plans"
+
+cd "$pdir" || exit 1
+
+files=$(eza --sort date --reverse)
+
+if [ -z "$files" ]; then
+    gum style --foreground 208 "No plan files found in $pdir"
+    exit 1
+fi
+
+selected=$(printf '%s\n' "$files" | fzf \
+    --preview 'glow -s dark {}' \
+    --preview-window 'right:60%:wrap' \
+    --header 'Select a plan to view' \
+    --border rounded \
+    --margin 1 \
+    --padding 1)
+
+if [ -n "$selected" ]; then
+    glow "$selected"
+    printf '\n%s/%s\n' "$pdir" "$selected"
+fi

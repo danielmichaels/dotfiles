@@ -1,13 +1,17 @@
-require("nvchad.configs.lspconfig").defaults()
-
-local lspconfig = require "lspconfig"
+-- Neovim 0.11+ LSP configuration using vim.lsp.config
 local nvlsp = require "nvchad.configs.lspconfig"
 
+-- Common config for all LSP servers
+local function make_config(settings)
+  return vim.tbl_deep_extend("force", {
+    on_attach = nvlsp.on_attach,
+    on_init = nvlsp.on_init,
+    capabilities = nvlsp.capabilities,
+  }, settings or {})
+end
+
 -- Go language server
-lspconfig.gopls.setup {
-  on_attach = nvlsp.on_attach,
-  on_init = nvlsp.on_init,
-  capabilities = nvlsp.capabilities,
+vim.lsp.config("gopls", make_config({
   settings = {
     gopls = {
       gofumpt = true,
@@ -43,13 +47,10 @@ lspconfig.gopls.setup {
       semanticTokens = true,
     },
   },
-}
+}))
 
 -- Python language server
-lspconfig.pyright.setup {
-  on_attach = nvlsp.on_attach,
-  on_init = nvlsp.on_init,
-  capabilities = nvlsp.capabilities,
+vim.lsp.config("pyright", make_config({
   settings = {
     python = {
       analysis = {
@@ -60,18 +61,13 @@ lspconfig.pyright.setup {
       },
     },
   },
-}
+}))
 
 -- HTML language server
-lspconfig.html.setup {
-  on_attach = nvlsp.on_attach,
-  on_init = nvlsp.on_init,
-  capabilities = nvlsp.capabilities,
-}
+vim.lsp.config("html", make_config())
 
 -- CSS language server
-lspconfig.cssls.setup {
-  on_attach = nvlsp.on_attach,
-  on_init = nvlsp.on_init,
-  capabilities = nvlsp.capabilities,
-}
+vim.lsp.config("cssls", make_config())
+
+-- Enable the servers
+vim.lsp.enable({ "gopls", "pyright", "html", "cssls" })

@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+cd $HOME/Documents/synadia-obsidian/synadia
+
+echo "Starting Obsidian claude code AI..."
+echo ""
+
+eval claude
+
+echo ""
+echo "Exiting obsai..."

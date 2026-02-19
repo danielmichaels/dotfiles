@@ -68,4 +68,46 @@ return {
     		},
     	},
     },
+
+    -- Obsidian integration for note-taking
+    {
+      "epwalsh/obsidian.nvim",
+      version = "*",
+      lazy = true,
+      ft = "markdown",
+      cmd = {
+        "ObsidianNew",
+        "ObsidianToday",
+        "ObsidianYesterday",
+        "ObsidianSearch",
+        "ObsidianOpen",
+        "ObsidianQuickSwitch",
+        "ObsidianFollowLink",
+        "ObsidianBacklinks",
+        "ObsidianTags",
+        "ObsidianLinks",
+      },
+      dependencies = { "nvim-lua/plenary.nvim" },
+      init = function()
+        vim.opt.conceallevel = 1
+      end,
+      opts = {
+        workspaces = {
+          { name = "synadia", path = "~/Documents/synadia-obsidian/synadia" },
+        },
+        daily_notes = {
+          folder = "dailies",
+          date_format = "%d-%m-%Y",
+        },
+        completion = {
+          nvim_cmp = true,
+          min_chars = 2,
+        },
+        new_notes_location = "current_dir",
+        picker = { name = "telescope.nvim" },
+        attachments = {
+          img_folder = "attachments",
+        },
+      },
+    },
 }

@@ -1,5 +1,10 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "permission": {
+    "webfetch": "allow",
+    "base": "ask",
+    "edit": "ask"
+  },
   "provider": {
     "ollama": {
       "npm": "@ai-sdk/openai-compatible",
