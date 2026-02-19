@@ -3,7 +3,7 @@ source ~/.vimrc
 set scrolloff=10
 set ideajoin
 
-" <leader><leader>w -- will start easy motion
+" <symotion-prefix)symotion-prefix)leader><leader>w -- will start easy motion
 set easymotion
 " AceJump entire editor view
 map <leader><leader>j <Action>(AceAction)

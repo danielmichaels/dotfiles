@@ -1,3 +1,7 @@
+Match exec "ping -q -c 1 -t 1 %n | grep '192\.168\.'"
+   StrictHostKeyChecking no
+   UserKnownHostsFile /dev/null
+
 Host 127.0.0.1
   StrictHostKeyChecking no
   UserKnownHostsFile=/dev/null
