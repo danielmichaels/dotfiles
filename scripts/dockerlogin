@@ -2,3 +2,5 @@
 
 echo $SYNADIA_DOCKER_TOKEN | docker login registry.synadia.io -u synadia --password-stdin
 echo $SYNADIA_DOCKER_TOKEN | crane auth login registry.synadia.io -u synadia --password-stdin
+
+echo $(head -1 $HOME/.config/me/docker-token) | docker login -u danielmichaels --password-stdin

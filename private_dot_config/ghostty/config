@@ -1,7 +1,7 @@
 #   /Users/danielmichaels/Library/Application Support/com.mitchellh.ghostty/config
 
 keybind = global:f12=toggle_quick_terminal
-font-size = 14
+font-size = 12
 font-family = JetBrains Mono
 background-opacity = 0.9
 background-blur-radius = 20
@@ -10,7 +10,8 @@ background-blur-radius = 20
 # quick terminal
 quick-terminal-autohide = false
 quick-terminal-screen = mouse
-window-save-state = always
+quick-terminal-size = 50%,100%
+window-save-state = never
 
 # zellij with ghostty
 macos-option-as-alt = left

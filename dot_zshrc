@@ -248,3 +248,4 @@ export PATH=$PATH:/Users/danielmichaels/.pdtm/go/bin
 
 # Added by Antigravity
 export PATH="/Users/danielmichaels/.antigravity/antigravity/bin:$PATH"
+export PATH="$PATH:/Applications/Obsidian.app/Contents/MacOS"

@@ -24,6 +24,7 @@ return {
                     -- LSP servers
                     "gopls",
                     "pyright",
+                    "rust-analyzer",
                     -- Formatters
                     "goimports",
                     "gofumpt",
@@ -64,9 +65,40 @@ return {
     	opts = {
     		ensure_installed = {
     			"vim", "lua", "vimdoc",
-       "html", "css", "go", "python", "bash"
+       "html", "css", "go", "python", "bash", "rust", "toml"
     		},
     	},
+    },
+
+    -- Rust development with cargo integration
+    {
+        "mrcjkb/rustaceanvim",
+        version = "^5",
+        ft = { "rust" },
+        config = function()
+            vim.g.rustaceanvim = {
+                server = {
+                    on_attach = function(client, bufnr)
+                        local nvlsp = require "nvchad.configs.lspconfig"
+                        nvlsp.on_attach(client, bufnr)
+                        local map = vim.keymap.set
+                        local opts = { buffer = bufnr, silent = true }
+                        map("n", "<leader>rr", "<cmd>RustLsp runnables<cr>", vim.tbl_extend("force", opts, { desc = "Rust runnables" }))
+                        map("n", "<leader>rt", "<cmd>RustLsp testables<cr>", vim.tbl_extend("force", opts, { desc = "Rust testables" }))
+                        map("n", "<leader>rb", "<cmd>terminal cargo build<cr>", vim.tbl_extend("force", opts, { desc = "Rust cargo build" }))
+                        map("n", "<leader>rc", "<cmd>RustLsp openCargo<cr>", vim.tbl_extend("force", opts, { desc = "Open Cargo.toml" }))
+                        map("n", "<leader>re", "<cmd>RustLsp explainError<cr>", vim.tbl_extend("force", opts, { desc = "Explain error" }))
+                        map("n", "<leader>rx", "<cmd>RustLsp expandMacro<cr>", vim.tbl_extend("force", opts, { desc = "Expand macro" }))
+                    end,
+                    default_settings = {
+                        ["rust-analyzer"] = {
+                            cargo = { allFeatures = true },
+                            checkOnSave = { command = "clippy" },
+                        },
+                    },
+                },
+            }
+        end,
     },
 
     -- Obsidian integration for note-taking

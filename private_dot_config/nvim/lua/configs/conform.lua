@@ -6,6 +6,7 @@ local options = {
     sh = { "shfmt" },
     bash = { "shfmt" },
     zsh = { "shfmt" },
+    rust = { "rustfmt" },
     -- css = { "prettier" },
     -- html = { "prettier" },
   },
