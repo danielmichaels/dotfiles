@@ -65,7 +65,8 @@ return {
     	opts = {
     		ensure_installed = {
     			"vim", "lua", "vimdoc",
-       "html", "css", "go", "python", "bash", "rust", "toml"
+       "html", "css", "go", "python", "bash", "rust", "toml",
+       "markdown", "markdown_inline",
     		},
     	},
     },
@@ -101,6 +102,17 @@ return {
         end,
     },
 
+    -- Inline markdown rendering
+    {
+      "MeanderingProgrammer/render-markdown.nvim",
+      ft = { "markdown", "Avante" },
+      dependencies = {
+        "nvim-treesitter/nvim-treesitter",
+        "nvim-tree/nvim-web-devicons",
+      },
+      opts = {},
+    },
+
     -- Obsidian integration for note-taking
     {
       "epwalsh/obsidian.nvim",
@@ -121,7 +133,12 @@ return {
       },
       dependencies = { "nvim-lua/plenary.nvim" },
       init = function()
-        vim.opt.conceallevel = 1
+        vim.api.nvim_create_autocmd("FileType", {
+          pattern = { "markdown" },
+          callback = function()
+            vim.opt_local.conceallevel = 2
+          end,
+        })
       end,
       opts = {
         workspaces = {

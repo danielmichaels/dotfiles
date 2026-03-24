@@ -96,11 +96,13 @@ export GOPROXY=https://proxy.golang.org,direct
 #######################################################
 #                  General Alias                      #
 #######################################################
+alias oc="opencode"
 alias ccc="claude"
 alias fabric="fabric-ai"
 alias synadia="cd ~/code/github/synadia/"
 alias ze="zellij -l ~/setup/synadia.kdl"
 alias vi="/usr/bin/vim"
+alias v="nvim"
 alias vim="nvim"
 alias lg="lazygit"
 alias ark="arkade"
@@ -216,6 +218,9 @@ if command -v restish > /dev/null 2>&1; then
   source <(restish completion zsh)
                                     compdef _restish restish
 fi
+if command -v opencode > /dev/null 2>&1; then
+  source <(opencode completion)
+fi
 
 if [ -f "$HOME/.config/gpt/token" ]; then
   export OPENAI_API_KEY="$(head -1 "$HOME/.config/gpt/token")"
@@ -249,3 +254,5 @@ export PATH=$PATH:/Users/danielmichaels/.pdtm/go/bin
 # Added by Antigravity
 export PATH="/Users/danielmichaels/.antigravity/antigravity/bin:$PATH"
 export PATH="$PATH:/Applications/Obsidian.app/Contents/MacOS"
+
+if command -v wt > /dev/null 2>&1; then eval "$(command wt config shell init zsh)"; fi

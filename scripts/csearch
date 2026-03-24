@@ -1,0 +1,226 @@
+#!/usr/bin/env bash
+set -uo pipefail
+
+SESSIONS_DIR="$HOME/.claude/projects"
+CONTEXT_LINES=3
+PROJECT_FILTER=""
+TYPE_FILTER=""
+LIST_ONLY=false
+RECENT_DAYS=0
+VERBOSE=false
+QUERY=""
+
+usage() {
+  cat <<'EOF'
+Usage: csearch <query> [options]
+
+Search past Claude Code sessions for topics, commands, and decisions.
+
+Options:
+  -p <project>   Filter by project name substring
+  -t <type>      Filter by message type (user/assistant)
+  -n <lines>     Context lines around matches (default: 3)
+  -r <days>      Only sessions modified in last N days
+  --list         List matching sessions only, no content
+  -v, --verbose  Show progress and debug info
+  -h, --help     Show this help
+
+Examples:
+  csearch "nats clustering"
+  csearch "jq command" -p lookout-lab
+  csearch "error handling" -t user -r 7
+  csearch "migration" --list
+EOF
+  exit 0
+}
+
+log() {
+  if [[ "$VERBOSE" == true ]]; then
+    printf "\033[2m[debug] %s\033[0m\n" "$1" >&2
+  fi
+}
+
+[[ $# -eq 0 ]] && usage
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -h|--help) usage ;;
+    -p) PROJECT_FILTER="$2"; shift 2 ;;
+    -t) TYPE_FILTER="$2"; shift 2 ;;
+    -n) CONTEXT_LINES="$2"; shift 2 ;;
+    -r|--recent) RECENT_DAYS="$2"; shift 2 ;;
+    --list) LIST_ONLY=true; shift ;;
+    -v|--verbose) VERBOSE=true; shift ;;
+    *)
+      if [[ -z "$QUERY" ]]; then
+        QUERY="$1"
+      else
+        echo "Unknown option: $1" >&2
+        exit 1
+      fi
+      shift
+      ;;
+  esac
+done
+
+[[ -z "$QUERY" ]] && { echo "Error: no search query provided" >&2; exit 1; }
+
+decode_project() {
+  local dir="$1"
+  dir="${dir##*/}"
+  dir="${dir#-Users-danielmichaels-code-github-personal-}"
+  dir="${dir#-Users-danielmichaels-code-github-synadia-}"
+  dir="${dir#-Users-danielmichaels-code-github-}"
+  dir="${dir#-Users-danielmichaels-code-scratch-}"
+  dir="${dir#-Users-danielmichaels-code-}"
+  dir="${dir#-Users-danielmichaels-}"
+  dir="${dir#-private-tmp-}"
+  if [[ -z "$dir" ]]; then
+    echo "~home"
+  else
+    echo "${dir}" | tr '-' '/'
+  fi
+}
+
+bold="\033[1m"
+dim="\033[2m"
+cyan="\033[36m"
+green="\033[32m"
+yellow="\033[33m"
+reset="\033[0m"
+
+IFS=' ' read -ra query_words <<< "$QUERY"
+rg_pattern="${query_words[0]}"
+
+rg_glob_args=(--glob "*.jsonl")
+if [[ -n "$PROJECT_FILTER" ]]; then
+  rg_glob_args+=(--glob "*${PROJECT_FILTER}*")
+fi
+
+printf "\033[2mSearching sessions...\033[0m\r" >&2
+log "Searching for: ${query_words[*]}"
+
+matching_files=()
+while IFS= read -r f; do
+  [[ -z "$f" ]] && continue
+  if [[ ${#query_words[@]} -gt 1 ]]; then
+    all_match=true
+    for word in "${query_words[@]:1}"; do
+      if ! rg -qi "$word" "$f" 2>/dev/null; then
+        all_match=false
+        break
+      fi
+    done
+    [[ "$all_match" == true ]] && matching_files+=("$f")
+  else
+    matching_files+=("$f")
+  fi
+done < <(rg -il "${rg_glob_args[@]}" "$rg_pattern" "$SESSIONS_DIR" 2>/dev/null || true)
+
+printf "\033[K" >&2
+
+file_count=${#matching_files[@]}
+log "Found $file_count files with matches"
+
+if [[ "$file_count" -eq 0 ]]; then
+  echo "No matches found for: $QUERY"
+  exit 0
+fi
+
+if [[ "$RECENT_DAYS" -gt 0 ]]; then
+  filtered=()
+  for f in "${matching_files[@]}"; do
+    if find "$f" -mtime "-${RECENT_DAYS}" -print -quit 2>/dev/null | grep -q .; then
+      filtered+=("$f")
+    fi
+  done
+  matching_files=("${filtered[@]}")
+  log "After recency filter: ${#matching_files[@]} files"
+fi
+
+match_count=0
+grep_pattern=$(printf '%s' "${query_words[*]}" | sed 's/ /|/g')
+
+for session_file in "${matching_files[@]}"; do
+  project_dir="$(dirname "$session_file")"
+  project_name="$(decode_project "$project_dir")"
+  session_id="$(basename "$session_file" .jsonl)"
+  session_cwd=$(jq -r 'select(.cwd != null) | .cwd' "$session_file" 2>/dev/null | head -1)
+
+  log "Processing: $project_name ($session_id)"
+
+  if [[ "$LIST_ONLY" == true ]]; then
+    printf "${cyan}%-30s${reset} %s  ${dim}%s${reset}\n" "$project_name" "$session_id" "$session_cwd"
+    match_count=$((match_count + 1))
+    continue
+  fi
+
+  type_filter_jq=""
+  if [[ -n "$TYPE_FILTER" ]]; then
+    type_filter_jq="and .type == \"$TYPE_FILTER\""
+  fi
+
+  jq_regex=$(printf '%s' "${query_words[*]}" | sed 's/ /|/g')
+
+  results=$(jq -r --arg q "$jq_regex" "
+    select((.type == \"user\" or .type == \"assistant\") $type_filter_jq) |
+    (if .message.content | type == \"string\" then
+      .message.content
+    elif .message.content | type == \"array\" then
+      [.message.content[] | select(.type == \"text\") | .text] | join(\"\n\")
+    else
+      empty
+    end) as \$content |
+    select(\$content | test(\$q; \"i\")) |
+    \"MSG_TYPE:\" + .type + \"\n\" + \$content + \"\n---END_MSG---\"
+  " "$session_file" 2>/dev/null || true)
+
+  [[ -z "$results" ]] && continue
+
+  printf "\n${bold}${cyan}── %s ${reset}${dim}%s${reset}\n" "$project_name" "$session_id"
+  printf "${dim}  cd %s && claude --resume %s${reset}\n" "$session_cwd" "$session_id"
+  match_count=$((match_count + 1))
+
+  current_type=""
+  current_msg=""
+  while IFS= read -r line; do
+    if [[ "$line" == MSG_TYPE:* ]]; then
+      if [[ -n "$current_msg" ]]; then
+        if [[ "$current_type" == "user" ]]; then
+          label="${green}[user]${reset}"
+        else
+          label="${yellow}[assistant]${reset}"
+        fi
+        matched_output=$(echo "$current_msg" | grep -iE -B "$CONTEXT_LINES" -A "$CONTEXT_LINES" "$grep_pattern" 2>/dev/null | head -30)
+        printf "%b %s\n" "$label" "$matched_output"
+      fi
+      current_type="${line#MSG_TYPE:}"
+      current_msg=""
+    elif [[ "$line" == "---END_MSG---" ]]; then
+      if [[ -n "$current_msg" ]]; then
+        if [[ "$current_type" == "user" ]]; then
+          label="${green}[user]${reset}"
+        else
+          label="${yellow}[assistant]${reset}"
+        fi
+        matched_output=$(echo "$current_msg" | grep -iE -B "$CONTEXT_LINES" -A "$CONTEXT_LINES" "$grep_pattern" 2>/dev/null | head -30)
+        printf "%b %s\n" "$label" "$matched_output"
+      fi
+      current_type=""
+      current_msg=""
+    else
+      if [[ -z "$current_msg" ]]; then
+        current_msg="$line"
+      else
+        current_msg="${current_msg}
+${line}"
+      fi
+    fi
+  done <<< "$results"
+done
+
+if [[ "$match_count" -eq 0 ]]; then
+  echo "No matches found for: $QUERY"
+else
+  printf "\n${dim}Found matches in %d session(s)${reset}\n" "$match_count"
+fi
