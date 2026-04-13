@@ -53,6 +53,7 @@ pathprepend \
   "$HOME/.cargo/bin" \
   "/Applications/Postgres.app/Contents/Versions/latest/bin" \
   "/opt/homebrew/opt/openjdk/bin" \
+  "$HOME/.coast/bin" \
   "$HOME/.rd/bin" \
   "$HOME/.gem/bin"
 

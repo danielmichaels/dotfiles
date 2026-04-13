@@ -9,6 +9,7 @@
   {
     "context": "Workspace",
     "bindings": {
+      "alt-j": "terminal_panel::ToggleFocus",
       "shift shift": "file_finder::Toggle",
       "cmd-p": [
         "task::Spawn",
@@ -26,6 +27,30 @@
         "task::Spawn",
         { "task_name": "grep_file", "reveal_target": "center" }
       ]
+    }
+  },
+  {
+    "context": "Editor && vim_mode == normal",
+    "bindings": {
+      // splits
+      "space shift-v": "pane::SplitRight",
+      "space shift-h": "pane::SplitDown",
+      "space shift-u": "pane::CloseAllItems",
+      "space q": "pane::CloseActiveItem",
+      "space w v": "pane::SplitRight",
+      "space w s": "pane::SplitDown",
+      "space w u": "pane::CloseAllItems",
+
+      // pane navigation (Ctrl+HJKL)
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-l": "workspace::ActivatePaneRight",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-j": "workspace::ActivatePaneDown",
+
+      // file tree & tool windows
+      "space e": "workspace::ToggleLeftDock",
+      "space t": "terminal_panel::ToggleFocus",
+      "space ;": "workspace::CloseAllDocks"
     }
   },
   {
