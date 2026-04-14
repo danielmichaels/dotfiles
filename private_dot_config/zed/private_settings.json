@@ -7,15 +7,36 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "scrollbar": {
+    "show": "never"
+  },
+  "minimap": {
+    "max_width_columns": 30,
+    "show": "always"
+  },
+  "vim": {
+    "use_smartcase_find": false,
+    "toggle_relative_line_numbers": true
+  },
+  "which_key": {
+    "enabled": false
+  },
+  "git_panel": {
+    "tree_view": false
+  },
+  "project_panel": {
+    "git_status_indicator": true,
+    "bold_folder_labels": true
+  },
   "telemetry": {
     "metrics": false,
     "diagnostics": false
   },
   "vim_mode": true,
-  "ui_font_size": 16,
+  "ui_font_size": 15.0,
   "ui_font_family": "JetBrainsMono Nerd Font",
   "buffer_font_family": "JetBrainsMono Nerd Font",
-  "buffer_font_size": 16,
+  "buffer_font_size": 13.0,
   "theme": {
     "mode": "system",
     "light": "One Light",
@@ -37,9 +58,11 @@
     }
   },
   "terminal": {
+    "show_count_badge": false,
     "dock": "right"
   },
   "toolbar": {
+    "code_actions": false,
     "breadcrumbs": true,
     "quick_actions": false
   }
