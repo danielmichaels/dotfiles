@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+# Function to decode JWT
+jwtd() {
+    local input
+    # Check if input is coming from a pipe or an argument
+    if [ -t 0 ]; then
+        input="$1"
+  else
+        input=$(cat)
+  fi
+
+    # Check if input is empty
+    if [ -z "$input" ]; then
+        echo "Error: No JWT provided."
+        return 1
+  fi
+
+    # Check if jq is installed
+    if ! command -v jq &> /dev/null; then
+        echo "Error: 'jq' is not installed. Please install it to use this script."
+        return 1
+  fi
+
+    # Decode logic
+    echo "$input" | jq -R '
+        split(".") | .[0:2] | 
+        map(
+            gsub("-"; "+") | 
+            gsub("_"; "/") | 
+            @base64d
+        ) | 
+        map(fromjson)
+    '
+}
+
+# Execute the function with all script arguments
+jwtd "$@"

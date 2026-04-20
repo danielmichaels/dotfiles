@@ -26,7 +26,15 @@
       "shift f f": [
         "task::Spawn",
         { "task_name": "grep_file", "reveal_target": "center" }
-      ]
+      ],
+
+      // external agents (shift = leader)
+      "shift c c c": "agent::ToggleFocus",
+      "shift c x": "agent::ToggleFocus",
+      "shift c s": "agent::AddSelectionToThread",
+
+      // lazygit panel (opens in new terminal like the `tv` tasks)
+      "shift l g": ["task::Spawn", { "task_name": "lazygit" }]
     }
   },
   {
@@ -67,7 +75,12 @@
       "shift f f": [
         "task::Spawn",
         { "task_name": "grep_file", "reveal_target": "center" }
-      ],
+      ]
+    }
+  },
+  {
+    "context": "Editor && extension == zig",
+    "bindings": {
       "shift r r": ["task::Spawn", { "task_name": "zig_run" }],
       "shift r d": ["task::Spawn", { "task_name": "zig_build" }]
     }

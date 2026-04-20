@@ -15,6 +15,13 @@
     "use_new_terminal": true
   },
   {
+    "label": "lazygit",
+    "command": "lazygit",
+    "hide": "always",
+    "allow_concurrent_runs": false,
+    "use_new_terminal": true
+  },
+  {
     "label": "zig_run",
     "command": "zig run \"${ZED_FILE}\"",
     "reveal": "always",
