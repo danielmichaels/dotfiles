@@ -61,14 +61,32 @@ return {
     -- { import = "nvchad.blink.lazyspec" },
 
     {
-    	"nvim-treesitter/nvim-treesitter",
-    	opts = {
-    		ensure_installed = {
-    			"vim", "lua", "vimdoc",
-       "html", "css", "go", "python", "bash", "rust", "toml",
-       "markdown", "markdown_inline",
-    		},
-    	},
+        "nvim-treesitter/nvim-treesitter",
+        branch = "main",
+        lazy = false,
+        build = ":TSUpdate",
+        opts = {},
+        config = function()
+            local ts = require("nvim-treesitter")
+
+            local parsers = {
+                "vim", "lua", "vimdoc", "html", "css", "go", "python",
+                "bash", "rust", "toml", "markdown", "markdown_inline",
+                "yaml", "json", "regex",
+            }
+
+            ts.install(parsers)
+
+            vim.api.nvim_create_autocmd("FileType", {
+                callback = function(ev)
+                    local lang = vim.treesitter.language.get_lang(ev.match) or ev.match
+                    if not pcall(vim.treesitter.language.add, lang) then
+                        return
+                    end
+                    pcall(vim.treesitter.start, ev.buf, lang)
+                end,
+            })
+        end,
     },
 
     -- Rust development with cargo integration

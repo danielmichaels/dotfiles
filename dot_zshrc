@@ -97,6 +97,9 @@ export GOPROXY=https://proxy.golang.org,direct
 #######################################################
 #                  General Alias                      #
 #######################################################
+alias cx="codex"
+alias t="task"
+alias wtw="wt switch"
 alias oc="opencode"
 alias ccc="claude"
 alias fabric="fabric-ai"

@@ -41,4 +41,7 @@ Host remarkable
   Hostname 192.168.10.205
   User root 
 
-
+Host coolify
+  User root
+  Hostname 65.109.165.238
+  IdentityFile ~/.ssh/id_rsa
