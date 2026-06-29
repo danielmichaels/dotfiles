@@ -264,6 +264,26 @@ post-start.pnpm = "[ -f ts/package.json ] && (cd ts && pnpm install) || true"
 
 [aliases]
 
+c = '''
+set -- {{ args }}
+name=$1
+base=$2
+if [ -z "$name" ]; then
+  printf 'Usage: wt c <branch-name> [base-branch]\n' >&2; exit 1
+fi
+if [ -n "$base" ]; then
+  cmd="wt switch --create $name --base $base"
+else
+  cmd="wt switch --create $name"
+fi
+printf 'Run: %s ? [Y/n] ' "$cmd" > /dev/tty
+read -r ans < /dev/tty
+case "$ans" in
+  [nN]*) echo "Aborted." ; exit 0 ;;
+esac
+eval "$cmd"
+'''
+
 rm = '''
 TAB=$(printf '\t')
 sel=$(
@@ -286,7 +306,16 @@ sel=$(
 )
 [ -z "$sel" ] && { echo "Nothing selected."; exit 0; }
 echo "Removing:"; printf '%s\n' "$sel" | sed 's/^/  /'
-printf '%s\n' "$sel" | xargs -o wt remove -D {{ args }}
+printf '%s\n' "$sel" | while IFS= read -r b; do
+  [ -z "$b" ] && continue
+  wt remove -D {{ args }} "$b" && continue
+  printf '  ↳ force-remove %s — uncommitted changes will be LOST? [y/N] ' "$b" > /dev/tty
+  read -r ans < /dev/tty
+  case "$ans" in
+    [yY]*) wt remove -D --force "$b" ;;
+    *)     echo "  ↳ skipped $b" ;;
+  esac
+done
 '''
 
 cleanup = '''
@@ -300,16 +329,50 @@ victims=$(git for-each-ref --format='%(refname:short)' refs/heads/ | while IFS= 
 done)
 [ -z "$victims" ] && { echo "✓ No merged-PR branches to clean up."; exit 0; }
 echo "Removing merged-PR branches:"; printf '%s\n' "$victims" | sed 's/^/  /'
-printf '%s\n' "$victims" | xargs wt remove -D {{ args }}
+printf '%s\n' "$victims" | while IFS= read -r b; do
+  [ -z "$b" ] && continue
+  wt remove -D {{ args }} "$b" && continue
+  printf '  ↳ force-remove %s — uncommitted changes will be LOST? [y/N] ' "$b" > /dev/tty
+  read -r ans < /dev/tty
+  case "$ans" in
+    [yY]*) wt remove -D --force "$b" ;;
+    *)     echo "  ↳ skipped $b" ;;
+  esac
+done
 '''
 
 up = '''
 git fetch --all --prune
-git fetch --update-head-ok {{ remote }} {{ default_branch }}:{{ default_branch }} 2>/dev/null || true
-branch=$(git symbolic-ref --short HEAD)
-if [ "$branch" = "{{ default_branch }}" ]; then
-  git merge --ff-only @{u} 2>/dev/null || true
-else
-  git rebase --no-autostash {{ remote }}/{{ default_branch }} || git rebase --abort
-fi
+
+tmp_ok=$(mktemp)
+tmp_fail=$(mktemp)
+
+wt list --format json | jq -r '.[] | "\(.path)\t\(.branch)"' | while IFS="$(printf '\t')" read -r wt_path wt_branch; do
+  upstream=$(git -C "$wt_path" for-each-ref --format='%(upstream:short)' "refs/heads/$wt_branch" 2>/dev/null)
+  [ -z "$upstream" ] && upstream="{{ remote }}/{{ default_branch }}"
+  printf '  %s → %s … ' "$wt_branch" "$upstream"
+
+  if [ "$wt_branch" = "{{ default_branch }}" ]; then
+    git -C "$wt_path" merge --ff-only "$upstream" >/dev/null 2>&1 \
+      && echo "✓" || echo "– up-to-date"
+    echo "$wt_branch" >> "$tmp_ok"
+    continue
+  fi
+  if git -C "$wt_path" rebase --no-autostash "$upstream" >/dev/null 2>&1; then
+    echo "✓"
+    echo "$wt_branch" >> "$tmp_ok"
+  else
+    git -C "$wt_path" rebase --abort >/dev/null 2>&1 || true
+    echo "✗ conflicts"
+    echo "$wt_branch" >> "$tmp_fail"
+  fi
+done
+
+echo ""
+echo "── wt up ──────────────────────────────────"
+[ -s "$tmp_ok" ]   && { echo "updated:";                    while IFS= read -r b; do printf '  ✓ %s\n' "$b"; done < "$tmp_ok";   }
+[ -s "$tmp_fail" ] && { echo "needs attention (conflicts):"; while IFS= read -r b; do printf '  ✗ %s\n' "$b"; done < "$tmp_fail"; }
+[ ! -s "$tmp_ok" ] && [ ! -s "$tmp_fail" ] && echo "  nothing to update"
+echo "───────────────────────────────────────────"
+rm -f "$tmp_ok" "$tmp_fail"
 '''
