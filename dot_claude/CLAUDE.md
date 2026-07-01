@@ -1,0 +1,17 @@
+- always use errors.Is over err == in golang.
+- always prefer `jq` over `python -m json.tool`
+- NEVER PUT THIS OR ANYTHING LIKE THIS IN A GIT COMMIT OR PR: Co-Authored-By: Claude Opus xxx <noreply@anthropic.com>
+- Use Test Driven Development whenever possible unless its a small script, throwaway code block etc. Otherwise we should be using TDD
+- Always refer to the nats-mcp MCP server when asked NATS questions or any NATS projects 
+- Always use error groups and single flight where possible
+- Never create GitHub PR with a test plan
+- Never create GitHub PR saying claude did it or wrote it or is attributed
+- Workflow or ## Editing Conventions section\n\nAlways show a preview or example of changes before editing real files; wait for user confirmation before applying broad edits.
+- Testing section\n\nUse TDD: write or update tests first, then implement, and verify all tests pass before committing.
+- Debugging section\n\nBefore asserting a root cause during debugging, gather concrete evidence; don't commit to a hypothesis until verified against logs/code.
+- Planning section\n\nFor planning, use the /create-plan workflow — do NOT use the superpowers writing-plans or full brainstorming flow unless explicitly asked.
+- Code Review section\n\nVerify code review feedback against the actual codebase before agreeing or pushing back; match existing patterns.
+- Before implementing any query or data-access change, flag the performance/cost implications first; if it could full-scan or hit large tables, propose a cached or indexed alternative before writing it. For non-SQL/distributed changes, flag eventual-consistency, network-partition, and other CAP trade-offs up front rather than after.
+- if mockups or renders are mentioned prefer /frontend-design unless specifically requested to use another skill
+
+@RTK.md

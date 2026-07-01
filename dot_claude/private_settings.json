@@ -1,0 +1,170 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "env": {
+    "CLAUDE_CODE_SUBAGENT_MODEL": "sonnet"
+  },
+  "permissions": {
+    "allow": [
+      "View",
+      "WebFetch(domain:docs.synadia.com)",
+      "WebFetch(domain:natsbyexample.com)",
+      "WebFetch(domain:nats.io)",
+      "WebFetch(domain:docs.nats.io)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:huma.rocks)",
+      "WebFetch(domain:templui.io)",
+      "WebFetch(domain:docs.rs)",
+      "WebFetch(domain:tauri.app)",
+      "WebFetch(domain:riverqueue.com)",
+      "WebFetch(domain:go.pkg.dev)",
+      "WebFetch(domain:deepwiki.com)",
+      "WebFetch(domain:pocketbase.io)",
+      "WebFetch(domain:golangci-lint.run)",
+      "WebFetch(domain:docs.dokploy.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebSearch",
+      "Bash(rtk:*)",
+      "Bash(rtk *)",
+      "Base(wt:*)",
+      "Bash(templui add:*)",
+      "Bash(templ generate:*)",
+      "Bash(go list:*)",
+      "Bash(go build:*)",
+      "Bash(go doc:*)",
+      "Bash(go test:*)",
+      "Bash(go run:*)",
+      "Bash(go version:*)",
+      "Bash(go env:*)",
+      "Bash(go vet:*)",
+      "Bash(oapi-codegen:*)",
+      "Bash(rg:*)",
+      "Bash(find:*)",
+      "Bash(ls:*)",
+      "Bash(/bin/ls:*)",
+      "Bash(echo:*)",
+      "Bash(cat:*)",
+      "Bash(/bin/cat:*)",
+      "Bash(grep:*)",
+      "Bash(task:*)",
+      "Bash(docker build:*)",
+      "Bash(docker run:*)",
+      "Bash(xargs ls:*)",
+      "Bash(lsof:*)",
+      "Bash(git grep:*)",
+      "Bash(git -C:*)",
+      "Bash(awk:*)",
+      "Bash(nats:*)",
+      "Bash(tree:*)",
+      "Bash(wc:*)",
+      "Bash(jq:*)",
+      "Bash(cargo check:*)",
+      "Bash(csearch:*)",
+      "Bash(gh pr view:*)",
+      "Bash(gh pr list:*)",
+      "Bash(gh pr status:*)",
+      "Bash(gh pr diff:*)",
+      "Bash(gh pr checks:*)",
+      "Bash(gh api:*)",
+      "Read(~/code/github/*)",
+      "Read(~/.claude/plans/*)",
+      "Read(~/.config/worktrunk/config.toml)",
+      "Read(~/.cache/checkouts/*)",
+      "mcp__playwright__browser_navigate",
+      "mcp__playwright__browser_press_key",
+      "mcp__playwright__browser_evaluate",
+      "mcp__playwright__browser_click",
+      "mcp__playwright__browser_type",
+      "mcp__playwright__browser_close",
+      "mcp__playwright__browser_tab_close",
+      "mcp__playwright__browser_snapshot",
+      "mcp__playwright__browser_console_messages",
+      "mcp__playwright__generate_playwright_test",
+      "mcp__playwright__wait_for",
+      "mcp__plugin_playwright_playwright__browser_navigate",
+      "mcp__plugin_playwright_playwright__browser_click",
+      "mcp__plugin_playwright_playwright__browser_snapshot",
+      "mcp__plugin_playwright_playwright__browser_close",
+      "mcp__plugin_playwright_playwright__browser_tabs",
+      "mcp__plugin_playwright_playwright__browser_wait_for",
+      "mcp__deepwiki__read_wiki_structure",
+      "mcp__deepwiki__read_wiki_contents",
+      "mcp__deepwiki__ask_question",
+      "mcp__sequential-thinking__sequentialthinking",
+      "mcp__nats-mcp__list_repos",
+      "mcp__nats-mcp__search_code",
+      "mcp__nats-mcp__get_adr",
+      "mcp__nats-mcp__list_files",
+      "mcp__nats-mcp__read_file",
+      "mcp__nats-mcp__find_symbol",
+      "mcp__nats-mcp__show_type",
+      "mcp__plugin_code-review-graph_code-review-graph__list_graph_stats_tool",
+      "mcp__plugin_code-review-graph_code-review-graph__build_or_update_graph_tool",
+      "mcp__plugin_code-review-graph_code-review-graph__get_docs_section_tool",
+      "mcp__plugin_code-review-graph_code-review-graph__get_review_context_tool",
+      "mcp__plugin_code-review-graph_code-review-graph__get_impact_radius_tool"
+    ]
+  },
+  "hooks": {
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "afplay /System/Library/Sounds/Glass.aiff"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/danielmichaels/.claude/hooks/rtk-rewrite.sh"
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "bash -c '\"/opt/homebrew/bin/bun\" \"$(ls -td ~/.claude/plugins/cache/claude-hud/claude-hud/*/ 2>/dev/null | head -1)src/index.ts\"'"
+  },
+  "enabledPlugins": {
+    "gopls-lsp@claude-plugins-official": true,
+    "learning-output-style@claude-plugins-official": true,
+    "code-simplifier@claude-plugins-official": true,
+    "clangd-lsp@claude-plugins-official": true,
+    "claude-hud@claude-hud": true,
+    "skill-creator@claude-plugins-official": true,
+    "rust-analyzer-lsp@claude-plugins-official": true,
+    "frontend-design@claude-plugins-official": true,
+    "superpowers@claude-plugins-official": true,
+    "codex@openai-codex": false,
+    "security-guidance@claude-plugins-official": true,
+    "explanatory-output-style@claude-plugins-official": true
+  },
+  "extraKnownMarketplaces": {
+    "claude-hud": {
+      "source": {
+        "source": "github",
+        "repo": "jarrodwatts/claude-hud"
+      }
+    },
+    "openai-codex": {
+      "source": {
+        "source": "github",
+        "repo": "openai/codex-plugin-cc"
+      }
+    }
+  },
+  "effortLevel": "xhigh",
+  "tui": "fullscreen",
+  "editorMode": "vim",
+  "skipAutoPermissionPrompt": true,
+  "feedbackSurveyState": {
+    "lastShownTime": 1754046408392
+  }
+}

@@ -16,3 +16,19 @@ disabled = false
 [nats]
 disabled = false
 style = "bold red"
+
+[git_branch]
+format = '[$symbol$branch(:$remote_branch)]($style) '
+symbol = "🌿 " 
+
+[custom.worktree]
+description = "Indicate when inside a git worktree"
+# This evaluates to true ONLY when the specific worktree git-dir differs from the main repo's common-dir
+when = 'test "$(git rev-parse --git-dir 2>/dev/null)" != "$(git rev-parse --git-common-dir 2>/dev/null)"'
+command = "echo '🌳'"
+format = """
+$directory\
+${custom.worktree}\
+$git_branch\
+$git_status\
+$character"""
