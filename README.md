@@ -21,3 +21,13 @@ bash $HOME/.local/share/chezmoi/setup/bootstrap-ubuntu.sh
 # consider changing the default shell to zsh
 chsh -s zsh
 ```
+
+## Manual steps
+
+Some things aren't automated by `chezmoi apply` and need doing by hand on a new machine:
+
+- **`cskills`** — a few `~/.claude/skills/*` entries (`datastar`, `huma`, `implement-task`, `plan-task`, `research-task`, `river`, `tdd`) are symlinks into a separate personal repo. Chezmoi only manages the symlink itself, not its target, so clone it to the expected path before those skills will resolve:
+
+  ```shell
+  git clone https://github.com/danielmichaels/cskills.git ~/code/github/personal/cskills
+  ```
