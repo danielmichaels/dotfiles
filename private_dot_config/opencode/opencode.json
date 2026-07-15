@@ -2,9 +2,18 @@
   "$schema": "https://opencode.ai/config.json",
   "disabled_providers": ["opencode"],
   "autoupdate": true,
+  "lsp": true,
   "instructions": [
     "~/.claude/CLAUDE.md",
-    "~/.claude/skills/tdd/SKILL.md"
+    "~/.claude/skills/tdd/SKILL.md",
+    "~/.claude/skills/rita-event-sourcing/SKILL.md",
+    "~/.claude/skills/create-plan/SKILL.md",
+    "~/.claude/skills/grill-me/SKILL.md",
+    "~/.claude/skills/handoff/SKILL.md",
+    "~/code/github/personal/cskills/go/skills/datastar/SKILL.md",
+    "~/code/github/personal/cskills/go/skills/huma/SKILL.md",
+    "AGENTS.md",
+    "CLAUDE.md"
   ],
   "provider": {
     "ollama": {
@@ -24,6 +33,13 @@
           "name": "Qwen 3.5"
         }
       }
+    },
+    "headroom": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Headroom Proxy",
+      "options": {
+        "baseURL": "http://127.0.0.1:8787/v1"
+      }
     }
   },
   "model": "opencode-go/glm-5.2",
@@ -31,10 +47,11 @@
   "permission": {
     "doom_loop": "ask",
     "external_directory": {
-        "*": "ask",
-        "~/code/**": "allow",
-        "/tmp/**": "allow",
-        "/private/tmp/**": "allow",
+      "*": "ask",
+      "~/code/**": "allow",
+      "/tmp/**": "allow",
+      "/private/tmp/**": "allow",
+      "~/.claude/**": "allow"
     },
     "read": "allow",
     "glob": "allow",
@@ -48,7 +65,6 @@
     "task": "allow",
     "bash": {
       "*": "ask",
-      // Git
       "git status *": "allow",
       "git diff *": "allow",
       "git log *": "allow",
@@ -79,7 +95,6 @@
       "find *": "allow",
       "rg *": "allow",
       "grep *": "allow",
-      // Text processing
       "sort *": "allow",
       "uniq *": "allow",
       "wc *": "allow",
@@ -93,7 +108,6 @@
       "comm *": "allow",
       "paste *": "allow",
       "column *": "allow",
-      // System info
       "which *": "allow",
       "type *": "allow",
       "file *": "allow",
@@ -134,14 +148,12 @@
       "gh search *": "allow",
       "gh status": "allow",
       "gh status *": "allow",
-      // GitHub Actions (read-only)
       "gh run list *": "allow",
       "gh run view *": "allow",
       "gh run watch *": "allow",
       "gh workflow list *": "allow",
       "gh workflow view *": "allow",
       "gh cache list *": "allow",
-      // Releases, gists, labels (read-only)
       "gh release list *": "allow",
       "gh release view *": "allow",
       "gh gist list *": "allow",
@@ -149,7 +161,6 @@
       "gh label list *": "allow",
       "gh ruleset list *": "allow",
       "gh ruleset view *": "allow",
-      // Write operations
       "gh pr create *": "ask",
       "gh pr merge *": "ask",
       "gh pr close *": "ask",
@@ -159,7 +170,6 @@
       "gh run rerun *": "ask",
       "gh release create *": "ask",
       "gh release delete *": "deny",
-      // Additional commands 
       "lsof *": "allow",
       "kill *": "ask",
       "wrangler *": "allow",
@@ -208,17 +218,14 @@
       "wrk *": "allow",
       "try *": "allow",
       "task *": "allow",
-      "rtk *": "allow",
-      // Docker
       "docker *": "allow",
       "docker-compose *": "allow",
-      // macOS utilities
+      "docker compose *": "allow",
       "brew *": "allow",
       "open *": "allow",
       "pbcopy": "allow",
       "pbpaste": "allow",
       "source *": "allow",
-      // glab (GitLab CLI) - mirror gh patterns
       "glab mr list *": "allow",
       "glab mr view *": "allow",
       "glab mr diff *": "allow",
@@ -231,9 +238,7 @@
       "glab mr merge *": "ask",
       "glab mr close *": "ask",
       "glab issue create *": "allow",
-      "glab issue close *": "ask",
-      // golang
-      "go *": "allow"
+      "glab issue close *": "ask"
     }
   },
   "agent": {
@@ -259,16 +264,12 @@
     "chrome-devtools": {
       "type": "local",
       "command": ["npx", "-y", "chrome-devtools-mcp@latest"],
-      "enabled": false,
+      "enabled": false
     },
     "playwright": {
       "type": "local",
       "command": ["npx", "@playwright/mcp@latest"],
-      "enabled": false,
-    },
-    "searchcode": {
-      "type": "remote",
-      "url": "https://api.searchcode.com/v1/mcp"
+      "enabled": false
     },
     "gh_grep": {
       "type": "remote",

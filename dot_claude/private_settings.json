@@ -59,11 +59,12 @@
       "Bash(jq:*)",
       "Bash(cargo check:*)",
       "Bash(csearch:*)",
-      "Bash(gh pr view:*)",
-      "Bash(gh pr list:*)",
-      "Bash(gh pr status:*)",
-      "Bash(gh pr diff:*)",
-      "Bash(gh pr checks:*)",
+      "Bash(gh pr:*)",
+      "Bash(gh issue:*)",
+      "Bash(gh list:*)",
+      "Bash(gh status:*)",
+      "Bash(gh diff:*)",
+      "Bash(gh checks:*)",
       "Bash(gh api:*)",
       "Read(~/code/github/*)",
       "Read(~/.claude/plans/*)",
@@ -122,7 +123,19 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/danielmichaels/.claude/hooks/rtk-rewrite.sh"
+            "command": "rtk hook claude"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash '/Users/danielmichaels/.claude/hooks/herdr-agent-state.sh' session",
+            "timeout": 10
           }
         ]
       }
@@ -133,18 +146,20 @@
     "command": "bash -c '\"/opt/homebrew/bin/bun\" \"$(ls -td ~/.claude/plugins/cache/claude-hud/claude-hud/*/ 2>/dev/null | head -1)src/index.ts\"'"
   },
   "enabledPlugins": {
-    "gopls-lsp@claude-plugins-official": true,
-    "learning-output-style@claude-plugins-official": true,
-    "code-simplifier@claude-plugins-official": true,
     "clangd-lsp@claude-plugins-official": true,
     "claude-hud@claude-hud": true,
-    "skill-creator@claude-plugins-official": true,
-    "rust-analyzer-lsp@claude-plugins-official": true,
-    "frontend-design@claude-plugins-official": true,
-    "superpowers@claude-plugins-official": true,
+    "code-simplifier@claude-plugins-official": true,
     "codex@openai-codex": false,
+    "explanatory-output-style@claude-plugins-official": true,
+    "frontend-design@claude-plugins-official": true,
+    "gopls-lsp@claude-plugins-official": true,
+    "learning-output-style@claude-plugins-official": true,
+    "rust-analyzer-lsp@claude-plugins-official": true,
     "security-guidance@claude-plugins-official": true,
-    "explanatory-output-style@claude-plugins-official": true
+    "skill-creator@claude-plugins-official": true,
+    "superpowers@claude-plugins-official": false,
+    "expo@claude-plugins-official": true,
+    "context7@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "claude-hud": {
@@ -157,6 +172,12 @@
       "source": {
         "source": "github",
         "repo": "openai/codex-plugin-cc"
+      }
+    },
+    "mattpocock": {
+      "source": {
+        "source": "github",
+        "repo": "mattpocock/skills"
       }
     }
   },

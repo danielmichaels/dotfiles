@@ -68,7 +68,6 @@ pathappend \
 #######################################################
 #                  Exports                            #
 #######################################################
-#
 export USER="${USER:-$(whoami)}"
 export GITUSER=danielmichaels
 export EDITOR=nvim
@@ -102,7 +101,7 @@ alias t="task"
 alias wtw="wt switch"
 alias oc="opencode"
 alias ccc="claude"
-alias ccs="claude --model sonnet"
+alias cccr="claude --resume"
 alias fabric="fabric-ai"
 alias synadia="cd ~/code/github/synadia/"
 alias ze="zellij -l ~/setup/synadia.kdl"
@@ -224,7 +223,7 @@ if command -v restish > /dev/null 2>&1; then
                                     compdef _restish restish
 fi
 if command -v opencode > /dev/null 2>&1; then
-  source <(opencode completion)
+  source <(command opencode completion)
 fi
 
 if [ -f "$HOME/.config/gpt/token" ]; then
@@ -242,22 +241,10 @@ fi
 if [ -f "$HOME/.config/synadia/uat-token" ]; then
   export SYNADIA_UAT_TOKEN=$(head -1 "$HOME/.config/synadia/uat-token")
 fi
-if [ -f "$HOME/.config/me/karakeep" ]; then
-  export KARAKEEP_TOKEN=$(head -1 "$HOME/.config/me/karakeep")
-fi
-
- if command -v mise > /dev/null 2>&1; then
-   eval "$(mise activate zsh)"
-fi
  if command -v zoxide > /dev/null 2>&1; then
    eval "$(zoxide init zsh)"
 fi
 
-# Generated for pdtm. Do not edit.
-export PATH=$PATH:/Users/danielmichaels/.pdtm/go/bin
-
-# Added by Antigravity
-export PATH="/Users/danielmichaels/.antigravity/antigravity/bin:$PATH"
 export PATH="$PATH:/Applications/Obsidian.app/Contents/MacOS"
 
 if command -v wt > /dev/null 2>&1; then eval "$(command wt config shell init zsh)"; fi

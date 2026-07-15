@@ -4,6 +4,7 @@
 - Use Test Driven Development whenever possible unless its a small script, throwaway code block etc. Otherwise we should be using TDD
 - Always refer to the nats-mcp MCP server when asked NATS questions or any NATS projects 
 - Always use error groups and single flight where possible
+- For NATS work in Go, prefer Synadia's orbit.go extensions (`github.com/synadia-io/orbit.go`) over hand-rolled equivalents — especially `natsext.RequestMany` + `RequestManyStall` for scatter/gather request-reply (e.g. `$SRV` micro discovery). Also consider `jetstreamext`, `kvcodec`, `natssysclient`, `natscontext` where they fit. Confirm the exact API via the nats-mcp server first.
 - Never create GitHub PR with a test plan
 - Never create GitHub PR saying claude did it or wrote it or is attributed
 - Workflow or ## Editing Conventions section\n\nAlways show a preview or example of changes before editing real files; wait for user confirmation before applying broad edits.
@@ -13,5 +14,6 @@
 - Code Review section\n\nVerify code review feedback against the actual codebase before agreeing or pushing back; match existing patterns.
 - Before implementing any query or data-access change, flag the performance/cost implications first; if it could full-scan or hit large tables, propose a cached or indexed alternative before writing it. For non-SQL/distributed changes, flag eventual-consistency, network-partition, and other CAP trade-offs up front rather than after.
 - if mockups or renders are mentioned prefer /frontend-design unless specifically requested to use another skill
+- If claude chrome extension fails then always use /web-browser skill instead
 
 @RTK.md

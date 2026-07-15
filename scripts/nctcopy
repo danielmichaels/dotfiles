@@ -1,12 +1,29 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
-printf "%s\n" "Operator JWT"
-cat default-operator.jwt
-printf "\n%s\n\n" "Operator Signing Key"
-cat default-operator-sig-0.nk
-echo ""
-printf "\n%s\n\n" "Sys JWT"
-cat default-sys.jwt
-printf "\n%s\n\n" "Sys Signing Key"
-cat default-sys-sig-0.nk
-echo ""
+# Print operator + SYS creds for an nct config, read from credentials.json.
+# Run from inside the nct creds dir. Pass a config name (base/leaf/default/...);
+# defaults to the first entry. Outputs the signing keys — the set SCP imports need.
+
+creds="credentials.json"
+[ -f "$creds" ] || { echo "nctcopy: $creds not found (run from the nct creds dir)" >&2; exit 1; }
+
+names="$(jq -r '[.credentials[].Name] | join(", ")' "$creds")"
+name="${1:-$(jq -r '.credentials[0].Name' "$creds")}"
+
+entry="$(jq -e --arg n "$name" '.credentials[] | select(.Name == $n)' "$creds")" || {
+  echo "nctcopy: no config '$name'. available: $names" >&2
+  exit 1
+}
+
+echo "# config: $name   (available: $names)" >&2
+echo "# reminder: set the import URL to the real client port, not the baked nats://0.0.0.0:4222" >&2
+echo "" >&2
+
+get() { printf '%s' "$entry" | jq -r "$1"; }
+
+printf "%s\n"   "Operator JWT";         get '.OperatorJWT'
+printf "\n%s\n" "Operator Signing Key"; get '.OperatorSigningSeeds[0]'
+printf "\n%s\n" "Sys JWT";              get '.SysJWT'
+printf "\n%s\n" "Sys Signing Key";      get '.SysSigningSeeds[0]'
+printf "\n"

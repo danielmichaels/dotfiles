@@ -45,3 +45,18 @@ Host coolify
   User root
   Hostname 65.109.165.238
   IdentityFile ~/.ssh/id_rsa
+
+Host vm
+  User root
+  Hostname 192.168.100.250
+  IdentityFile ~/.ssh/id_rsa
+
+Host vm1
+  User root
+  Hostname 192.168.100.251
+  IdentityFile ~/.ssh/id_rsa
+
+Host vm2
+  User root
+  Hostname 192.168.100.252
+  IdentityFile ~/.ssh/id_rsa
