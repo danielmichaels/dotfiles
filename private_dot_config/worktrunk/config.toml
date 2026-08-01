@@ -248,12 +248,8 @@
 # <!-- DEFAULT_SQUASH_TEMPLATE_END -->
 
 worktree-path = "{{ repo_path }}/.worktrees/{{ branch | sanitize }}"
-
-[[pre-start]]
-submodules = "git submodule update --init --recursive"
-
-[[pre-start]]
-env = "[ -f {{ primary_worktree_path }}/.env ] && cp {{ primary_worktree_path }}/.env {{ worktree_path }}/.env || true"
+pre-start= [{ submodules = "git submodule update --init --recursive" }, { env = "[ -f {{ primary_worktree_path }}/.env ] && cp {{ primary_worktree_path }}/.env {{ worktree_path }}/.env || true" }]
+skip-commit-generation-prompt = true
 
 [post-start]
 copy = "[ -f {{ primary_worktree_path }}/.worktreeinclude ] && wt step copy-ignored || true"
@@ -288,12 +284,13 @@ rm = '''
 TAB=$(printf '\t')
 sel=$(
   wt list --format json | jq -r '
-    .[]
-    | select(.is_main | not) | select(.is_current | not)
-    | (if (.working_tree.staged or .working_tree.modified or .working_tree.deleted or .working_tree.renamed) then "dirty" elif .working_tree.untracked then "untracked" else "clean" end) as $st
-    | (now - .commit.timestamp) as $d
-    | (if $d<3600 then "\(($d/60)|floor)m" elif $d<86400 then "\(($d/3600)|floor)h" elif $d<604800 then "\(($d/86400)|floor)d" else "\(($d/604800)|floor)w" end) as $age
-    | [ .branch, $st, "+\(.main.ahead//0)/-\(.main.behind//0)", .commit.short_sha, $age, (.commit.message | gsub("\t";" ")) ]
+    .items[]
+    | select(.worktree.main | not) | select(.worktree.current | not)
+    | (.worktree.changes // {}) as $c
+    | (if ($c.staged or $c.modified or $c.deleted or $c.renamed or $c.conflicted) then "dirty" elif $c.untracked then "untracked" else "clean" end) as $st
+    | (if .head then now - (.head.committed_at | fromdateiso8601) else null end) as $d
+    | (if $d == null then "-" elif $d<3600 then "\(($d/60)|floor)m" elif $d<86400 then "\(($d/3600)|floor)h" elif $d<604800 then "\(($d/86400)|floor)d" else "\(($d/604800)|floor)w" end) as $age
+    | [ .branch, $st, "+\(.default_branch.ahead//0)/-\(.default_branch.behind//0)", (.head.short_sha // "-"), $age, ((.head.subject // "-") | gsub("\t";" ")) ]
     | @tsv' \
   | column -t -s "$TAB" \
   | tv \
@@ -344,12 +341,24 @@ done
 up = '''
 git fetch --all --prune
 
+remote=$(git config --get branch."{{ default_branch }}".remote 2>/dev/null || true)
+[ -z "$remote" ] && remote=$(git remote | head -n1)
+if [ -n "$remote" ] && git rev-parse --verify --quiet "$remote/{{ default_branch }}" >/dev/null; then
+  fallback="$remote/{{ default_branch }}"
+else
+  fallback="{{ default_branch }}"
+fi
+
 tmp_ok=$(mktemp)
 tmp_fail=$(mktemp)
 
-wt list --format json | jq -r '.[] | "\(.path)\t\(.branch)"' | while IFS="$(printf '\t')" read -r wt_path wt_branch; do
+wt list --format json | jq -r '
+  .items[]
+  | select(.worktree.path != null)
+  | select(.worktree.detached | not)
+  | "\(.worktree.path)\t\(.branch)"' | while IFS="$(printf '\t')" read -r wt_path wt_branch; do
   upstream=$(git -C "$wt_path" for-each-ref --format='%(upstream:short)' "refs/heads/$wt_branch" 2>/dev/null)
-  [ -z "$upstream" ] && upstream="{{ remote }}/{{ default_branch }}"
+  [ -z "$upstream" ] && upstream="$fallback"
   printf '  %s → %s … ' "$wt_branch" "$upstream"
 
   if [ "$wt_branch" = "{{ default_branch }}" ]; then
@@ -376,3 +385,6 @@ echo "── wt up ────────────────────�
 echo "───────────────────────────────────────────"
 rm -f "$tmp_ok" "$tmp_fail"
 '''
+
+[list]
+json-schema = 2

@@ -1,0 +1,165 @@
+#!/usr/bin/env bash
+# Stop this user's embedded-Postgres instances and remove orphaned IPC objects.
+# It only targets postgres binaries installed by embedded-postgres-go.
+
+set -u
+
+PG_CTL="${PG_CTL:-/Users/danielmichaels/.embedded-postgres-go/extracted/18.3.0/bin/pg_ctl}"
+ROOT="/Users/danielmichaels/code/github/personal/ToolboxFM"
+seen='|'
+data_dirs=()
+shm_ids=()
+sem_ids=()
+GUM="$(command -v gum || true)"
+
+style() {
+  if [[ -n "$GUM" ]]; then
+    gum style --foreground "${2:-}" "$1"
+  else
+    printf '%s\n' "$1"
+  fi
+}
+
+if [[ ! -x "$PG_CTL" ]]; then
+  PG_CTL="$(command -v pg_ctl || true)"
+fi
+
+add_data_dir() {
+  local data_dir="$1"
+  [[ -z "$data_dir" || ! -f "$data_dir/postmaster.pid" ]] && return 0
+  case "$seen" in
+    *"|$data_dir|"*) return 0 ;;
+  esac
+  seen="${seen}${data_dir}|"
+  data_dirs[${#data_dirs[@]}]="$data_dir"
+}
+
+if [[ -n "$PG_CTL" && -x "$PG_CTL" ]]; then
+  add_data_dir "$ROOT/.data/postgres"
+  add_data_dir "$ROOT/.data/postgres-kidlock"
+  add_data_dir "$ROOT/tmp/postgres"
+
+  # Discover embedded Postgres instances started from other worktrees/projects.
+  # embedded-postgres-go normally makes the process cwd the data directory.
+  for pid in $(pgrep -x postgres 2> /dev/null || true); do
+    user="$(ps -p "$pid" -o user= 2> /dev/null | tr -d ' ')"
+    [[ "$user" == "$USER" ]] || continue
+    command="$(ps -p "$pid" -o command= 2> /dev/null || true)"
+    [[ "$command" == *"/.embedded-postgres-go/"* ]] || continue
+    cwd="$(lsof -a -p "$pid" -d cwd -Fn 2> /dev/null | awk '/^n/{sub(/^n/, ""); print; exit}')"
+    add_data_dir "$cwd"
+  done
+fi
+
+collect_ipc() {
+  shm_ids=()
+  sem_ids=()
+  if command -v ipcs > /dev/null && command -v ipcrm > /dev/null; then
+    while read -r id; do
+      [[ -n "$id" ]] && shm_ids[${#shm_ids[@]}]="$id"
+    done < <(ipcs -m | awk -v user="$USER" '$5 == user {print $2}')
+
+    while read -r id; do
+      [[ -n "$id" ]] && sem_ids[${#sem_ids[@]}]="$id"
+    done < <(ipcs -s | awk -v user="$USER" '$5 == user {print $2}')
+  fi
+}
+
+collect_ipc
+
+total=$((${#data_dirs[@]} + ${#shm_ids[@]} + ${#sem_ids[@]}))
+if [[ "$total" -eq 0 ]]; then
+  style "✓ Nothing to clean up." "42"
+  exit 0
+fi
+
+if [[ -n "$GUM" ]]; then
+  gum style \
+    --border double \
+    --border-foreground 212 \
+    --padding "1 2" \
+    --margin "1 0" \
+    --bold \
+    $'Postgres cleanup\n\nReview the resources that will be deleted:'
+
+  {
+    if [[ ${#data_dirs[@]} -gt 0 ]]; then
+      for data_dir in "${data_dirs[@]}"; do
+        printf 'STOP\tPostgres\t%s\n' "$data_dir"
+      done
+    fi
+    if [[ ${#shm_ids[@]} -gt 0 ]]; then
+      for id in "${shm_ids[@]}"; do
+        printf 'DELETE\tShared memory\tshmid %s\n' "$id"
+      done
+    fi
+    if [[ ${#sem_ids[@]} -gt 0 ]]; then
+      for id in "${sem_ids[@]}"; do
+        printf 'DELETE\tSemaphore\tsemid %s\n' "$id"
+      done
+    fi
+  } | gum table --columns "Action,Type,Resource" --separator $'\t' --print
+else
+  printf '\nPostgres cleanup — resources to delete:\n'
+  if [[ ${#data_dirs[@]} -gt 0 ]]; then
+    for data_dir in "${data_dirs[@]}"; do printf '  STOP    Postgres       %s\n' "$data_dir"; done
+  fi
+  if [[ ${#shm_ids[@]} -gt 0 ]]; then
+    for id in "${shm_ids[@]}"; do printf '  DELETE  Shared memory shmid %s\n' "$id"; done
+  fi
+  if [[ ${#sem_ids[@]} -gt 0 ]]; then
+    for id in "${sem_ids[@]}"; do printf '  DELETE  Semaphore      semid %s\n' "$id"; done
+  fi
+fi
+
+if [[ -t 0 && -t 1 ]]; then
+  if [[ -n "$GUM" ]]; then
+    gum confirm "Proceed with cleanup?" --affirmative "Clean up" --negative "Cancel" || {
+      style "Cancelled." "214"
+      exit 1
+    }
+  else
+    printf '\nProceed with cleanup? [y/N] '
+    read -r answer
+    [[ "$answer" =~ ^[Yy]$ ]] || exit 1
+  fi
+fi
+
+if [[ -z "$PG_CTL" || ! -x "$PG_CTL" ]]; then
+  style "⚠ pg_ctl not found; skipping database shutdown." "214"
+else
+  if [[ ${#data_dirs[@]} -gt 0 ]]; then
+    for data_dir in "${data_dirs[@]}"; do
+      style "Stopping Postgres: $data_dir" "212"
+      "$PG_CTL" -D "$data_dir" stop -m fast -w ||
+        style "⚠ Could not stop $data_dir" "214"
+    done
+  fi
+fi
+
+remaining="$(ps -axo user=,pid=,ppid=,command= | awk -v user="$USER" '$1 == user && $4 ~ /postgres/ {print}')"
+if [[ -n "$remaining" ]]; then
+  style "⚠ Postgres processes still running; IPC cleanup skipped for safety:" "214"
+  printf '%s\n' "$remaining"
+  exit 1
+fi
+
+# Stopping Postgres normally removes its IPC objects. Refresh the list so we
+# only call ipcrm for objects that still exist.
+collect_ipc
+
+removed=0
+if [[ ${#shm_ids[@]} -gt 0 ]]; then
+  for id in "${shm_ids[@]}"; do
+    style "Deleting shared-memory segment $id" "212"
+    if ipcrm -m "$id"; then removed=$((removed + 1)); fi
+  done
+fi
+if [[ ${#sem_ids[@]} -gt 0 ]]; then
+  for id in "${sem_ids[@]}"; do
+    style "Deleting semaphore $id" "212"
+    if ipcrm -s "$id"; then removed=$((removed + 1)); fi
+  done
+fi
+
+style "✓ Removed $removed IPC object(s)." "42"

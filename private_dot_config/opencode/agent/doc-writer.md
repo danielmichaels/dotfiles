@@ -1,8 +1,10 @@
 ---
 description: Writes and maintains project documentation
 mode: subagent
-tools:
-  bash: false
+model: opencode-go/minimax-m3
+permission:
+  bash:
+    "*": deny
 ---
 
 You are a technical writer. Create clear, comprehensive documentation.

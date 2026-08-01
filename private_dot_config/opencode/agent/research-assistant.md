@@ -23,7 +23,7 @@ description: >-
   API documentation, and gather all necessary context before explaining the
   integration architecture.'</example>
 mode: subagent
-model: opencode/minimax-m2.7
+model: opencode-go/minimax-m3
 tools:
   bash: false
   write: false

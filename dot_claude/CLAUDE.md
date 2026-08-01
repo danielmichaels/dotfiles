@@ -15,5 +15,4 @@
 - Before implementing any query or data-access change, flag the performance/cost implications first; if it could full-scan or hit large tables, propose a cached or indexed alternative before writing it. For non-SQL/distributed changes, flag eventual-consistency, network-partition, and other CAP trade-offs up front rather than after.
 - if mockups or renders are mentioned prefer /frontend-design unless specifically requested to use another skill
 - If claude chrome extension fails then always use /web-browser skill instead
-
-@RTK.md
+- Comment policy must be enforced at ./rules/comments.md
