@@ -25,7 +25,6 @@
       "WebSearch",
       "Bash(rtk:*)",
       "Bash(rtk *)",
-      "Base(wt:*)",
       "Bash(templui add:*)",
       "Bash(templ generate:*)",
       "Bash(go list:*)",
@@ -70,6 +69,9 @@
       "Read(~/.claude/plans/*)",
       "Read(~/.config/worktrunk/config.toml)",
       "Read(~/.cache/checkouts/*)",
+      "Bash(browser-control --version)",
+      "Bash(browser-control session *)",
+      "Bash(browser-control execute *)",
       "mcp__playwright__browser_navigate",
       "mcp__playwright__browser_press_key",
       "mcp__playwright__browser_evaluate",
@@ -117,17 +119,7 @@
         ]
       }
     ],
-    "PreToolUse": [
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "rtk hook claude"
-          }
-        ]
-      }
-    ],
+    "PreToolUse": [],
     "SessionStart": [
       {
         "matcher": "*",
@@ -146,7 +138,7 @@
     "command": "bash -c '\"/opt/homebrew/bin/bun\" \"$(ls -td ~/.claude/plugins/cache/claude-hud/claude-hud/*/ 2>/dev/null | head -1)src/index.ts\"'"
   },
   "enabledPlugins": {
-    "clangd-lsp@claude-plugins-official": true,
+    "clangd-lsp@claude-plugins-official": false,
     "claude-hud@claude-hud": true,
     "code-simplifier@claude-plugins-official": true,
     "codex@openai-codex": false,
@@ -158,7 +150,7 @@
     "security-guidance@claude-plugins-official": true,
     "skill-creator@claude-plugins-official": true,
     "superpowers@claude-plugins-official": false,
-    "expo@claude-plugins-official": true,
+    "expo@claude-plugins-official": false,
     "context7@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
@@ -187,5 +179,15 @@
   "skipAutoPermissionPrompt": true,
   "feedbackSurveyState": {
     "lastShownTime": 1754046408392
+  },
+  "skillOverrides": {
+    "embedded-postgres": "off",
+    "find-skills": "off",
+    "nats-server-config": "off",
+    "wireframe": "off",
+    "browser-control": "off",
+    "plan-task": "off",
+    "research-task": "off",
+    "implement-task": "off"
   }
 }
