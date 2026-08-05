@@ -10,6 +10,8 @@
     "~/.claude/skills/create-plan/SKILL.md",
     "~/.claude/skills/grill-me/SKILL.md",
     "~/.claude/skills/handoff/SKILL.md",
+    "~/.claude/skills/pgx-transactions/SKILL.md",
+    "~/.claude/skills/river/SKILL.md",
     "~/code/github/personal/cskills/go/skills/datastar/SKILL.md",
     "~/code/github/personal/cskills/go/skills/huma/SKILL.md",
     "AGENTS.md",
@@ -261,6 +263,10 @@
     }
   },
   "mcp": {
+    "browser-control": {
+      "type": "local",
+      "command": ["browser-control-mcp"]
+    },
     "chrome-devtools": {
       "type": "local",
       "command": ["npx", "-y", "chrome-devtools-mcp@latest"],

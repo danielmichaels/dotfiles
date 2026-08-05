@@ -23,8 +23,6 @@
       "WebFetch(domain:docs.dokploy.com)",
       "WebFetch(domain:raw.githubusercontent.com)",
       "WebSearch",
-      "Bash(rtk:*)",
-      "Bash(rtk *)",
       "Bash(templui add:*)",
       "Bash(templ generate:*)",
       "Bash(go list:*)",
@@ -69,26 +67,6 @@
       "Read(~/.claude/plans/*)",
       "Read(~/.config/worktrunk/config.toml)",
       "Read(~/.cache/checkouts/*)",
-      "Bash(browser-control --version)",
-      "Bash(browser-control session *)",
-      "Bash(browser-control execute *)",
-      "mcp__playwright__browser_navigate",
-      "mcp__playwright__browser_press_key",
-      "mcp__playwright__browser_evaluate",
-      "mcp__playwright__browser_click",
-      "mcp__playwright__browser_type",
-      "mcp__playwright__browser_close",
-      "mcp__playwright__browser_tab_close",
-      "mcp__playwright__browser_snapshot",
-      "mcp__playwright__browser_console_messages",
-      "mcp__playwright__generate_playwright_test",
-      "mcp__playwright__wait_for",
-      "mcp__plugin_playwright_playwright__browser_navigate",
-      "mcp__plugin_playwright_playwright__browser_click",
-      "mcp__plugin_playwright_playwright__browser_snapshot",
-      "mcp__plugin_playwright_playwright__browser_close",
-      "mcp__plugin_playwright_playwright__browser_tabs",
-      "mcp__plugin_playwright_playwright__browser_wait_for",
       "mcp__deepwiki__read_wiki_structure",
       "mcp__deepwiki__read_wiki_contents",
       "mcp__deepwiki__ask_question",
@@ -99,13 +77,17 @@
       "mcp__nats-mcp__list_files",
       "mcp__nats-mcp__read_file",
       "mcp__nats-mcp__find_symbol",
-      "mcp__nats-mcp__show_type",
-      "mcp__plugin_code-review-graph_code-review-graph__list_graph_stats_tool",
-      "mcp__plugin_code-review-graph_code-review-graph__build_or_update_graph_tool",
-      "mcp__plugin_code-review-graph_code-review-graph__get_docs_section_tool",
-      "mcp__plugin_code-review-graph_code-review-graph__get_review_context_tool",
-      "mcp__plugin_code-review-graph_code-review-graph__get_impact_radius_tool"
+      "mcp__nats-mcp__show_type"
     ]
+  },
+  "skillOverrides": {
+    "embedded-postgres": "off",
+    "find-skills": "off",
+    "nats-server-config": "off",
+    "wireframe": "off",
+    "plan-task": "off",
+    "research-task": "off",
+    "implement-task": "off"
   },
   "hooks": {
     "Notification": [
@@ -180,14 +162,5 @@
   "feedbackSurveyState": {
     "lastShownTime": 1754046408392
   },
-  "skillOverrides": {
-    "embedded-postgres": "off",
-    "find-skills": "off",
-    "nats-server-config": "off",
-    "wireframe": "off",
-    "browser-control": "off",
-    "plan-task": "off",
-    "research-task": "off",
-    "implement-task": "off"
-  }
+  "skipDangerousModePermissionPrompt": true
 }
