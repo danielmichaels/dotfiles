@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+unset OPENAI_API_KEY
+
+exec pi "$@"
