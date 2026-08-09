@@ -11,7 +11,7 @@ plugins=(
   # z
   zsh-autosuggestions
   colored-man-pages
-  dotenv
+  #dotenv
   kubectl
 )
 
