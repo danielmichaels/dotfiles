@@ -11,7 +11,7 @@ plugins=(
   # z
   zsh-autosuggestions
   colored-man-pages
-  #dotenv
+  dotenv
   kubectl
 )
 
@@ -226,9 +226,7 @@ if command -v opencode > /dev/null 2>&1; then
   source <(command opencode completion)
 fi
 
-if [ -f "$HOME/.config/gpt/token" ]; then
-  export OPENAI_API_KEY="$(head -1 "$HOME/.config/gpt/token")"
-fi
+# OpenAI API key intentionally not exported: use the ChatGPT/Codex subscription in pi.
 if [ -f "$HOME/.config/gpt/claude" ]; then
   export ANTHROPIC_API_KEY="$(head -1 "$HOME/.config/gpt/claude")"
 fi
