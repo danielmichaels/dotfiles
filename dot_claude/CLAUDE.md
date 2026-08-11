@@ -5,7 +5,7 @@
 - Always refer to the nats-mcp MCP server when asked NATS questions or any NATS projects 
 - Always use error groups and single flight where possible
 - For NATS work in Go, prefer Synadia's orbit.go extensions (`github.com/synadia-io/orbit.go`) over hand-rolled equivalents — especially `natsext.RequestMany` + `RequestManyStall` for scatter/gather request-reply (e.g. `$SRV` micro discovery). Also consider `jetstreamext`, `kvcodec`, `natssysclient`, `natscontext` where they fit. Confirm the exact API via the nats-mcp server first.
-- Never create GitHub PR with a test plan
+- Never add a test plan, validation section, test-results section, or equivalent content to a GitHub PR body. Do not include headings such as `## Validation`, `## Tests`, or `## Verification`; PR bodies should contain only a concise change summary unless the user explicitly requests another format.
 - Never create GitHub PR saying claude did it or wrote it or is attributed
 - Workflow or ## Editing Conventions section\n\nAlways show a preview or example of changes before editing real files; wait for user confirmation before applying broad edits.
 - Testing section\n\nUse TDD: write or update tests first, then implement, and verify all tests pass before committing.
