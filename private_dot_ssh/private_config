@@ -60,3 +60,18 @@ Host vm2
   User root
   Hostname 192.168.100.252
   IdentityFile ~/.ssh/id_rsa
+
+# >>> docker sandboxes (managed) >>>
+Host *.sbx
+    User _default_user_
+    ProxyCommand "/opt/homebrew/bin/sbx" ssh proxy %n
+    IdentityAgent none
+    IdentityFile /dev/null
+    IdentitiesOnly yes
+    ControlMaster no
+    ControlPath none
+    UserKnownHostsFile "/Users/danielmichaels/Library/Application Support/com.docker.sandboxes/sandboxes/ssh/known_hosts"
+    KnownHostsCommand "/opt/homebrew/bin/sbx" ssh known-hosts %H
+    StrictHostKeyChecking yes
+    SendEnv *
+# <<< docker sandboxes (managed) <<<
