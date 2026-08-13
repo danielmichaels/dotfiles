@@ -14,5 +14,5 @@
 - Code Review section\n\nVerify code review feedback against the actual codebase before agreeing or pushing back; match existing patterns.
 - Before implementing any query or data-access change, flag the performance/cost implications first; if it could full-scan or hit large tables, propose a cached or indexed alternative before writing it. For non-SQL/distributed changes, flag eventual-consistency, network-partition, and other CAP trade-offs up front rather than after.
 - if mockups or renders are mentioned prefer /frontend-design unless specifically requested to use another skill
-- If claude chrome extension fails then always use /web-browser skill instead
+- Browser automation: ALWAYS default to the firefox-devtools MCP (`mcp__firefox-devtools__*`) — I use Firefox, and Chrome is often not running, which hangs claude-in-chrome. Batch-load the Firefox tools in ONE ToolSearch call. Only use claude-in-chrome or the /web-browser skill if I explicitly ask for Chrome.
 - Comment policy must be enforced at ./rules/comments.md
