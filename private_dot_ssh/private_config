@@ -73,5 +73,4 @@ Host *.sbx
     UserKnownHostsFile "/Users/danielmichaels/Library/Application Support/com.docker.sandboxes/sandboxes/ssh/known_hosts"
     KnownHostsCommand "/opt/homebrew/bin/sbx" ssh known-hosts %H
     StrictHostKeyChecking yes
-    SendEnv *
 # <<< docker sandboxes (managed) <<<
